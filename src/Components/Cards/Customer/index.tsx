@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material"
+import { Values } from "../../Values"
 
 export const CustomerCard = () => {
 
@@ -27,31 +28,7 @@ export const CustomerCard = () => {
       >
         João  sdkslkdslksldklsdsk
       </Typography>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: "row",
-          paddingTop: 5
-        }}
-      >
-        <Typography
-          style={{
-            marginRight: '10px',
-            color: '#64BC6D',
-            fontWeight: 550
-          }}
-        >
-          Valor pago: R$ 00,00
-        </Typography>
-        <Typography
-          style={{
-            color: '#B03333',
-            fontWeight: 550
-          }}
-        >
-          Valor a pagar: R$ 00,00
-        </Typography>
-      </div>
+      <Values amountPaid={123} amountToPay={456}/>
     </CardContent>
   </Card>
 }
