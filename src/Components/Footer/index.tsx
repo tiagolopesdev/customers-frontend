@@ -1,7 +1,19 @@
 import { Button } from "@mui/material"
+import { Link } from "react-router-dom"
 
+interface IFooter {
+  isOnlyBack?: boolean
+}
 
-export const Footer = () => {
+export const Footer = ({ isOnlyBack }: IFooter) => {
+
+  const onlyOneAction = (): JSX.Element => {
+    return <>
+      <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Adicionar</Button>
+      <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Scanner</Button>
+      <Button style={{ height: '7vh', margin: '0px 5px' }} color="warning" variant="contained">Pesquisar</Button>
+    </>
+  }
 
   return <div
     style={{
@@ -17,8 +29,16 @@ export const Footer = () => {
       alignItems: 'center'
     }}
   >
-    <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Adicionar</Button>
-    <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Scanner</Button>
-    <Button style={{ height: '7vh', margin: '0px 5px' }} color="warning" variant="contained">Pesquisar</Button>
+    {
+      isOnlyBack ?
+        <Button
+          style={{ height: '7vh', margin: '0px 5px' }}
+          color="success"
+          variant="contained"
+        ><Link to="/" style={{ 
+          color: '#ffffff'
+        }} >Voltar</Link></Button> :
+        onlyOneAction()
+    }
   </div>
 }

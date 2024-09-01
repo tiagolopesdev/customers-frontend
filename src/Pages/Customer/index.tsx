@@ -3,7 +3,7 @@ import { Footer } from "../../Components/Footer"
 import { ScroolCustom } from "../../Styles"
 
 
-export const Home = () => {
+export const Customer = () => {
 
   return <div
     style={{
@@ -21,7 +21,7 @@ export const Home = () => {
         flex: 1
       }}
     >
-      <Footer />
+      <Footer isOnlyBack/>
     </div>
   </div>
 }
