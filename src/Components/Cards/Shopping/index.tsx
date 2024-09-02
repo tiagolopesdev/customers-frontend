@@ -1,4 +1,6 @@
 import { Button, Card, CardContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { useState } from "react";
+import { ShoppingModal } from "../../Modals/Shopping";
 
 
 function createData(
@@ -24,87 +26,102 @@ const rows = [
 
 export const ShoppingCard = () => {
 
-  return <Card sx={{
-    minWidth: '35vw',
-    maxWidth: '90vw',
-    minHeight: '35vh',
-    maxHeight: '30vh',
-    backgroundColor: "#EFEFEF",
-    marginTop: '10px'
-  }}
-  >
-    <CardContent
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: "flex-start",
-        padding: "8px",
-        '&:last-child': {
-          paddingBottom: "8px"
-        }
-      }}
+  const [open, setOpen] = useState(false);
+
+  const handleStateModal = () => setOpen(!open)
+
+  return <>
+    <Card sx={{
+      minWidth: '35vw',
+      maxWidth: '90vw',
+      minHeight: '35vh',
+      maxHeight: '30vh',
+      backgroundColor: "#EFEFEF",
+      marginTop: '10px'
+    }}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: "space-between",
-          width: '100%',
-          marginBottom: '15px'
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 650
-          }}
-        >
-          Compras
-        </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 650,
-            color: "#64BC6D"
-          }}
-        >
-          R$ 00,00
-        </Typography>
-        <Button
-          variant="contained"
-          color="success"
-        >Adicionar</Button>
-      </div>
-      <TableContainer
-        component={Paper}
+      <CardContent
         sx={{
-          maxHeight: 300
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: "flex-start",
+          padding: "8px",
+          '&:last-child': {
+            paddingBottom: "8px"
+          }
         }}
       >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx={{ padding: 0 }}>
-            <TableRow>
-              <TableCell colSpan={1} sx={{ padding: 1, width: 10 }} align="left">Produto</TableCell>
-              <TableCell colSpan={1} sx={{ padding: 1, width: '10px' }} align="center">Quant.</TableCell>
-              <TableCell colSpan={1} sx={{ padding: 1, width: '10px' }} align="center">Preço Uni.</TableCell>
-              <TableCell colSpan={1} sx={{ padding: 1, width: '10px' }} align="right">Preço Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell colSpan={1} sx={{ padding: 1 }} >{row.name}</TableCell>
-                <TableCell sx={{ padding: 1 }} align="center">{row.calories}</TableCell>
-                <TableCell sx={{ padding: 1 }} align="center">{row.fat}</TableCell>
-                <TableCell sx={{ padding: 1 }} align="right">{row.carbs}</TableCell>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: "space-between",
+            width: '100%',
+            marginBottom: '15px'
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 650
+            }}
+          >
+            Compras
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 650,
+              color: "#64BC6D"
+            }}
+          >
+            R$ 00,00
+          </Typography>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => { handleStateModal() }}
+          >Adicionar</Button>
+        </div>
+        <TableContainer
+          component={Paper}
+          sx={{
+            maxHeight: 230
+          }}
+        >
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead sx={{ padding: 0 }}>
+              <TableRow>
+                <TableCell colSpan={1} sx={{ fontWeight: 650, padding: 1, width: 10 }} align="left">Produto</TableCell>
+                <TableCell colSpan={1} sx={{ fontWeight: 650, padding: 1, width: '10px' }} align="center">Quant.</TableCell>
+                <TableCell colSpan={1} sx={{ fontWeight: 650, padding: 1, width: '10px' }} align="center">Preço Uni.</TableCell>
+                <TableCell colSpan={1} sx={{ fontWeight: 650, padding: 1, width: '10px' }} align="right">Preço Total</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </CardContent>
-  </Card>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell colSpan={1} sx={{ padding: 1 }} >{row.name}</TableCell>
+                  <TableCell sx={{ padding: 1 }} align="center">{row.calories}</TableCell>
+                  <TableCell sx={{ padding: 1 }} align="center">{row.fat}</TableCell>
+                  <TableCell sx={{ padding: 1 }} align="right">{row.carbs}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
+    {
+      open ?
+        <ShoppingModal
+          open={open}
+          setOpen={setOpen}
+        /> :
+        ''
+    }
+  </>
 }
