@@ -9,7 +9,18 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
 
   const onlyOneAction = (): JSX.Element => {
     return <>
-      <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Adicionar</Button>
+      <Button
+        style={{ height: '7vh', margin: '0px 5px' }}
+        color="success"
+        variant="contained"
+      >
+        <Link
+          to="/customer"
+          style={{
+            color: '#ffffff'
+          }}
+        >Adicionar</Link>
+      </Button>
       <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Scanner</Button>
       <Button style={{ height: '7vh', margin: '0px 5px' }} color="warning" variant="contained">Pesquisar</Button>
     </>
@@ -35,7 +46,7 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           variant="contained"
-        ><Link to="/" style={{ 
+        ><Link to="/" style={{
           color: '#ffffff'
         }} >Voltar</Link></Button> :
         onlyOneAction()
