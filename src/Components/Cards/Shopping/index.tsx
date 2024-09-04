@@ -88,26 +88,74 @@ export const ShoppingCard = () => {
           tableCell={[
             { name: 'Produto', align: 'left' },
             { name: 'Quant.', align: 'center' },
-            { name: 'Preço Uni.', align: 'center' },
-            { name: 'Preço Total', align: 'right' }
+            { name: 'Unitário', align: 'center' },
+            { name: 'Total', align: 'center' },
+            { name: 'Ações', align: "center" }
           ]}
           tableRows={[
             {
               rows: [
-                { name: 'dsdsdsdsds', align: 'left'},
-                { name: 'jkgjhjgh', align: 'center'},
-                { name: 'sdsdsdsdsd', align: 'center'},
-                { name: 'tetrterterte', align: 'right'},
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
               ]
             },
             {
               rows: [
-                { name: 'dsdsdsdsds', align: 'left'},
-                { name: 'jkgjhjgh', align: 'center'},
-                { name: 'sdsdsdsdsd', align: 'center'},
-                { name: 'tetrterterte', align: 'right'},
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
               ]
-            }
+            },
+            {
+              rows: [
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
+              ]
+            },
+            {
+              rows: [
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
+              ]
+            },
+            {
+              rows: [
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
+              ]
+            },
+            {
+              rows: [
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
+              ]
+            },
+            {
+              rows: [
+                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
+                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
+                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
+                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
+              ]
+            },
           ]}
         />        
       </CardContent>

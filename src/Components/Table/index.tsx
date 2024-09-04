@@ -10,7 +10,7 @@ interface ITableProps {
 
 export const TableComponent = (props: ITableProps) => {
 
-  return <TableContainer component={Paper} sx={{ maxHeight: 300, ...props.style }} >
+  return <TableContainer component={Paper} sx={{ maxHeight: 200, ...props.style }} >
     <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table" >
       <TableHead>
         <TableRow>
@@ -30,7 +30,7 @@ export const TableComponent = (props: ITableProps) => {
                 {
                   item.rows.map((itenInsideRow: ITableItensRowProps, index: number) => {
                     return <TableCell align={itenInsideRow.align} sx={
-                      { margin: 0, padding: '8px', fontSize: '0.8rem', ...itenInsideRow.style }
+                      { margin: 0, padding: '5px', fontSize: '0.8rem', ...itenInsideRow.style }
                     }>
                       {
                         index === (item.rows.length - 1) ?
