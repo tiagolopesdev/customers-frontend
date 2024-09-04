@@ -2,6 +2,7 @@ import { TextField } from "@mui/material"
 import { Footer } from "../../Components/Footer"
 import { Values } from "../../Components/Values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
+import { PaymentsCard } from "../../Components/Cards/Payments"
 
 
 export const Customer = () => {
@@ -38,7 +39,7 @@ export const Customer = () => {
         <Values amountPaid={234} amountToPay={8667} />
       </div>
       <ShoppingCard />
-      <ShoppingCard />
+      <PaymentsCard />
     </div>
     <div
       style={{

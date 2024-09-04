@@ -2,6 +2,7 @@ import { Button, Card, CardContent, Typography } from "@mui/material"
 import { useState } from "react";
 import { ShoppingModal } from "../../Modals/Shopping";
 import { TableComponent } from "../../Table";
+import { PaymentsModal } from "../../Modals/Payments";
 
 
 // function createData(
@@ -25,7 +26,7 @@ import { TableComponent } from "../../Table";
 //   createData('Gingerbread', 356, 16.0, 49),
 // ];
 
-export const ShoppingCard = () => {
+export const PaymentsCard = () => {
 
   const [open, setOpen] = useState(false);
 
@@ -67,7 +68,7 @@ export const ShoppingCard = () => {
               fontWeight: 650
             }}
           >
-            Compras
+            Pagamentos
           </Typography>
           <Typography
             variant="h6"
@@ -86,26 +87,20 @@ export const ShoppingCard = () => {
         </div>
         <TableComponent 
           tableCell={[
-            { name: 'Produto', align: 'left' },
-            { name: 'Quant.', align: 'center' },
-            { name: 'Preço Uni.', align: 'center' },
-            { name: 'Preço Total', align: 'right' }
+            { name: 'Valor', align: 'left' },
+            { name: 'Data e horário', align: 'center' }
           ]}
           tableRows={[
             {
               rows: [
                 { name: 'dsdsdsdsds', align: 'left'},
                 { name: 'jkgjhjgh', align: 'center'},
-                { name: 'sdsdsdsdsd', align: 'center'},
-                { name: 'tetrterterte', align: 'right'},
               ]
             },
             {
               rows: [
                 { name: 'dsdsdsdsds', align: 'left'},
                 { name: 'jkgjhjgh', align: 'center'},
-                { name: 'sdsdsdsdsd', align: 'center'},
-                { name: 'tetrterterte', align: 'right'},
               ]
             }
           ]}
@@ -114,7 +109,7 @@ export const ShoppingCard = () => {
     </Card>
     {
       open ?
-        <ShoppingModal
+        <PaymentsModal
           open={open}
           setOpen={setOpen}
         /> :

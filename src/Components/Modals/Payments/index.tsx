@@ -11,12 +11,12 @@ const style = {
   p: 2.5,
 };
 
-interface IShoppingModal {
+interface IPaymentsModal {
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
+export const PaymentsModal = ({ open, setOpen }: IPaymentsModal) => {
 
   const handleModalState = () => setOpen(!open)
 
@@ -29,17 +29,7 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
       borderRadius: '5px',
       ...style
     }}>
-      <TextField style={{ width: '100%' }} id="outlined-basic" label="Produto" variant="outlined" />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginTop: '20px'
-        }}
-      >
-        <TextField style={{ width: '60%', paddingRight: '50px' }} id="outlined-basic" label="Quant." variant="outlined" />
-        <TextField style={{ width: '100%' }} id="outlined-basic" label="Preço Uni." variant="outlined" />
-      </div>
+      <TextField style={{ width: '100%' }} id="outlined-basic" label="Valor" variant="outlined" />
       <div style={{
         display: 'flex',
         justifyContent: 'space-evenly',
