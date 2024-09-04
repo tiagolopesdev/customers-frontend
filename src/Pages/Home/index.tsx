@@ -1,5 +1,6 @@
 import { CustomerCardList } from "../../Components/Cards/Customer/customerList"
 import { Footer } from "../../Components/Footer"
+import { Navbar } from "../../Components/Navbar"
 import { ScroolCustom } from "../../Styles"
 
 
@@ -9,9 +10,10 @@ export const Home = () => {
     style={{
       display: 'flex',
       flexDirection: "column",
-      height: '100vh',
+      height: '100dvh',
     }}
   >
+    <Navbar />
     <ScroolCustom>
       <CustomerCardList />
     </ScroolCustom>

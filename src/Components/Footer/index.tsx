@@ -22,7 +22,6 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
         >Adicionar</Link>
       </Button>
       <Button style={{ height: '7vh', margin: '0px 5px' }} color="success" variant="contained">Scanner</Button>
-      <Button style={{ height: '7vh', margin: '0px 5px' }} color="warning" variant="contained">Pesquisar</Button>
     </>
   }
 
@@ -35,7 +34,7 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
       padding: '10px',
       width: '100vw',
       justifyContent: "center",
-      height: '10vh',
+      height: '10dvh',
       flexShrink: 0,
       alignItems: 'center'
     }}

@@ -36,7 +36,7 @@ export const PaymentsCard = () => {
     <Card sx={{
       minWidth: '35vw',
       maxWidth: '90vw',
-      minHeight: '35vh',
+      minHeight: '32vh',
       maxHeight: '30vh',
       backgroundColor: "#EFEFEF",
       marginTop: '10px'

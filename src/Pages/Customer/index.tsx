@@ -11,7 +11,7 @@ export const Customer = () => {
     style={{
       display: 'flex',
       flexDirection: "column",
-      height: '100vh',
+      height: '100dvh',
       alignItems: "center"
     }}
   >
@@ -20,7 +20,7 @@ export const Customer = () => {
         backgroundColor: '#ffffff',
         maxWidth: '95vw',
         minWidth: '45vw',
-        height: '100vh',
+        height: '90dvh',
         display: 'flex',
         // justifyContent: "space-between",
         flexDirection: "column",
