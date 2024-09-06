@@ -1,4 +1,6 @@
 import { Box, Button, Modal, TextField } from "@mui/material"
+import { useState } from "react";
+import { CurrencyInput } from "react-currency-mask";
 
 const style = {
   position: 'absolute',
@@ -37,8 +39,36 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
           marginTop: '20px'
         }}
       >
-        <TextField style={{ width: '60%', paddingRight: '50px' }} id="outlined-basic" label="Quant." variant="outlined" />
-        <TextField style={{ width: '100%' }} id="outlined-basic" label="Preço Uni." variant="outlined" />
+        <CurrencyInput
+          onChangeValue={(
+            event: React.ChangeEvent<HTMLInputElement>,
+            originalValue: string | number,
+            maskedValue: string | number
+          ) => {
+            console.log(event, originalValue, maskedValue)
+          }}
+          InputElement={<TextField label="Valor unitário" />}
+        />
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: "row"
+        }}
+        >
+          <Button size="small" onClick={() => { setQuantity(quantity + 1) }} variant="contained" >+</Button>
+          <TextField
+            disabled
+            value={quantity}
+            style={{ margin: '0px 10px' }}
+          />
+          <Button
+            size="small"
+            onClick={() => { setQuantity(quantity - 1) }}
+            variant="contained"
+            disabled={Boolean(quantity === 0)}
+          >-</Button>
+        </div>
+        {/* <TextField style={{ width: '100%' }} id="outlined-basic" label="Preço Uni." variant="outlined" /> */}
       </div>
       <div style={{
         display: 'flex',

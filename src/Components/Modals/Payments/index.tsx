@@ -1,4 +1,5 @@
 import { Box, Button, Modal, TextField } from "@mui/material"
+import { CurrencyInput } from "react-currency-mask";
 
 const style = {
   position: 'absolute',
@@ -29,7 +30,16 @@ export const PaymentsModal = ({ open, setOpen }: IPaymentsModal) => {
       borderRadius: '5px',
       ...style
     }}>
-      <TextField style={{ width: '100%' }} id="outlined-basic" label="Valor" variant="outlined" />
+      <CurrencyInput
+        onChangeValue={(
+          event: React.ChangeEvent<HTMLInputElement>,
+          originalValue: string | number,
+          maskedValue: string | number
+        ) => {
+          console.log(event, originalValue, maskedValue)
+        }}
+        InputElement={<TextField label="Valor unitário" />}
+      />
       <div style={{
         display: 'flex',
         justifyContent: 'space-evenly',
