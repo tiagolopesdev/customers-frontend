@@ -1,6 +1,6 @@
-import { ICustomer } from "../Types/ICustomer";
+import { ICustomerMock } from "../Types/ICustomerMock";
 
-export const CustomerCardData: ICustomer[] = [
+export const CustomerCardData: ICustomerMock[] = [
   {
     id: '',
     name: 'Chico'

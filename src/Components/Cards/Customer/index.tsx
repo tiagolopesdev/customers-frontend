@@ -1,19 +1,25 @@
 import { Card, CardContent, Typography } from "@mui/material"
 import { Values } from "../../Values"
 import { useNavigate } from "react-router-dom"
+import { ICustomer } from "../../../Types/ICustomer"
 
-export const CustomerCard = () => {
+interface ICustomerCard {
+  customer: ICustomer
+}
+
+export const CustomerCard = ({ customer }: ICustomerCard) => {
 
   const navigate = useNavigate();
 
   return <Card sx={{
-    minWidth: '35vw',
-    maxWidth: '90vw',
+    minWidth: '90vw',
+    maxWidth: '65vw',
     minHeight: '10vh'
   }}
-  onClick={() => { 
-    navigate("/customer?identity=428d06d1-e7f9-41e5-a937-c0bd991df88d") 
-  }}  
+    onClick={() => {
+      navigate(`/customer?identity=${customer.id}`)
+    }}
+    key={`customer-${customer.name}-${customer.id}`}
   >
     <CardContent
       sx={{
@@ -32,9 +38,9 @@ export const CustomerCard = () => {
           fontWeight: 650
         }}
       >
-        João  sdkslkdslksldklsdsk
+        {customer.name}
       </Typography>
-      <Values amountPaid={123} amountToPay={456} />
+      <Values amountPaid={customer.amountPaid} amountToPay={customer.amountToPay} />
     </CardContent>
   </Card>
 }
