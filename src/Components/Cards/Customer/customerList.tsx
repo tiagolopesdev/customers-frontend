@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react"
 import { CustomerCard } from "."
-import { getAllCustomers } from "../../../Services/Customer"
 import { ICustomer } from "../../../Types/ICustomer"
 import { CardListGroup } from "./style"
 
+interface ICustomerCardList {
+  customers: ICustomer[]
+}
 
-export const CustomerCardList = () => {
-
-  const [customers, setCustomers] = useState<ICustomer[]>([])
-
-  const findCustomers = async () => {
-
-    try {
-      const result = await getAllCustomers()
-
-      setCustomers(result)
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
-    } catch (error) {
-
-    }
-  }
-
-  useEffect(() => { findCustomers() }, [customers])
+export const CustomerCardList = ({ customers }: ICustomerCardList) => {
 
   const renderList = () => {
-    return customers.map((item: ICustomer) => {
-      return <CustomerCard customer={item} />
+    return ([] as ICustomer[]).concat(customers ?? [])?.map((item: ICustomer) => {
+      return <CustomerCard customer={item} key={`card-customer-${item.id}`}/>
     })
   }
 

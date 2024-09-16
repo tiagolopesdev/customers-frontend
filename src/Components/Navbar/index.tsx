@@ -1,7 +1,11 @@
 import { TextField } from "@mui/material"
 
+interface INavbar {
+  filter: string 
+  setFilter: React.Dispatch<React.SetStateAction<string>>
+}
 
-export const Navbar = () => {
+export const Navbar = ({ filter, setFilter }: INavbar) => {
 
   return <div
     style={{
@@ -17,6 +21,9 @@ export const Navbar = () => {
       label="Pesquise pelo nome do comprador"
       variant="standard"
       sx={{ width: '80dvw' }}
+      defaultValue={filter}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onChange={(value: any) => { setFilter(value.nativeEvent.data ?? '') }}
     />
   </div>
 }
