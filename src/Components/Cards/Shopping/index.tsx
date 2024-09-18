@@ -1,35 +1,52 @@
 import { Button, Card, CardContent, Typography } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingModal } from "../../Modals/Shopping";
 import { TableComponent } from "../../Table";
+import { IBuys } from "../../../Types/IBuys";
+import { ITableRowProps } from "../../../Types/TableProps";
 
+interface IShoppingCard {
+  buys?: IBuys[]
+}
 
-// function createData(
-//   name: string,
-//   calories: number,
-//   fat: number,
-//   carbs: number
-// ) {
-//   return { name, calories, fat, carbs };
-// }
-
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24),
-//   createData('Ice cream sandwich', 237, 9.0, 37),
-//   createData('Eclair', 262, 16.0, 24),
-//   createData('Cupcake', 305, 3.7, 67),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-// ];
-
-export const ShoppingCard = () => {
+export const ShoppingCard = ({ buys }: IShoppingCard) => {
 
   const [open, setOpen] = useState(false);
+  const [buysTotal, setBuysTotal] = useState(0)
 
   const handleStateModal = () => setOpen(!open)
+  
+  const buildBuysForRender = (): ITableRowProps[] => {
+    const listRow: ITableRowProps[] = []
+
+    if (!buys) return listRow
+    
+    buys.map((item: IBuys) => {
+      const listToReturn: ITableRowProps = {
+        rows: [
+          { style: { width: '10dvw' }, name: 'name_product', align: 'left' },
+          { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
+          { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
+          { style: { width: '10dvw' }, name: `${item.total}`, align: 'center' },
+          { style: { width: '5px' }, name: 'jkgjhjgh', align: 'center', actions: <Button variant="contained" >Ex</Button> },
+        ]
+      }
+      listRow.push(listToReturn)
+    })
+
+    return listRow
+  }
+
+  const buysTotalCalculate = () => {
+    if (!buys) return 0
+    const result = buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
+    setBuysTotal(result)
+  }
+
+  useEffect(() => { 
+    buildBuysForRender() 
+    buysTotalCalculate()
+  }, [buys])
 
   return <>
     <Card sx={{
@@ -76,7 +93,7 @@ export const ShoppingCard = () => {
               color: "#64BC6D"
             }}
           >
-            R$ 00,00
+            {`R$ ${buysTotal}`}
           </Typography>
           <Button
             variant="contained"
@@ -84,7 +101,7 @@ export const ShoppingCard = () => {
             onClick={() => { handleStateModal() }}
           >Adicionar</Button>
         </div>
-        <TableComponent 
+        <TableComponent
           tableCell={[
             { name: 'Produto', align: 'left' },
             { name: 'Quant.', align: 'center' },
@@ -92,72 +109,8 @@ export const ShoppingCard = () => {
             { name: 'Total', align: 'center' },
             { name: 'Ações', align: "center" }
           ]}
-          tableRows={[
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-            {
-              rows: [
-                { style: { width: '30dvw' }, name: 'jkgjhjgh', align: 'left'},
-                { style: { width: '20dvw' }, name: 'sdsdsdsdsd', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center'},
-                { style: { width: '20dvw' }, name: 'tetrterterte', align: 'center' },
-                { name: 'dsdsdsdsds', align: 'center', style: { width: '5px' } , actions: <Button variant="contained" >Ex</Button>},
-              ]
-            },
-          ]}
-        />        
+          tableRows={buildBuysForRender()}
+        />
       </CardContent>
     </Card>
     {

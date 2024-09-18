@@ -26,10 +26,10 @@ export const TableComponent = (props: ITableProps) => {
           props.tableRows.length === 0 ?
             <CustomNoDataTable lenghtCell={props.tableCell.length} /> :
             props.tableRows.map((item: ITableRowProps) => {
-              return <TableRow >
+              return <TableRow key={`${item.rows.length}-tableRow`}>
                 {
                   item.rows.map((itenInsideRow: ITableItensRowProps, index: number) => {
-                    return <TableCell align={itenInsideRow.align} sx={
+                    return <TableCell key={`${itenInsideRow.name}-${index}-${itenInsideRow.name}`} align={itenInsideRow.align} sx={
                       { margin: 0, padding: '5px', fontSize: '0.8rem', ...itenInsideRow.style }
                     }>
                       {

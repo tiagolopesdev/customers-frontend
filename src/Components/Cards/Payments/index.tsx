@@ -1,36 +1,49 @@
 import { Button, Card, CardContent, Typography } from "@mui/material"
-import { useState } from "react";
-import { ShoppingModal } from "../../Modals/Shopping";
+import { useEffect, useState } from "react";
 import { TableComponent } from "../../Table";
 import { PaymentsModal } from "../../Modals/Payments";
+import { ITableRowProps } from "../../../Types/TableProps";
+import { IPayments } from "../../../Types/IPayments";
 
 
-// function createData(
-//   name: string,
-//   calories: number,
-//   fat: number,
-//   carbs: number
-// ) {
-//   return { name, calories, fat, carbs };
-// }
+interface IPaymentsCard {
+  payments?: IPayments[]
+}
 
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24),
-//   createData('Ice cream sandwich', 237, 9.0, 37),
-//   createData('Eclair', 262, 16.0, 24),
-//   createData('Cupcake', 305, 3.7, 67),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-//   createData('Gingerbread', 356, 16.0, 49),
-// ];
-
-export const PaymentsCard = () => {
+export const PaymentsCard = ({ payments }: IPaymentsCard) => {
 
   const [open, setOpen] = useState(false);
+  const [paymentsTotal, setPaymentsTotal] = useState(0)
 
   const handleStateModal = () => setOpen(!open)
+
+  const buildPaymentsForRender = (): ITableRowProps[] => {
+    const listRow: ITableRowProps[] = []
+
+    if (!payments) return listRow
+    
+    payments.map((item: IPayments) => {
+      const listToReturn: ITableRowProps = {
+        rows: [
+          { name: `${item.value}`, align: 'left' },
+          { name: '00/00/0000', align: 'center' },
+        ]
+      }
+      listRow.push(listToReturn)
+    })    
+    return listRow
+  }
+
+  const paymentsTotalCalculate = () => {
+    if (!payments) return 0
+    const result = payments.reduce((accumulator, item) => { return accumulator += item.value }, 0)
+    setPaymentsTotal(result)
+  }
+
+  useEffect(() => { 
+    buildPaymentsForRender() 
+    paymentsTotalCalculate()
+  }, [])
 
   return <>
     <Card sx={{
@@ -77,7 +90,7 @@ export const PaymentsCard = () => {
               color: "#64BC6D"
             }}
           >
-            R$ 00,00
+            {`R$ ${paymentsTotal}`}
           </Typography>
           <Button
             variant="contained"
@@ -85,26 +98,13 @@ export const PaymentsCard = () => {
             onClick={() => { handleStateModal() }}
           >Adicionar</Button>
         </div>
-        <TableComponent 
+        <TableComponent
           tableCell={[
             { name: 'Valor', align: 'left' },
             { name: 'Data e horário', align: 'center' }
           ]}
-          tableRows={[
-            {
-              rows: [
-                { name: 'dsdsdsdsds', align: 'left'},
-                { name: 'jkgjhjgh', align: 'center'},
-              ]
-            },
-            {
-              rows: [
-                { name: 'dsdsdsdsds', align: 'left'},
-                { name: 'jkgjhjgh', align: 'center'},
-              ]
-            }
-          ]}
-        />        
+          tableRows={buildPaymentsForRender()}
+        />
       </CardContent>
     </Card>
     {
