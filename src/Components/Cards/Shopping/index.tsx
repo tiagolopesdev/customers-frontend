@@ -4,31 +4,51 @@ import { ShoppingModal } from "../../Modals/Shopping";
 import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
+import { ICustomer } from "../../../Types/ICustomer";
 
 interface IShoppingCard {
-  buys?: IBuys[]
+  customer: ICustomer
+  setCustomer: React.Dispatch<React.SetStateAction<ICustomer>>
 }
 
-export const ShoppingCard = ({ buys }: IShoppingCard) => {
+export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const [open, setOpen] = useState(false);
   const [buysTotal, setBuysTotal] = useState(0)
 
   const handleStateModal = () => setOpen(!open)
-  
+
   const buildBuysForRender = (): ITableRowProps[] => {
     const listRow: ITableRowProps[] = []
 
-    if (!buys) return listRow
-    
-    buys.map((item: IBuys) => {
+    if (!customer.buys) return listRow
+
+    customer.buys.map((item: IBuys) => {
       const listToReturn: ITableRowProps = {
         rows: [
           { style: { width: '10dvw' }, name: 'name_product', align: 'left' },
           { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${item.total}`, align: 'center' },
-          { style: { width: '5px' }, name: 'jkgjhjgh', align: 'center', actions: <Button variant="contained" >Ex</Button> },
+          {
+            style: { width: '5px' },
+            name: 'jkgjhjgh',
+            align: 'center',
+            actions: <Button variant="contained"
+              onClick={() => {
+                if (!customer.buys) return 
+
+                const result: IBuys[] = []
+
+                customer.buys.forEach((element) => {
+                  if (element.id !== item.id) result.push(element)
+                })
+
+                console.log('Elements 1', result)
+                setCustomer({...customer, buys: result })
+              }}
+            >Ex</Button>
+          },
         ]
       }
       listRow.push(listToReturn)
@@ -38,15 +58,15 @@ export const ShoppingCard = ({ buys }: IShoppingCard) => {
   }
 
   const buysTotalCalculate = () => {
-    if (!buys) return 0
-    const result = buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
+    if (!customer.buys) return 0
+    const result = customer.buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
     setBuysTotal(result)
   }
 
-  useEffect(() => { 
-    buildBuysForRender() 
+  useEffect(() => {
+    buildBuysForRender()
     buysTotalCalculate()
-  }, [buys])
+  }, [customer.buys])
 
   return <>
     <Card sx={{

@@ -2,10 +2,10 @@ import { Button } from "@mui/material"
 import { Link } from "react-router-dom"
 
 interface IFooter {
-  isOnlyBack?: boolean
+  isCustomerPage?: boolean
 }
 
-export const Footer = ({ isOnlyBack }: IFooter) => {
+export const Footer = ({ isCustomerPage }: IFooter) => {
 
   const onlyOneAction = (): JSX.Element => {
     return <>
@@ -25,6 +25,28 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
     </>
   }
 
+  const customerPage = (): JSX.Element => {
+    return <>
+      <Button
+        style={{ height: '7vh', margin: '0px 5px' }}
+        color="success"
+        variant="contained"
+      >
+        <Link
+          to="/"
+          style={{
+            color: '#ffffff'
+          }}
+        >Voltar</Link>
+      </Button>
+      <Button
+        style={{ height: '7vh', margin: '0px 5px' }}
+        color="success"
+        variant="contained"
+      >Salvar</Button>
+    </>
+  }
+
   return <div
     style={{
       position: "sticky",
@@ -40,15 +62,7 @@ export const Footer = ({ isOnlyBack }: IFooter) => {
     }}
   >
     {
-      isOnlyBack ?
-        <Button
-          style={{ height: '7vh', margin: '0px 5px' }}
-          color="success"
-          variant="contained"
-        ><Link to="/" style={{
-          color: '#ffffff'
-        }} >Voltar</Link></Button> :
-        onlyOneAction()
+      onlyOneAction()
     }
   </div>
 }
