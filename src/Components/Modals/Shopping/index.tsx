@@ -1,6 +1,7 @@
 import { Box, Button, Modal, TextField } from "@mui/material"
 import { useState } from "react";
 import { CurrencyInput } from "react-currency-mask";
+import { IBuys } from "../../../Types/IBuys";
 
 const style = {
   position: 'absolute',
@@ -16,11 +17,17 @@ const style = {
 interface IShoppingModal {
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  buyProps: IBuys
+  setBuyProps: React.Dispatch<React.SetStateAction<IBuys>>
 }
 
-export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
+export const ShoppingModal = (props: IShoppingModal) => {
+
+  const { open, setOpen, buyProps, setBuyProps } = props
 
   const handleModalState = () => setOpen(!open)
+
+  const [buy, setBuy] = useState<IBuys>(buyProps)
 
   return <Modal
     open={open}
@@ -31,7 +38,14 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
       borderRadius: '5px',
       ...style
     }}>
-      <TextField style={{ width: '100%' }} id="outlined-basic" label="Produto" variant="outlined" />
+      <TextField
+        style={{ width: '100%' }}
+        id="outlined-basic"
+        label="Produto"
+        variant="outlined"
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(event: any) => { setBuy({ ...buy, name: event.nativeEvent.data }) }}
+      />
       <div
         style={{
           display: 'flex',
@@ -43,9 +57,10 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
           onChangeValue={(
             event: React.ChangeEvent<HTMLInputElement>,
             originalValue: string | number,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             maskedValue: string | number
           ) => {
-            console.log(event, originalValue, maskedValue)
+            setBuy({ ...buy, price: originalValue as number })
           }}
           InputElement={<TextField label="Valor unitário" />}
         />
@@ -55,20 +70,33 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
           flexDirection: "row"
         }}
         >
-          <Button size="small" onClick={() => { setQuantity(quantity + 1) }} variant="contained" >+</Button>
+          <Button size="small" onClick={() => {
+            setBuy({
+              ...buy, ...{
+                quantity: buy.quantity + 1,
+                total: (buy.quantity + 1) * buy.price
+              }
+            })
+          }} variant="contained" >+</Button>
           <TextField
             disabled
-            value={quantity}
+            value={buy?.quantity}
             style={{ margin: '0px 10px' }}
           />
           <Button
             size="small"
-            onClick={() => { setQuantity(quantity - 1) }}
+            onClick={() => {
+              setBuy({
+                ...buy, ...{
+                  quantity: buy.quantity - 1,
+                  total: (buy.quantity - 1) * buy.price
+                }
+              })
+            }}
             variant="contained"
-            disabled={Boolean(quantity === 0)}
+            disabled={Boolean(buy?.quantity === 0)}
           >-</Button>
         </div>
-        {/* <TextField style={{ width: '100%' }} id="outlined-basic" label="Preço Uni." variant="outlined" /> */}
       </div>
       <div style={{
         display: 'flex',
@@ -76,7 +104,10 @@ export const ShoppingModal = ({ open, setOpen }: IShoppingModal) => {
         marginTop: '25px'
       }}>
         <Button color="success" variant="contained" onClick={() => { handleModalState() }}>Voltar</Button>
-        <Button color="success" variant="contained" onClick={() => { }}>Confirmar</Button>
+        <Button color="success" variant="contained" onClick={() => {
+          setBuyProps(buy)
+          setOpen(false)
+        }}>Confirmar</Button>
       </div>
     </Box>
   </Modal>

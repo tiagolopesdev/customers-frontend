@@ -5,6 +5,8 @@ import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
+import { initialStateBuys } from "../../../Types/InitialStateBuys";
+import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 
 interface IShoppingCard {
   customer: ICustomer
@@ -15,6 +17,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const [open, setOpen] = useState(false);
   const [buysTotal, setBuysTotal] = useState(0)
+  const [buyManipulation, setBuyManipulation] = useState<IBuys>(initialStateBuys)
 
   const handleStateModal = () => setOpen(!open)
 
@@ -29,14 +32,14 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
           { style: { width: '10dvw' }, name: 'name_product', align: 'left' },
           { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
-          { style: { width: '10dvw' }, name: `${item.total}`, align: 'center' },
+          { style: { width: '10dvw' }, name: `${(item.price * item.quantity).toFixed(2)}`, align: 'center' },
           {
             style: { width: '5px' },
             name: 'jkgjhjgh',
             align: 'center',
             actions: <Button variant="contained"
               onClick={() => {
-                if (!customer.buys) return 
+                if (!customer.buys) return
 
                 const result: IBuys[] = []
 
@@ -44,8 +47,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
                   if (element.id !== item.id) result.push(element)
                 })
 
-                console.log('Elements 1', result)
-                setCustomer({...customer, buys: result })
+                setCustomer({ ...customer, buys: result })
               }}
             >Ex</Button>
           },
@@ -58,15 +60,26 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   }
 
   const buysTotalCalculate = () => {
+    console.log('Customer, ', customer)
     if (!customer.buys) return 0
     const result = customer.buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
     setBuysTotal(result)
   }
 
   useEffect(() => {
+    
+    if (!ObjectIsEquals(buyManipulation, initialStateBuys)) {
+      const buysListToAdd = customer.buys
+      buysListToAdd?.push(buyManipulation)
+      setCustomer({...customer, buys: buysListToAdd})
+      setBuyManipulation(initialStateBuys)
+      // buysTotalCalculate()
+      return
+    }
+
     buildBuysForRender()
     buysTotalCalculate()
-  }, [customer.buys])
+  }, [customer.buys, buyManipulation])
 
   return <>
     <Card sx={{
@@ -138,6 +151,8 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
         <ShoppingModal
           open={open}
           setOpen={setOpen}
+          buyProps={buyManipulation}
+          setBuyProps={setBuyManipulation}
         /> :
         ''
     }
