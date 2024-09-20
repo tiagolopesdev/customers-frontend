@@ -26,7 +26,7 @@ export const TableComponent = (props: ITableProps) => {
           props.tableRows.length === 0 ?
             <CustomNoDataTable lenghtCell={props.tableCell.length} /> :
             props.tableRows.map((item: ITableRowProps) => {
-              return <TableRow key={`${item.rows.length}-tableRow`}>
+              return <TableRow key={`${Math.random()}-tableRow`}>
                 {
                   item.rows.map((itenInsideRow: ITableItensRowProps, index: number) => {
                     return <TableCell key={`${itenInsideRow.name}-${index}-${itenInsideRow.name}`} align={itenInsideRow.align} sx={

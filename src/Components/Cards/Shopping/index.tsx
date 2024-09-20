@@ -19,6 +19,9 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   const [buysTotal, setBuysTotal] = useState(0)
   const [buyManipulation, setBuyManipulation] = useState<IBuys>(initialStateBuys)
 
+  // console.log('Maniupa ', buyManipulation)
+  // console.log('Customer in component ', customer)
+
   const handleStateModal = () => setOpen(!open)
 
   const buildBuysForRender = (): ITableRowProps[] => {
@@ -60,7 +63,6 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   }
 
   const buysTotalCalculate = () => {
-    console.log('Customer, ', customer)
     if (!customer.buys) return 0
     const result = customer.buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
     setBuysTotal(result)
@@ -73,7 +75,6 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
       buysListToAdd?.push(buyManipulation)
       setCustomer({...customer, buys: buysListToAdd})
       setBuyManipulation(initialStateBuys)
-      // buysTotalCalculate()
       return
     }
 

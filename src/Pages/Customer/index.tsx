@@ -28,13 +28,16 @@ export const Customer = () => {
     }
 
     setCustomer(result)
-    setCustomerOrigin(result)
+    setCustomerOrigin(structuredClone(result))
     setLoading(!loading)
   }
 
   useEffect(() => {
     if (loading) findCustomer()
   }, [loading])
+
+  console.log('Custeomr: ', customer)
+  console.log('Custeomr origin: ', customerOrigin)
 
   const showComponent = (): JSX.Element | string => {
     return !loading ? <div
@@ -117,8 +120,8 @@ export const Customer = () => {
   }
 
   useEffect(() => {
-    console.log('Esu') 
-    showComponent() 
+    console.log('Esu')
+    showComponent()
   }, [customer.buys, customer.payments])
 
   return showComponent()
