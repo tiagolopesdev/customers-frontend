@@ -19,9 +19,6 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   const [buysTotal, setBuysTotal] = useState(0)
   const [buyManipulation, setBuyManipulation] = useState<IBuys>(initialStateBuys)
 
-  // console.log('Maniupa ', buyManipulation)
-  // console.log('Customer in component ', customer)
-
   const handleStateModal = () => setOpen(!open)
 
   const buildBuysForRender = (): ITableRowProps[] => {
@@ -32,7 +29,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
     customer.buys.map((item: IBuys) => {
       const listToReturn: ITableRowProps = {
         rows: [
-          { style: { width: '10dvw' }, name: 'name_product', align: 'left' },
+          { style: { width: '10dvw' }, name: `${item.name}`, align: 'left' },
           { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${(item.price * item.quantity).toFixed(2)}`, align: 'center' },
