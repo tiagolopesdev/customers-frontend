@@ -1,4 +1,5 @@
-import { ICustomerMock } from "../Types/ICustomerMock";
+import { ICustomerMock } from "../Types/ICustomer";
+
 
 export const CustomerCardData: ICustomerMock[] = [
   {

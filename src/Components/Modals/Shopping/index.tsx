@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Modal, TextField } from "@mui/material"
 import { useState } from "react";
 import { CurrencyInput } from "react-currency-mask";
@@ -54,11 +55,10 @@ export const ShoppingModal = (props: IShoppingModal) => {
         }}
       >
         <CurrencyInput
-          onChangeValue={(
-            event: React.ChangeEvent<HTMLInputElement>,
+          onChangeValue={(            
+            _event: React.ChangeEvent<HTMLInputElement>,
             originalValue: string | number,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            maskedValue: string | number
+            _maskedValue: string | number
           ) => {
             setBuy({ ...buy, price: originalValue as number })
           }}
