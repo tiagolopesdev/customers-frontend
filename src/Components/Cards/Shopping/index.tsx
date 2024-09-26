@@ -47,7 +47,10 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
                   if (element.id !== item.id) result.push(element)
                 })
 
-                setCustomer({ ...customer, buys: result })
+                setCustomer({ ...customer, ...{
+                  buys: result,
+                  amountToPay: result.reduce((accumulate, item) => accumulate += item.total, 0)
+                } })
               }}
             >Ex</Button>
           },
@@ -124,7 +127,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
               color: "#64BC6D"
             }}
           >
-            {`R$ ${buysTotal}`}
+            {`R$ ${buysTotal.toFixed(2)}`}
           </Typography>
           <Button
             variant="contained"

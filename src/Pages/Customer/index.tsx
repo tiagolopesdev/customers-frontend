@@ -36,9 +36,6 @@ export const Customer = () => {
     if (loading) findCustomer()
   }, [loading])
 
-  console.log('Custeomr: ', customer)
-  console.log('Custeomr origin: ', customerOrigin)
-
   const showComponent = (): JSX.Element | string => {
     return !loading ? <div
       style={{
@@ -71,7 +68,7 @@ export const Customer = () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(event: any) => { setCustomer({ ...customer, name: event.nativeEvent.data }) }}
           />
-          <Values amountPaid={customer.amountPaid} amountToPay={customer.amountToPay} />
+          <Values amountPaid={customer.amountPaid} amountToPay={(customer.amountToPay - customer.amountPaid)} />
         </div>
         <ShoppingCard customer={customer} setCustomer={setCustomer} />
         <PaymentsCard payments={customer.payments} />
@@ -119,10 +116,7 @@ export const Customer = () => {
     </div> : ''
   }
 
-  useEffect(() => {
-    console.log('Esu')
-    showComponent()
-  }, [customer.buys, customer.payments])
+  useEffect(() => { showComponent() }, [customer.buys, customer.payments])
 
   return showComponent()
 }
