@@ -45,7 +45,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
         label="Produto"
         variant="outlined"
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => { setBuy({ ...buy, name: event.nativeEvent.data }) }}
+        onChange={(event: any) => { setBuy({ ...buy, name: event.target.value }) }}
       />
       <div
         style={{

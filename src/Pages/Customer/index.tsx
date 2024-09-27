@@ -8,6 +8,7 @@ import { findByIdCustomersHandler } from "../../Handlers/GetByIdCustomer"
 import { ICustomer } from "../../Types/ICustomer"
 import { ObjectIsEquals } from "../../Utils/objectIsEqual"
 import { initialStateCustomer } from "../../Types/InitialStateCustomer"
+import { createCustomerHandler } from "../../Handlers/CreateCustomer"
 
 
 export const Customer = () => {
@@ -30,6 +31,10 @@ export const Customer = () => {
     setCustomer(result)
     setCustomerOrigin(structuredClone(result))
     setLoading(!loading)
+  }
+  
+  const managerCommandCustomer = async () => {
+    return await createCustomerHandler(customer)
   }
 
   useEffect(() => {
@@ -66,7 +71,7 @@ export const Customer = () => {
             }}
             defaultValue={customer.name}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onChange={(event: any) => { setCustomer({ ...customer, name: event.nativeEvent.data }) }}
+            onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
           />
           <Values amountPaid={customer.amountPaid} amountToPay={(customer.amountToPay - customer.amountPaid)} />
         </div>
@@ -103,6 +108,7 @@ export const Customer = () => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           disabled={ObjectIsEquals(customer, customerOrigin)}
+          onClick={async () => { await managerCommandCustomer() }}
           variant="contained"
         >Salvar</Button>
         <Button

@@ -1,6 +1,22 @@
-import { ICustomer } from "../../Types/ICustomer"
+import { ICustomer, ICustomerCreate } from "../../Types/ICustomer"
 import { customerChannel } from "../Bases/api"
 
+
+export const createCustomer = async (customer: ICustomerCreate) => {
+  try {
+
+    const response = await customerChannel.post(
+      `api/Customer/CreateCustomer`,
+      customer
+    )
+
+    return response.data as string
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw error.response.data
+  }
+}
 
 export const getByIdCustomers = async (id: string) => {
   try {
