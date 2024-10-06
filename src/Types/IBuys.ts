@@ -4,5 +4,7 @@ export interface IBuys {
   name: string,
   price: number,
   quantity: number,
-  total: number
+  total?: number,
+  dateCreated?: string,
+  isEnable?: boolean
 }

@@ -2,6 +2,25 @@ import { ICustomer, ICustomerCreate } from "../../Types/ICustomer"
 import { customerChannel } from "../Bases/api"
 
 
+export const updateCustomer = async (customer: ICustomer) => {
+  try {
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { amountPaid, amountToPay, ...objectToSend } = customer
+
+    const response = await customerChannel.put(
+      `api/Customer/UpdateCustomer`,
+      objectToSend
+    )
+
+    return response.data as string
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw error.response.data
+  }
+}
+
 export const createCustomer = async (customer: ICustomerCreate) => {
   try {
 

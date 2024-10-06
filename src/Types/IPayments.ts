@@ -1,5 +1,7 @@
 
 export interface IPayments {
   id: string,
-  value: number
+  value: number,
+  dateCreated?: string,
+  isEnable?: boolean
 }

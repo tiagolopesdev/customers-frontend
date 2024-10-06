@@ -6,8 +6,10 @@ export interface ICustomer {
   name: string,
   payments?: IPayments[],
   buys?: IBuys[],
-  amountPaid: number
-  amountToPay: number
+  amountPaid?: number,
+  amountToPay?: number,
+  isEnable?: boolean
+  dateCreated?: string
 }
 
 export interface ICustomerCreate {

@@ -9,6 +9,7 @@ import { ICustomer } from "../../Types/ICustomer"
 import { ObjectIsEquals } from "../../Utils/objectIsEqual"
 import { initialStateCustomer } from "../../Types/InitialStateCustomer"
 import { createCustomerHandler } from "../../Handlers/CreateCustomer"
+import { updateCustomerHandler } from "../../Handlers/UpdateCustomer"
 
 
 export const Customer = () => {
@@ -34,7 +35,9 @@ export const Customer = () => {
   }
   
   const managerCommandCustomer = async () => {
-    return await createCustomerHandler(customer)
+    return customer.id ?
+      await updateCustomerHandler(customer) :
+      await createCustomerHandler(customer)
   }
 
   useEffect(() => {
@@ -73,7 +76,7 @@ export const Customer = () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
           />
-          <Values amountPaid={customer.amountPaid} amountToPay={(customer.amountToPay - customer.amountPaid)} />
+          <Values amountPaid={customer.amountPaid ?? 0} amountToPay={(customer.amountToPay as number - (customer.amountPaid ?? 0))} />
         </div>
         <ShoppingCard customer={customer} setCustomer={setCustomer} />
         <PaymentsCard payments={customer.payments} />
@@ -108,7 +111,10 @@ export const Customer = () => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           disabled={ObjectIsEquals(customer, customerOrigin)}
-          onClick={async () => { await managerCommandCustomer() }}
+          onClick={async () => { 
+            await managerCommandCustomer()
+            setLoading(true) 
+          }}
           variant="contained"
         >Salvar</Button>
         <Button
