@@ -79,7 +79,7 @@ export const Customer = () => {
           <Values amountPaid={customer.amountPaid ?? 0} amountToPay={(customer.amountToPay as number - (customer.amountPaid ?? 0))} />
         </div>
         <ShoppingCard customer={customer} setCustomer={setCustomer} />
-        <PaymentsCard payments={customer.payments} />
+        <PaymentsCard customer={customer} setCustomer={setCustomer} />
       </div>
       <div
         style={{

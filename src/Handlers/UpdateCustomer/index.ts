@@ -21,6 +21,7 @@ export const updateCustomerHandler = async (customer: ICustomer) => {
     if (customer.payments && customer.payments.length > 0) {
       customer.payments.map((item: IPayments) => {
         delete item.dateCreated
+        if (item.id === "") item.id = undefined
       })
     }
 

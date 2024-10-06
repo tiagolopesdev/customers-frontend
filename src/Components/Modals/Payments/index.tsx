@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Modal, TextField } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
+import { IPayments } from "../../../Types/IPayments";
+import { useState } from "react";
 
 const style = {
   position: 'absolute',
@@ -14,12 +17,16 @@ const style = {
 
 interface IPaymentsModal {
   open: boolean,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  paymentProps: IPayments
+  setPaymentProps: React.Dispatch<React.SetStateAction<IPayments>>
 }
 
-export const PaymentsModal = ({ open, setOpen }: IPaymentsModal) => {
+export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: IPaymentsModal) => {
 
   const handleModalState = () => setOpen(!open)
+
+  const [payment, setPayment] = useState<IPayments>(paymentProps)
 
   return <Modal
     open={open}
@@ -36,7 +43,7 @@ export const PaymentsModal = ({ open, setOpen }: IPaymentsModal) => {
           originalValue: string | number,
           maskedValue: string | number
         ) => {
-          console.log(event, originalValue, maskedValue)
+          setPayment({ ...payment, value: originalValue as number })
         }}
         InputElement={<TextField label="Valor unitário" />}
       />
@@ -46,7 +53,10 @@ export const PaymentsModal = ({ open, setOpen }: IPaymentsModal) => {
         marginTop: '25px'
       }}>
         <Button color="success" variant="contained" onClick={() => { handleModalState() }}>Voltar</Button>
-        <Button color="success" variant="contained" onClick={() => { }}>Confirmar</Button>
+        <Button color="success" variant="contained" onClick={() => {
+          setPaymentProps(payment)
+          setOpen(false)
+        }}>Confirmar</Button>
       </div>
     </Box>
   </Modal>

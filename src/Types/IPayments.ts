@@ -1,6 +1,6 @@
 
 export interface IPayments {
-  id: string,
+  id?: string,
   value: number,
   dateCreated?: string,
   isEnable?: boolean

@@ -49,7 +49,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
                 setCustomer({ ...customer, ...{
                   buys: result,
-                  amountToPay: result.reduce((accumulate, item) => accumulate += item.total, 0)
+                  amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
                 } })
               }}
             >Ex</Button>
@@ -64,7 +64,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const buysTotalCalculate = () => {
     if (!customer.buys) return 0
-    const result = customer.buys.reduce((accumulator, item) => { return accumulator += item.total }, 0)
+    const result = customer.buys.reduce((accumulator, item) => { return accumulator += (item.total ?? 0) }, 0)
     setBuysTotal(result)
   }
 

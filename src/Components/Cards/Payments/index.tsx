@@ -4,25 +4,30 @@ import { TableComponent } from "../../Table";
 import { PaymentsModal } from "../../Modals/Payments";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { IPayments } from "../../../Types/IPayments";
+import { initialStatePayments } from "../../../Types/InitialStatePayments";
+import { ICustomer } from "../../../Types/ICustomer";
+import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 
 
 interface IPaymentsCard {
-  payments?: IPayments[]
+  customer: ICustomer
+  setCustomer: React.Dispatch<React.SetStateAction<ICustomer>>
 }
 
-export const PaymentsCard = ({ payments }: IPaymentsCard) => {
+export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
 
   const [open, setOpen] = useState(false);
   const [paymentsTotal, setPaymentsTotal] = useState(0)
+  const [paymentManipulation, setPaymentManipulation] = useState<IPayments>(initialStatePayments)
 
   const handleStateModal = () => setOpen(!open)
 
   const buildPaymentsForRender = (): ITableRowProps[] => {
     const listRow: ITableRowProps[] = []
 
-    if (!payments) return listRow
+    if (!customer.payments) return listRow
     
-    payments.map((item: IPayments) => {
+    customer.payments.map((item: IPayments) => {
       const listToReturn: ITableRowProps = {
         rows: [
           { name: `${item.value}`, align: 'left' },
@@ -35,15 +40,25 @@ export const PaymentsCard = ({ payments }: IPaymentsCard) => {
   }
 
   const paymentsTotalCalculate = () => {
-    if (!payments) return 0
-    const result = payments.reduce((accumulator, item) => { return accumulator += item.value }, 0)
+    if (!customer.payments) return 0
+    const result = customer.payments.reduce((accumulator, item) => { return accumulator += item.value }, 0)
     setPaymentsTotal(result)
   }
 
   useEffect(() => { 
+
+    if (!ObjectIsEquals(paymentManipulation, initialStatePayments)) {
+      const buysListToAdd = customer.payments
+      buysListToAdd?.push(paymentManipulation)
+      setCustomer({...customer, payments: buysListToAdd})
+      setPaymentManipulation(initialStatePayments)
+      return
+    }
+
     buildPaymentsForRender() 
     paymentsTotalCalculate()
-  }, [])
+  }, [customer.payments, paymentManipulation])
+
 
   return <>
     <Card sx={{
@@ -112,6 +127,8 @@ export const PaymentsCard = ({ payments }: IPaymentsCard) => {
         <PaymentsModal
           open={open}
           setOpen={setOpen}
+          paymentProps={paymentManipulation}
+          setPaymentProps={setPaymentManipulation}
         /> :
         ''
     }
