@@ -5,18 +5,19 @@ import { ITableCellProps, ITableItensRowProps, ITableRowProps } from "../../Type
 interface ITableProps {
   tableCell: ITableCellProps[]
   tableRows: ITableRowProps[],
-  style?: SxProps<Theme> | undefined
+  style?: SxProps<Theme> | undefined,
+  width?: number
 }
 
 export const TableComponent = (props: ITableProps) => {
 
   return <TableContainer component={Paper} sx={{ maxHeight: 200, ...props.style }} >
-    <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table" >
+    <Table stickyHeader sx={{ minWidth: props.width ?? 460 }} aria-label="simple table" >
       <TableHead>
         <TableRow>
           {
             props.tableCell.map((item: ITableCellProps) => {
-              return <TableCell sx={{ padding: '5px', fontWeight: 600, fontSize: 'medium' }} align={item.align}>{item.name}</TableCell>
+              return <TableCell sx={{ padding: '5px', fontWeight: 600, fontSize: 'medium', ...item.style }} align={item.align}>{item.name}</TableCell>
             })
           }
         </TableRow>

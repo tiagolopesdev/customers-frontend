@@ -29,7 +29,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
     customer.buys.map((item: IBuys) => {
       const listToReturn: ITableRowProps = {
         rows: [
-          { style: { width: '10dvw' }, name: `${item.name}`, align: 'left' },
+          { style: { width: '12dvw' }, name: `${item.name}`, align: 'left', useTooltip: true },
           { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
           { style: { width: '10dvw' }, name: `${(item.price * item.quantity).toFixed(2)}`, align: 'center' },
@@ -137,7 +137,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
         </div>
         <TableComponent
           tableCell={[
-            { name: 'Produto', align: 'left' },
+            { name: 'Produto', align: 'left', style: { width: 100 } },
             { name: 'Quant.', align: 'center' },
             { name: 'Unitário', align: 'center' },
             { name: 'Total', align: 'center' },
