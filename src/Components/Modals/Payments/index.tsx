@@ -39,9 +39,9 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
     }}>
       <CurrencyInput
         onChangeValue={(
-          event: React.ChangeEvent<HTMLInputElement>,
-          originalValue: string | number,
-          maskedValue: string | number
+          _event: React.ChangeEvent<HTMLInputElement>,
+          originalValue: string | number,          
+          _maskedValue: string | number
         ) => {
           setPayment({ ...payment, value: originalValue as number })
         }}

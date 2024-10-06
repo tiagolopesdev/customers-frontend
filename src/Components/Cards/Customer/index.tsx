@@ -40,7 +40,7 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
       >
         {customer.name}
       </Typography>
-      <Values amountPaid={customer.amountPaid} amountToPay={customer.amountToPay} />
+      <Values amountPaid={customer.amountPaid as number} amountToPay={customer.amountToPay as number} />
     </CardContent>
   </Card>
 }
