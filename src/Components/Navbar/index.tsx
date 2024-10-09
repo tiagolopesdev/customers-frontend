@@ -23,7 +23,7 @@ export const Navbar = ({ filter, setFilter }: INavbar) => {
       sx={{ width: '80dvw' }}
       defaultValue={filter}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onChange={(value: any) => { setFilter(value.nativeEvent.data ?? '') }}
+      onChange={(event: any) => { setFilter(event.target.value ?? '') }}
     />
   </div>
 }
