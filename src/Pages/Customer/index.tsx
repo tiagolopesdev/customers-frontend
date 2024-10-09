@@ -76,7 +76,7 @@ export const Customer = () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
           />
-          <Values amountPaid={customer.amountPaid ?? 0} amountToPay={(customer.amountToPay as number - (customer.amountPaid ?? 0))} />
+          <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay as number} />
         </div>
         <ShoppingCard customer={customer} setCustomer={setCustomer} />
         <PaymentsCard customer={customer} setCustomer={setCustomer} />
