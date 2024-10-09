@@ -34,7 +34,7 @@ export const TableComponent = (props: ITableProps) => {
                       { margin: 0, padding: '5px', fontSize: '0.8rem', ...itenInsideRow.style }
                     }>
                       {
-                        index === (item.rows.length - 1) ?
+                        index === (item.rows.length - 1) && itenInsideRow.actions ?
                           itenInsideRow.actions :
                           itenInsideRow.name
                       }

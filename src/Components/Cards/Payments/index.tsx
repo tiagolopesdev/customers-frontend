@@ -31,7 +31,8 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
       const listToReturn: ITableRowProps = {
         rows: [
           { name: `${item.value}`, align: 'left', style: { width: 50 } },
-          { name: '00/00/0000', align: 'center', style: { width: 80 } },
+          { name: `${item.dateCreated}`, align: 'center', style: { width: 80 } },
+          // { name: `${item.value}`, align: 'center', style: { width: 80 } },
         ]
       }
       listRow.push(listToReturn)
