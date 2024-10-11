@@ -1,11 +1,8 @@
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Button, CircularProgress, Modal, TextField } from "@mui/material"
+import { Box, Button, CircularProgress, Modal } from "@mui/material"
 import { useState } from "react";
-import { CurrencyInput } from "react-currency-mask";
-import { IBuys } from "../../../Types/IBuys";
 import QrReader from "../../QrCodeRead/QrReader";
-import { createCustomer } from "../../../Services/Customer";
 import { createCustomerHandler } from "../../../Handlers/CreateCustomer";
 import { useNavigate } from "react-router-dom";
 import { findByNameCustomersHandler } from "../../../Handlers/GetByNameCustomers";

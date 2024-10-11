@@ -7,7 +7,6 @@ import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
 import { Button } from "@mui/material"
 import { Link } from "react-router-dom"
-import QrReader from "../../Components/QrCodeRead/QrReader"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 
 
