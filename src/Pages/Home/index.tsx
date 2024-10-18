@@ -17,7 +17,6 @@ export const Home = () => {
   const [openQr, setOpenQr] = useState<boolean>(false);
 
   const findCustomers = async () => {
-    console.log('Value: ', filter)
     const result = filter === '' ?
       await findCustomersHandler() :
       await findByNameCustomersHandler(filter)
