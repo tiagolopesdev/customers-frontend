@@ -1,15 +1,20 @@
+/* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Modal, TextField } from "@mui/material"
-import { useState } from "react";
-import { CurrencyInput } from "react-currency-mask";
+import { useEffect, useState } from "react";
 import { IBuys } from "../../../Types/IBuys";
+import { ProductCard } from "./product-card";
+import { getProductsHandler } from "../../../Handlers/GetProducts";
+import { IProduct } from "../../../Types/IProduct";
+import { ProductCardList } from "./product-list";
 
 const style = {
   position: 'absolute',
-  top: '25%',
+  top: '34%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 300,
+  width: 320,
+  height: 355,
   bgcolor: 'background.paper',
   boxShadow: 20,
   p: 2.5,
@@ -29,6 +34,22 @@ export const ShoppingModal = (props: IShoppingModal) => {
   const handleModalState = () => setOpen(!open)
 
   const [buy, setBuy] = useState<IBuys>(buyProps)
+  const [filterProduct, setFilterProduct] = useState('')
+  const [products, setProducts] = useState<IProduct[]>([])
+
+  const findProducts = async () => {
+    try {
+
+      const response = await getProductsHandler(filterProduct)
+
+      setProducts(response as IProduct[])
+
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => { findProducts() }, [filterProduct])
 
   return <Modal
     open={open}
@@ -42,61 +63,19 @@ export const ShoppingModal = (props: IShoppingModal) => {
       <TextField
         style={{ width: '100%' }}
         id="outlined-basic"
-        label="Produto"
-        variant="outlined"
+        label="Pesquise pelo nome do produto"
+        variant="filled"
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => { setBuy({ ...buy, name: event.target.value }) }}
+        onChange={(event: any) => { setFilterProduct(event.target.value) }}
       />
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginTop: '20px'
+          marginTop: '20px',
+          overflow: 'scroll',
+          height: '225px',
         }}
       >
-        <CurrencyInput
-          onChangeValue={(            
-            _event: React.ChangeEvent<HTMLInputElement>,
-            originalValue: string | number,
-            _maskedValue: string | number
-          ) => {
-            setBuy({ ...buy, price: originalValue as number })
-          }}
-          InputElement={<TextField label="Valor unitário" />}
-        />
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: "row"
-        }}
-        >
-          <Button size="small" onClick={() => {
-            setBuy({
-              ...buy, ...{
-                quantity: buy.quantity + 1,
-                total: (buy.quantity + 1) * buy.price
-              }
-            })
-          }} variant="contained" >+</Button>
-          <TextField
-            disabled
-            value={buy?.quantity}
-            style={{ margin: '0px 10px' }}
-          />
-          <Button
-            size="small"
-            onClick={() => {
-              setBuy({
-                ...buy, ...{
-                  quantity: buy.quantity - 1,
-                  total: (buy.quantity - 1) * buy.price
-                }
-              })
-            }}
-            variant="contained"
-            disabled={Boolean(buy?.quantity === 0)}
-          >-</Button>
-        </div>
+        <ProductCardList products={products} />
       </div>
       <div style={{
         display: 'flex',
