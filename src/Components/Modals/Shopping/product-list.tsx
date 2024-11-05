@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { ICustomer } from "../../../Types/ICustomer"
 import { IProduct } from "../../../Types/IProduct"
 import { ProductCard } from "./product-card"
+import { useState } from "react"
 
 interface IProductCardList {
   products: IProduct[]
@@ -19,7 +19,7 @@ export const ProductCardList = ({ products }: IProductCardList) => {
 
   const renderList = () => {
     return ([] as IProduct[]).concat(products ?? [])?.map((item: IProduct) => {
-      return <ProductCard product={item} key={`card-product-${item.id}`}/>
+      return <ProductCard product={item} key={`card-product-${item.id}`} />
     })
   }
 

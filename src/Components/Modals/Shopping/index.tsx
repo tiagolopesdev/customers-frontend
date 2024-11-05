@@ -1,12 +1,13 @@
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Modal, TextField } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IBuys } from "../../../Types/IBuys";
 import { ProductCard } from "./product-card";
 import { getProductsHandler } from "../../../Handlers/GetProducts";
 import { IProduct } from "../../../Types/IProduct";
 import { ProductCardList } from "./product-list";
+import { MinimarketContext } from "../../../Context/minimarket";
 
 const style = {
   position: 'absolute',
@@ -23,17 +24,18 @@ const style = {
 interface IShoppingModal {
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  buyProps: IBuys
-  setBuyProps: React.Dispatch<React.SetStateAction<IBuys>>
+  buyProps: IBuys[]
+  setBuyProps: React.Dispatch<React.SetStateAction<IBuys[]>>
 }
 
 export const ShoppingModal = (props: IShoppingModal) => {
 
-  const { open, setOpen, buyProps, setBuyProps } = props
+  const { open, setOpen, setBuyProps, buyProps } = props
+
+  const { selectedProducts, setSelectProducts } = useContext(MinimarketContext)
 
   const handleModalState = () => setOpen(!open)
 
-  const [buy, setBuy] = useState<IBuys>(buyProps)
   const [filterProduct, setFilterProduct] = useState('')
   const [products, setProducts] = useState<IProduct[]>([])
 
@@ -42,12 +44,16 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
       const response = await getProductsHandler(filterProduct)
 
+      response?.forEach((item: IProduct) => { item.quantity = 0 })
+
       setProducts(response as IProduct[])
 
     } catch (error) {
 
     }
   }
+
+  // console.log('Select ', selectedProducts)
 
   useEffect(() => { findProducts() }, [filterProduct])
 
@@ -82,11 +88,32 @@ export const ShoppingModal = (props: IShoppingModal) => {
         justifyContent: 'space-evenly',
         marginTop: '25px'
       }}>
-        <Button color="success" variant="contained" onClick={() => { handleModalState() }}>Voltar</Button>
         <Button color="success" variant="contained" onClick={() => {
-          setBuyProps(buy)
-          setOpen(false)
-        }}>Confirmar</Button>
+          handleModalState()
+          setSelectProducts([])
+        }}>Voltar</Button>
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => {
+
+            const buysToInsert: IBuys[] = []
+
+            selectedProducts.forEach((item: IProduct) => {
+              buysToInsert.push({
+                name: item.name,
+                price: item.value,
+                quantity: item.quantity,                
+              })
+            })
+
+            setBuyProps([...buyProps, ...buysToInsert])
+
+            setSelectProducts([])
+
+            setOpen(false)
+          }}
+        >Confirmar</Button>
       </div>
     </Box>
   </Modal>

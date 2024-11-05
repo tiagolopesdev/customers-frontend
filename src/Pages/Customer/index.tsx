@@ -130,5 +130,7 @@ export const Customer = () => {
 
   useEffect(() => { showComponent() }, [customer.buys, customer.payments])
 
+  useEffect(() => { }, [])
+
   return showComponent()
 }

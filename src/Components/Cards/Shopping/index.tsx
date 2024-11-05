@@ -5,8 +5,6 @@ import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
-import { initialStateBuys } from "../../../Types/InitialStateBuys";
-import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 
 interface IShoppingCard {
   customer: ICustomer
@@ -17,7 +15,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const [open, setOpen] = useState(false);
   const [buysTotal, setBuysTotal] = useState(0)
-  const [buyManipulation, setBuyManipulation] = useState<IBuys>(initialStateBuys)
+  const [buyManipulation, setBuyManipulation] = useState<IBuys[]>([])
 
   const handleStateModal = () => setOpen(!open)
 
@@ -70,11 +68,9 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   useEffect(() => {
     
-    if (!ObjectIsEquals(buyManipulation, initialStateBuys)) {
-      const buysListToAdd = customer.buys
-      buysListToAdd?.push(buyManipulation)
-      setCustomer({...customer, buys: buysListToAdd})
-      setBuyManipulation(initialStateBuys)
+    if (buyManipulation.length > 0) {
+      setCustomer({...customer, buys: [...customer.buys ?? [], ...buyManipulation]})
+      setBuyManipulation([])
       return
     }
 
