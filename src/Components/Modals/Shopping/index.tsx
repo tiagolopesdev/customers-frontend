@@ -118,3 +118,35 @@ export const ShoppingModal = (props: IShoppingModal) => {
     </Box>
   </Modal>
 }
+
+/*
+
+const buysManipulation: IBuys[] = buyProps
+
+            console.log('>>> sklds ', buyProps)
+            console.log('sklds ', buysManipulation)
+
+            selectedProducts.forEach((item: IProduct) => {
+              const buyNotAdd = buysManipulation.findIndex((buy: IBuys) => {
+                return buy.name === item.name
+              })
+
+              if (buyNotAdd > 0) {
+                buysManipulation.splice(buyNotAdd, 1,
+                  {
+                    name: item.name,
+                    price: item.value,
+                    quantity: item.quantity,
+                  }
+                )
+              } else {
+                buysManipulation.push({
+                  name: item.name,
+                  price: item.value,
+                  quantity: item.quantity,
+                })
+              }
+            })
+
+            setBuyProps(buysManipulation)
+*/

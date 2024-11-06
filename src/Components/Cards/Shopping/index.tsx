@@ -5,6 +5,7 @@ import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IShoppingCard {
   customer: ICustomer
@@ -35,22 +36,37 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             style: { width: '5px' },
             name: 'jkgjhjgh',
             align: 'center',
-            actions: <Button variant="contained"
+            actions: <Button
+              variant="contained"
+              sx={{ padding: 0.4, margin: 0 }}
               onClick={() => {
                 if (!customer.buys) return
 
                 const result: IBuys[] = []
 
+                console.log('Item ', item)
+                
                 customer.buys.forEach((element) => {
-                  if (element.id !== item.id) result.push(element)
+                  if (item.id === undefined) {
+                    console.log('Undefined')
+                    if (element.name !== item.name) result.push(element)
+                    } else {
+                    console.log('Not Undefined ', element)
+                    if (element.id !== item.id) {
+                      console.log('Element pushed ', element)
+                      result.push(element)
+                    }
+                  }
                 })
 
-                setCustomer({ ...customer, ...{
-                  buys: result,
-                  amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
-                } })
+                setCustomer({
+                  ...customer, ...{
+                    buys: result,
+                    amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
+                  }
+                })
               }}
-            >Ex</Button>
+            ><DeleteIcon sx={{ width: 20 }} /></Button>
           },
         ]
       }
@@ -67,9 +83,24 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   }
 
   useEffect(() => {
-    
+
     if (buyManipulation.length > 0) {
-      setCustomer({...customer, buys: [...customer.buys ?? [], ...buyManipulation]})
+
+      const buysToInsert: IBuys[] = customer.buys ?? []
+
+      buyManipulation.forEach((item) => {
+
+        const buyNotAdd = buysToInsert.findIndex((buy: IBuys) => {
+          return buy.name === item.name && !buy.id
+        })
+
+        if (buyNotAdd > 0) {
+          buysToInsert.splice(buyNotAdd, 1, item)
+        } else {
+          buysToInsert.push(item)
+        }
+      })
+      setCustomer({ ...customer, buys: buysToInsert })
       setBuyManipulation([])
       return
     }
