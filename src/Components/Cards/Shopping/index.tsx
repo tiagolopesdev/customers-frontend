@@ -26,6 +26,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
     if (!customer.buys) return listRow
 
     customer.buys.map((item: IBuys) => {
+      if (item.isEnable) return
       const listToReturn: ITableRowProps = {
         rows: [
           { style: { width: '12dvw' }, name: `${item.name}`, align: 'left', useTooltip: true },
@@ -42,20 +43,13 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
               onClick={() => {
                 if (!customer.buys) return
 
-                const result: IBuys[] = []
+                const result: IBuys[] = structuredClone(customer.buys)
 
-                console.log('Item ', item)
-                
-                customer.buys.forEach((element) => {
+                result.forEach((buySearch: IBuys) => {
                   if (item.id === undefined) {
-                    console.log('Undefined')
-                    if (element.name !== item.name) result.push(element)
-                    } else {
-                    console.log('Not Undefined ', element)
-                    if (element.id !== item.id) {
-                      console.log('Element pushed ', element)
-                      result.push(element)
-                    }
+                    if (item.name === buySearch.name) buySearch.isEnable = true                  
+                  } else {
+                    if (item.id === buySearch.id) buySearch.isEnable = true
                   }
                 })
 
