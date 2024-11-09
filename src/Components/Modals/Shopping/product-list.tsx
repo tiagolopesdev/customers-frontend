@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { IProduct } from "../../../Types/IProduct"
 import { ProductCard } from "./product-card"
-import { useState } from "react"
 
 interface IProductCardList {
   products: IProduct[]

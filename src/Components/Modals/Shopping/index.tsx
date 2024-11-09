@@ -3,7 +3,6 @@
 import { Box, Button, Modal, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { IBuys } from "../../../Types/IBuys";
-import { ProductCard } from "./product-card";
 import { getProductsHandler } from "../../../Handlers/GetProducts";
 import { IProduct } from "../../../Types/IProduct";
 import { ProductCardList } from "./product-list";
