@@ -5,8 +5,7 @@ import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
-import { initialStateBuys } from "../../../Types/InitialStateBuys";
-import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IShoppingCard {
   customer: ICustomer
@@ -17,7 +16,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const [open, setOpen] = useState(false);
   const [buysTotal, setBuysTotal] = useState(0)
-  const [buyManipulation, setBuyManipulation] = useState<IBuys>(initialStateBuys)
+  const [buyManipulation, setBuyManipulation] = useState<IBuys[]>([])
 
   const handleStateModal = () => setOpen(!open)
 
@@ -27,6 +26,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
     if (!customer.buys) return listRow
 
     customer.buys.map((item: IBuys) => {
+      if (item.isEnable) return
       const listToReturn: ITableRowProps = {
         rows: [
           { style: { width: '12dvw' }, name: `${item.name}`, align: 'left', useTooltip: true },
@@ -37,22 +37,30 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             style: { width: '5px' },
             name: 'jkgjhjgh',
             align: 'center',
-            actions: <Button variant="contained"
+            actions: <Button
+              variant="contained"
+              sx={{ padding: 0.4, margin: 0 }}
               onClick={() => {
                 if (!customer.buys) return
 
-                const result: IBuys[] = []
+                const result: IBuys[] = structuredClone(customer.buys)
 
-                customer.buys.forEach((element) => {
-                  if (element.id !== item.id) result.push(element)
+                result.forEach((buySearch: IBuys) => {
+                  if (item.id === undefined) {
+                    if (item.name === buySearch.name) buySearch.isEnable = true                  
+                  } else {
+                    if (item.id === buySearch.id) buySearch.isEnable = true
+                  }
                 })
 
-                setCustomer({ ...customer, ...{
-                  buys: result,
-                  amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
-                } })
+                setCustomer({
+                  ...customer, ...{
+                    buys: result,
+                    amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
+                  }
+                })
               }}
-            >Ex</Button>
+            ><DeleteIcon sx={{ width: 20 }} /></Button>
           },
         ]
       }
@@ -69,12 +77,25 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   }
 
   useEffect(() => {
-    
-    if (!ObjectIsEquals(buyManipulation, initialStateBuys)) {
-      const buysListToAdd = customer.buys
-      buysListToAdd?.push(buyManipulation)
-      setCustomer({...customer, buys: buysListToAdd})
-      setBuyManipulation(initialStateBuys)
+
+    if (buyManipulation.length > 0) {
+
+      const buysToInsert: IBuys[] = customer.buys ?? []
+
+      buyManipulation.forEach((item) => {
+
+        const buyNotAdd = buysToInsert.findIndex((buy: IBuys) => {
+          return buy.name === item.name && !buy.id
+        })
+
+        if (buyNotAdd > 0) {
+          buysToInsert.splice(buyNotAdd, 1, item)
+        } else {
+          buysToInsert.push(item)
+        }
+      })
+      setCustomer({ ...customer, buys: buysToInsert })
+      setBuyManipulation([])
       return
     }
 

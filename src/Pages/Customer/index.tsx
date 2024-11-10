@@ -27,13 +27,14 @@ export const Customer = () => {
 
     if (customerId) {
       result = await findByIdCustomersHandler(customerId) as ICustomer
+      result.buys?.forEach((item) => { item.isEnable = false })
     }
 
     setCustomer(result)
     setCustomerOrigin(structuredClone(result))
     setLoading(!loading)
   }
-  
+
   const managerCommandCustomer = async () => {
     return customer.id ?
       await updateCustomerHandler(customer) :
@@ -111,9 +112,9 @@ export const Customer = () => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           disabled={ObjectIsEquals(customer, customerOrigin)}
-          onClick={async () => { 
+          onClick={async () => {
             await managerCommandCustomer()
-            setLoading(true) 
+            setLoading(true)
           }}
           variant="contained"
         >Salvar</Button>
@@ -129,6 +130,8 @@ export const Customer = () => {
   }
 
   useEffect(() => { showComponent() }, [customer.buys, customer.payments])
+
+  useEffect(() => { }, [])
 
   return showComponent()
 }
