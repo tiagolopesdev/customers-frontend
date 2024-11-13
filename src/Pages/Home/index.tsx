@@ -101,17 +101,6 @@ export const Home = () => {
           variant="contained"
           onClick={() => setOpenQr(!openQr)}
         >Scanner</Button>
-        {/* <div>
-          {openQr ?
-            <QrReader /> :
-            <Button
-              style={{ height: '7vh', margin: '0px 5px' }}
-              color="primary"
-              variant="contained"
-              onClick={() => setOpenQr(!openQr)}
-            >Scanner</Button>
-          }
-        </div> */}
         <Button style={{ height: '7vh', margin: '0px 5px' }} color="info" variant="contained">Exportar</Button>
       </div>
     </div>

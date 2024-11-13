@@ -108,6 +108,8 @@ export const ProductCard = ({ product }: IProductCard) => {
             setIsLoading(false)
             setAddMore(false)
 
+            product.quantity -= 1
+
             let indexToRemove = 0
             const element = selectedProducts.find((item, index) => {
               if (item.id === product.id) {
@@ -115,9 +117,8 @@ export const ProductCard = ({ product }: IProductCard) => {
                 return item
               }
             })
-            const quantityUpdated = element?.quantity as number - 1
 
-            if (quantityUpdated === 0) {
+            if ((element?.quantity as number - 1) === 0) {
               selectedProducts.splice(indexToRemove, 1)
             } else {
               selectedProducts.splice(indexToRemove, 1, {
@@ -125,7 +126,7 @@ export const ProductCard = ({ product }: IProductCard) => {
                 description: product.description,
                 id: product.id,
                 name: product.name,
-                quantity: quantityUpdated,
+                quantity: product.quantity,
                 value: product.value
               })
               setSelectProducts(selectedProducts)

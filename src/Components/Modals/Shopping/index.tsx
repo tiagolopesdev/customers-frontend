@@ -1,6 +1,6 @@
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Button, Modal, TextField } from "@mui/material"
+import { Box, Button, Modal, Skeleton, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { IBuys } from "../../../Types/IBuys";
 import { getProductsHandler } from "../../../Handlers/GetProducts";
@@ -37,24 +37,63 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
   const [filterProduct, setFilterProduct] = useState('')
   const [products, setProducts] = useState<IProduct[]>([])
+  const [loading, setLoading] = useState(false)
 
   const findProducts = async () => {
     try {
-
+      setLoading(true)
       const response = await getProductsHandler(filterProduct)
 
       response?.forEach((item: IProduct) => { item.quantity = 0 })
 
       setProducts(response as IProduct[])
+      setLoading(false)
 
     } catch (error) {
-
+      setLoading(false)
     }
   }
 
-  // console.log('Select ', selectedProducts)
+  console.log('Select ', selectedProducts)
 
   useEffect(() => { findProducts() }, [filterProduct])
+
+  const managerButtons = () => {
+    return <div style={{
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      // marginTop: '25px'
+    }}>
+      <Button color="info" variant="contained" onClick={() => {
+        handleModalState()
+        setSelectProducts([])
+      }}>Voltar</Button>
+      <Button
+        color="success"
+        variant="contained"
+        disabled={selectedProducts.length === 0}
+        onClick={() => {
+
+          const buysToInsert: IBuys[] = []
+
+          selectedProducts.forEach((item: IProduct) => {
+            buysToInsert.push({
+              name: item.name,
+              price: item.value,
+              quantity: item.quantity,
+              productId: item.id
+            })
+          })
+
+          setBuyProps([...buyProps, ...buysToInsert])
+
+          setSelectProducts([])
+
+          setOpen(false)
+        }}
+      >Confirmar</Button>
+    </div>
+  }
 
   return <Modal
     open={open}
@@ -73,48 +112,30 @@ export const ShoppingModal = (props: IShoppingModal) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(event: any) => { setFilterProduct(event.target.value) }}
       />
-      <div
-        style={{
-          marginTop: '20px',
-          overflow: 'scroll',
-          height: '225px',
-        }}
-      >
-        <ProductCardList products={products} />
-      </div>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        marginTop: '25px'
-      }}>
-        <Button color="success" variant="contained" onClick={() => {
-          handleModalState()
-          setSelectProducts([])
-        }}>Voltar</Button>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={() => {
-
-            const buysToInsert: IBuys[] = []
-
-            selectedProducts.forEach((item: IProduct) => {
-              buysToInsert.push({
-                name: item.name,
-                price: item.value,
-                quantity: item.quantity,  
-                productId: item.id              
-              })
-            })
-
-            setBuyProps([...buyProps, ...buysToInsert])
-
-            setSelectProducts([])
-
-            setOpen(false)
-          }}
-        >Confirmar</Button>
-      </div>
+      {
+        loading ?
+          <div style={{ margin: '10px' }}>
+            <Skeleton
+              variant="rectangular"
+              sx={{
+                width: '75vw',
+                height: '28vh',
+                borderRadius: '10px'
+              }}
+            />
+          </div> :
+          <div
+            style={{
+              marginTop: '20px',
+              marginBottom: '15px',
+              overflow: 'scroll',
+              height: '225px',
+            }}
+          >
+            <ProductCardList products={products} />
+          </div>
+      }
+      {managerButtons()}
     </Box>
   </Modal>
 }
