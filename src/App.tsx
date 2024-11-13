@@ -3,13 +3,15 @@ import './App.css'
 import { Home } from './Pages/Home'
 import { Customer } from './Pages/Customer'
 import { MinimarketProvider } from './Context/minimarket'
+import { Login } from './Pages/Login'
 
 function App() {
 
   return <MinimarketProvider>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Login />} />
+        {/* <Route path='/' element={<Home />} /> */}
         <Route path='/customer' element={<Customer />} />
       </Routes>
     </BrowserRouter>
