@@ -5,7 +5,7 @@ import { ScroolCustom } from "../../Styles"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Button } from "@mui/material"
+import { Button, Skeleton } from "@mui/material"
 import { Link } from "react-router-dom"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 
@@ -15,12 +15,23 @@ export const Home = () => {
   const [customers, setCustomers] = useState<ICustomer[]>([])
   const [filter, setFilter] = useState('')
   const [openQr, setOpenQr] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false)
 
   const findCustomers = async () => {
-    const result = filter === '' ?
-      await findCustomersHandler() :
-      await findByNameCustomersHandler(filter)
-    setCustomers(result as ICustomer[])
+    try {
+
+      setLoading(true)
+
+      const result = filter === '' ?
+        await findCustomersHandler() :
+        await findByNameCustomersHandler(filter)
+      setCustomers(result as ICustomer[])
+      setLoading(false)
+
+      // eslint-disable-next-line no-empty
+    } catch (error) {
+      setLoading(false)
+    }
   }
 
   useEffect(() => { findCustomers() }, [filter])
@@ -36,9 +47,22 @@ export const Home = () => {
       filter={filter}
       setFilter={setFilter}
     />
-    <ScroolCustom>
-      <CustomerCardList customers={customers} />
-    </ScroolCustom>
+    {
+      loading ?
+        <div style={{ margin: '10px', height: '100%' }}>
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              width: '95vw',
+              height: '75vh',
+              borderRadius: '10px'
+            }}
+          />
+        </div> :
+        <ScroolCustom>
+          <CustomerCardList customers={customers} />
+        </ScroolCustom>
+    }
     <div
       style={{
         display: "flex",
@@ -77,17 +101,6 @@ export const Home = () => {
           variant="contained"
           onClick={() => setOpenQr(!openQr)}
         >Scanner</Button>
-        {/* <div>
-          {openQr ?
-            <QrReader /> :
-            <Button
-              style={{ height: '7vh', margin: '0px 5px' }}
-              color="primary"
-              variant="contained"
-              onClick={() => setOpenQr(!openQr)}
-            >Scanner</Button>
-          }
-        </div> */}
         <Button style={{ height: '7vh', margin: '0px 5px' }} color="info" variant="contained">Exportar</Button>
       </div>
     </div>

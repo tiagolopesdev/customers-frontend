@@ -13,7 +13,6 @@ export const Navbar = ({ filter, setFilter }: INavbar) => {
       height: '10dvh',
       display: 'flex',
       padding: '10px',
-      borderRadius: '0px 0px 10px 10px'
     }}
   >
     <TextField
