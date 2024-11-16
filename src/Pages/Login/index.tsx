@@ -49,7 +49,7 @@ export const Login = () => {
       console.log('22 dskld ', window.location.host)
       console.log('33 dskld ', window.location.protocol)
 
-      window.location.href = `${window.location.protocol}//${window.location.host}/${pageRedirect === 'home' ? '/' : pageRedirect}`
+      window.location.assign(`${window.location.protocol}//${window.location.host}/${pageRedirect === 'home' ? '/' : pageRedirect}`)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
