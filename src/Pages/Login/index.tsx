@@ -46,7 +46,10 @@ export const Login = () => {
       await login(email)
       setLoading(false)
 
-      navigate(pageRedirect === 'home' ? '/' : pageRedirect)
+      console.log('dskld ', window.location.host)
+      console.log('dskld ', window.location.protocol)
+
+      window.location.href = `${window.location.protocol}//${window.location.host}/${pageRedirect === 'home' ? '/' : pageRedirect}`
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
