@@ -1,16 +1,62 @@
-import { Alert, Button, Card, CardContent, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
-import { useState } from "react"
+import { Alert, Button, Card, CardContent, CircularProgress, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
+import { useContext, useState } from "react"
+import { MinimarketContext } from "../../Context/minimarket"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
+interface IMessageFeedback {
+  message: string
+  type: 'success' | 'warning' | 'info'
+}
 
 export const Login = () => {
 
-  const [email, setEmail] = useState()
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('')
+  const { login } = useContext(MinimarketContext)
 
-  const handleClick = () => {
-    setMessage("Estamos validando seu acesso")
-    setOpen(true);
+  const [paramsUrl] = useSearchParams()
+  const navigate = useNavigate()
+
+  const [email, setEmail] = useState('')
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState<IMessageFeedback>({
+    message: '',
+    type: "success"
+  })
+  const [loading, setLoading] = useState(false)
+
+  const handleClick = async () => {
+    try {
+      if (email === '') {
+        setMessage({
+          message: "E-mail não é válido",
+          type: "warning"
+        })
+        setOpen(true);
+        return
+      }
+
+      setLoading(true)
+      setMessage({
+        message: "Validando seu acesso",
+        type: "success"
+      })
+      setOpen(true);
+
+      const pageRedirect = paramsUrl.get('redirect') as string
+
+      await login(email)
+      setLoading(false)
+
+      navigate(pageRedirect === 'home' ? '/' : pageRedirect)
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setLoading(false)
+      setMessage({
+        message: error.message,
+        type: "warning"
+      })
+      setOpen(true);
+    }
   };
 
   const handleClose = (
@@ -37,7 +83,6 @@ export const Login = () => {
       minHeight: '10vh'
     }}
       onClick={() => {
-        // navigate(`/customer?identity=${customer.id}`)
       }}
       key={`login-page`}
     >
@@ -72,8 +117,13 @@ export const Login = () => {
         <Button
           sx={{ marginTop: 2, width: '50dvw' }}
           variant="contained"
-          onClick={handleClick}
-        >Acessar</Button>
+          onClick={async () => { handleClick() }}
+        >{
+            loading ?
+              <CircularProgress size={25} sx={{ color: '#ffffff' }} /> :
+              'Acessar'
+          }
+        </Button>
       </CardContent>
     </Card>
     <Snackbar
@@ -84,11 +134,11 @@ export const Login = () => {
     >
       <Alert
         onClose={handleClose}
-        severity="success"
+        severity={message.type}
         variant="filled"
         sx={{ width: '100%' }}
       >
-        {message}
+        {message.message}
       </Alert>
     </Snackbar>
   </div>

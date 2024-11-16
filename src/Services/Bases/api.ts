@@ -4,3 +4,7 @@ export const customerChannel = axios.create({
   baseURL: 'https://customers-backend.onrender.com/'
   // baseURL: 'http://localhost:5048/'
 })
+
+export const userChannel = axios.create({
+  baseURL: 'http://localhost:5167/'
+})

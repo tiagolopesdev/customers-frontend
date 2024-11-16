@@ -4,15 +4,32 @@ import { Home } from './Pages/Home'
 import { Customer } from './Pages/Customer'
 import { MinimarketProvider } from './Context/minimarket'
 import { Login } from './Pages/Login'
+import { PrivateRouter } from './Router/privateRouter'
 
 function App() {
 
   return <MinimarketProvider>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Login />} />
-        {/* <Route path='/' element={<Home />} /> */}
-        <Route path='/customer' element={<Customer />} />
+        <Route path='/login' element={<Login />} />
+        <Route
+          path='/'
+          element={
+            <PrivateRouter
+              permitedElement={<Home />}
+              redirect='home'
+            />
+          }
+        />
+        <Route
+          path='/customer'
+          element={
+            <PrivateRouter
+              permitedElement={<Customer />}
+              redirect='customer'
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   </MinimarketProvider>
