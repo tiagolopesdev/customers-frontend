@@ -6,5 +6,6 @@ export const customerChannel = axios.create({
 })
 
 export const userChannel = axios.create({
-  baseURL: 'http://localhost:5167/'
+  baseURL: 'https://mini-market-authentication.onrender.com/'
+  // baseURL: 'http://localhost:5167/'
 })
