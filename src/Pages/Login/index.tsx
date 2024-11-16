@@ -1,7 +1,7 @@
 import { Alert, Button, Card, CardContent, CircularProgress, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 
 interface IMessageFeedback {
   message: string
@@ -13,7 +13,6 @@ export const Login = () => {
   const { login } = useContext(MinimarketContext)
 
   const [paramsUrl] = useSearchParams()
-  const navigate = useNavigate()
 
   const [email, setEmail] = useState('')
   const [open, setOpen] = useState(false);
@@ -46,8 +45,9 @@ export const Login = () => {
       await login(email)
       setLoading(false)
 
-      console.log('dskld ', window.location.host)
-      console.log('dskld ', window.location.protocol)
+      console.log('11 dskld ', pageRedirect)
+      console.log('22 dskld ', window.location.host)
+      console.log('33 dskld ', window.location.protocol)
 
       window.location.href = `${window.location.protocol}//${window.location.host}/${pageRedirect === 'home' ? '/' : pageRedirect}`
 
