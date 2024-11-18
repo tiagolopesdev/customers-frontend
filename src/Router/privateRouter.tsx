@@ -1,5 +1,6 @@
+import { Login } from "../Pages/Login"
 import { validationToken } from "../Utils/validationToken"
-import { Navigate } from "react-router-dom"
+// import { Navigate } from "react-router-dom"
 
 
 interface IPrivateRouter {
@@ -14,14 +15,18 @@ export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => 
     const exp = localStorage.getItem('exp')
     const nbf = localStorage.getItem('nbf')
     
-    const redirectToSend = redirect && redirect !== '' ?
-    `/login?redirect=${redirect}` :
-    '/login'
+    // const redirectToSend = redirect && redirect !== '' ?
+    // `/login?redirect=${redirect}` :
+    // '/login'
 
-    if (!exp || !nbf) return <Navigate to={redirectToSend} />
+    if (!exp || !nbf) {
+      console.log('dskldksldlskd')
+      return <Login toRedirect={redirect} /> // <Navigate to={redirectToSend} />
+    }
 
     if (!validationToken(Number(nbf), Number(exp))) {
-      return <Navigate to={redirectToSend} />
+      return <Login toRedirect={redirect} />
+      // return <Navigate to={redirectToSend} />
     } else {
       return permitedElement
     }
