@@ -7,5 +7,6 @@ export interface IBuys {
   total?: number,
   dateCreated?: string,
   isEnable?: boolean,
-  productId: string
+  productId: string,
+  updatedBy: string
 }

@@ -31,7 +31,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
   const { open, setOpen, setBuyProps, buyProps } = props
 
-  const { selectedProducts, setSelectProducts } = useContext(MinimarketContext)
+  const { selectedProducts, setSelectProducts, user } = useContext(MinimarketContext)
 
   const handleModalState = () => setOpen(!open)
 
@@ -54,15 +54,12 @@ export const ShoppingModal = (props: IShoppingModal) => {
     }
   }
 
-  console.log('Select ', selectedProducts)
-
   useEffect(() => { findProducts() }, [filterProduct])
 
   const managerButtons = () => {
     return <div style={{
       display: 'flex',
-      justifyContent: 'space-evenly',
-      // marginTop: '25px'
+      justifyContent: 'space-evenly'
     }}>
       <Button color="info" variant="contained" onClick={() => {
         handleModalState()
@@ -81,7 +78,8 @@ export const ShoppingModal = (props: IShoppingModal) => {
               name: item.name,
               price: item.value,
               quantity: item.quantity,
-              productId: item.id
+              productId: item.id,
+              updatedBy: user.email
             })
           })
 

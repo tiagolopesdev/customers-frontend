@@ -2,7 +2,8 @@
 import { Box, Button, Modal, TextField } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
 import { IPayments } from "../../../Types/IPayments";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MinimarketContext } from "../../../Context/minimarket";
 
 const style = {
   position: 'absolute',
@@ -26,6 +27,8 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
 
   const handleModalState = () => setOpen(!open)
 
+  const { user } = useContext(MinimarketContext)
+
   const [payment, setPayment] = useState<IPayments>(paymentProps)
 
   return <Modal
@@ -40,10 +43,15 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
       <CurrencyInput
         onChangeValue={(
           _event: React.ChangeEvent<HTMLInputElement>,
-          originalValue: string | number,          
+          originalValue: string | number,
           _maskedValue: string | number
         ) => {
-          setPayment({ ...payment, value: originalValue as number })
+          setPayment({
+            ...payment, ...{
+              value: originalValue as number,
+              updatedBy: user.email
+            }
+          })
         }}
         InputElement={<TextField label="Valor unitário" />}
       />

@@ -1,6 +1,8 @@
+import { useContext } from "react"
 import { Login } from "../Pages/Login"
+import { IUser } from "../Types/IUser"
 import { validationToken } from "../Utils/validationToken"
-// import { Navigate } from "react-router-dom"
+import { MinimarketContext } from "../Context/minimarket"
 
 
 interface IPrivateRouter {
@@ -10,24 +12,20 @@ interface IPrivateRouter {
 
 export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => {
 
+  const { loadUserLocalStorage } = useContext(MinimarketContext)
+
   const managerAccess = () => {
 
-    const exp = localStorage.getItem('exp')
-    const nbf = localStorage.getItem('nbf')
-    
-    // const redirectToSend = redirect && redirect !== '' ?
-    // `/login?redirect=${redirect}` :
-    // '/login'
+    const userLocalStorage = localStorage.getItem('user')
 
-    if (!exp || !nbf) {
-      console.log('dskldksldlskd')
-      return <Login toRedirect={redirect} /> // <Navigate to={redirectToSend} />
-    }
+    if (userLocalStorage === null) return <Login toRedirect={redirect} />
 
-    if (!validationToken(Number(nbf), Number(exp))) {
+    const user = JSON.parse(userLocalStorage)
+
+    if (!validationToken(Number(user.nbf), Number(user.exp))) {
       return <Login toRedirect={redirect} />
-      // return <Navigate to={redirectToSend} />
     } else {
+      loadUserLocalStorage()
       return permitedElement
     }
   }
