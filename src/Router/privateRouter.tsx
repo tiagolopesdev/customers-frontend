@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { Login } from "../Pages/Login"
-import { IUser } from "../Types/IUser"
 import { validationToken } from "../Utils/validationToken"
 import { MinimarketContext } from "../Context/minimarket"
 

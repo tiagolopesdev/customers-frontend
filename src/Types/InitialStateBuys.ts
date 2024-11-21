@@ -6,5 +6,6 @@ export const initialStateBuys: IBuys = {
   price: 0,
   quantity: 0,
   total: 0,
-  productId: ''
+  productId: '',
+  updatedBy: ''
 }
