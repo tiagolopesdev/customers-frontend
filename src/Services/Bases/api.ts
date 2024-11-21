@@ -1,12 +1,10 @@
 import axios from 'axios'
+import { enviroments } from '../../config/enviroments'
 
 export const customerChannel = axios.create({
-  // baseURL: 'https://minimarket-customer-backend-latest.onrender.com/'
-  // baseURL: 'https://customers-backend.onrender.com/'
-  baseURL: 'http://localhost:5048/'
+  baseURL: enviroments.VITE_CUSTOMER_API as string
 })
 
 export const userChannel = axios.create({
-  baseURL: 'https://mini-market-authentication.onrender.com/'
-  // baseURL: 'http://localhost:5167/'
+  baseURL: enviroments.VITE_AUTHENTICATION_API as string
 })
