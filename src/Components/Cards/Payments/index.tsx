@@ -32,7 +32,6 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
         rows: [
           { name: `${item.value}`, align: 'left', style: { width: 50 } },
           { name: `${item.dateCreated}`, align: 'center', style: { width: 80 } },
-          // { name: `${item.value}`, align: 'center', style: { width: 80 } },
         ]
       }
       listRow.push(listToReturn)

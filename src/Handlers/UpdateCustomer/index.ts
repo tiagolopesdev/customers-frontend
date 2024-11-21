@@ -6,7 +6,7 @@ import { IPayments } from "../../Types/IPayments"
 export const updateCustomerHandler = async (customer: ICustomer) => {
 
   try {
-
+  
     delete customer.dateCreated
     delete customer.amountPaid
     delete customer.amountToPay

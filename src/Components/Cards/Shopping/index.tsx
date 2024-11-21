@@ -71,8 +71,8 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   }
 
   const buysTotalCalculate = () => {
-    if (!customer.buys) return 0
-    const result = customer.buys.reduce((accumulator, item) => { return accumulator += (item.total ?? 0) }, 0)
+    if (customer.buys === undefined) return 0
+    const result = customer.buys.reduce((accumulator, item) => { return accumulator += (item.price * item.quantity) }, 0)
     setBuysTotal(result)
   }
 
