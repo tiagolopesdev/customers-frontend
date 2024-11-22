@@ -19,7 +19,7 @@ export const Customer = () => {
   const [customerOrigin, setCustomerOrigin] = useState<ICustomer>(initialStateCustomer)
   const [loading, setLoading] = useState(true)
 
-  const findCustomer = async () => {
+  const findCustomer = async (customerIdParam?: string) => {
 
     const customerId = paramsUrl.get('identity') as string
 
@@ -30,15 +30,23 @@ export const Customer = () => {
       result.buys?.forEach((item) => { item.isEnable = false })
     }
 
+    if (customerIdParam) {
+      result = await findByIdCustomersHandler(customerIdParam) as ICustomer
+      result.buys?.forEach((item) => { item.isEnable = false })
+    }
+
     setCustomer(result)
     setCustomerOrigin(structuredClone(result))
     setLoading(!loading)
   }
 
   const managerCommandCustomer = async () => {
-    return customer.id ?
-      await updateCustomerHandler(customer) :
-      await createCustomerHandler(customer)
+    if (customer.id) {
+      await updateCustomerHandler(customer)
+    } else {
+      const customerCreated = await createCustomerHandler(customer)
+      await findCustomer(customerCreated)
+    }
   }
 
   useEffect(() => {
