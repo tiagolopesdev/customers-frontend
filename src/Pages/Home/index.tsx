@@ -28,7 +28,7 @@ export const Home = () => {
       setCustomers(result as ICustomer[])
       setLoading(false)
 
-      // eslint-disable-next-line no-empty
+      // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
     } catch (error) {
       setLoading(false)
     }

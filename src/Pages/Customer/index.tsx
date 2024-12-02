@@ -3,7 +3,7 @@ import { Values } from "../../Components/Values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
 import { useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { findByIdCustomersHandler } from "../../Handlers/GetByIdCustomer"
 import { ICustomer } from "../../Types/ICustomer"
 import { ObjectIsEquals } from "../../Utils/objectIsEqual"
@@ -15,7 +15,6 @@ import { updateCustomerHandler } from "../../Handlers/UpdateCustomer"
 export const Customer = () => {
 
   const navigate = useNavigate()
-  const [paramsUrl] = useSearchParams()
   const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
   const [customerOrigin, setCustomerOrigin] = useState<ICustomer>(initialStateCustomer)
   const [loading, setLoading] = useState(true)
