@@ -22,7 +22,15 @@ export const Customer = () => {
 
   const findCustomer = async () => {
 
-    const customerId = paramsUrl.get('identity') as string
+    /*
+
+    Possível erro do 404: const customerId = paramsUrl.get('identity') as string
+      - Avaliar possibilidade de colocar no localStorage ou no Context da aplicação
+    
+      */
+    // const customerId = paramsUrl.get('identity') as string
+
+    const customerId = localStorage.getItem('customerId')
 
     let result: ICustomer = initialStateCustomer
 

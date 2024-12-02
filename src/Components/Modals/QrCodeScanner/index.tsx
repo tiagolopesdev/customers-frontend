@@ -51,7 +51,8 @@ export const QrCodeScannerModal = (props: IQrCodeScannerModal) => {
         }) as string
       }
 
-      navigate(`/customer?identity=${idCustomer}`)
+      localStorage.setItem('customerId', idCustomer)
+      navigate(`/customer`)
 
       setLoading(false)
 

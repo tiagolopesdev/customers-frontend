@@ -17,7 +17,8 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
     minHeight: '10vh'
   }}
     onClick={() => {
-      navigate(`/customer?identity=${customer.id}`)
+      localStorage.setItem('customerId', customer.id as string)
+      navigate(`/customer`)
     }}
     key={`customer-${customer.name}-${customer.id}`}
   >

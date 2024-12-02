@@ -61,7 +61,7 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
 
   const logout = () => {
     setUser(initialPropertiesUser)
-    localStorage.removeItem('user')
+    localStorage.clear()
   }
 
   return <MinimarketContext.Provider value={{
