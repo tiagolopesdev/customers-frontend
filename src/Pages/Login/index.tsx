@@ -49,7 +49,7 @@ export const Login = ({ toRedirect }: ILogin) => {
       // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
       navigate({ pathname: toRedirect === 'home' ? '' : toRedirect })
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setLoading(false)
       setMessage({
@@ -118,7 +118,10 @@ export const Login = ({ toRedirect }: ILogin) => {
         <Button
           sx={{ marginTop: 2, width: '50dvw' }}
           variant="contained"
-          onClick={async () => { handleClick() }}
+          onClick={async () => {
+            handleClick()
+            window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
+          }}
         >{
             loading ?
               <CircularProgress size={25} sx={{ color: '#ffffff' }} /> :
