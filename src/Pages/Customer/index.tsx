@@ -21,14 +21,6 @@ export const Customer = () => {
 
   const findCustomer = async () => {
 
-    /*
-
-    Possível erro do 404: const customerId = paramsUrl.get('identity') as string
-      - Avaliar possibilidade de colocar no localStorage ou no Context da aplicação
-    
-      */
-    // const customerId = paramsUrl.get('identity') as string
-
     const customerId = localStorage.getItem('customerId')
 
     let result: ICustomer = initialStateCustomer
@@ -133,10 +125,9 @@ export const Customer = () => {
         onClick={async () => {
           if (customer.id) {
             await updateCustomerHandler(customer)
-            // setLoading(true)
           } else {
-            await createCustomerHandler(customer)
-            // window.location.assign(`${window.location.protocol}//${window.location.host}/customer`)
+            const customerId = await createCustomerHandler(customer)
+            localStorage.setItem('customerId', customerId as string)
           }
           setLoading(true)
         }}
