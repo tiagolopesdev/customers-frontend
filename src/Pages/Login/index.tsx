@@ -44,7 +44,7 @@ export const Login = ({ toRedirect }: ILogin) => {
       await login(email)
       setLoading(false)
 
-      window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '/' : toRedirect}`)
+      window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
