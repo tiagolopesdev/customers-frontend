@@ -34,7 +34,10 @@ export const Home = () => {
     }
   }
 
-  useEffect(() => { findCustomers() }, [filter])
+  useEffect(() => { 
+    localStorage.removeItem('customerId')
+    findCustomers() 
+  }, [filter])
 
   return <div
     style={{
