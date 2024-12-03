@@ -69,6 +69,7 @@ export const Customer = () => {
               marginBottom: '20px'
             }}
             defaultValue={customer.name}
+            label="Nome do cliente"
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
           />
