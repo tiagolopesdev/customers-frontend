@@ -4,7 +4,6 @@ import { Home } from './Pages/Home'
 import { Customer } from './Pages/Customer'
 import { MinimarketContext, MinimarketProvider } from './Context/minimarket'
 import { Login } from './Pages/Login'
-import { PrivateRouter } from './Router/privateRouter'
 import { useContext } from 'react'
 import { validationToken } from './Utils/validationToken'
 
