@@ -46,7 +46,6 @@ export const Login = ({ toRedirect }: ILogin) => {
 
       window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
       console.log('Redirect 1')
-      // navigate({ pathname: toRedirect === 'home' ? '' : toRedirect })
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
