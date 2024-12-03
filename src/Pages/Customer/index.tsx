@@ -135,8 +135,8 @@ export const Customer = () => {
             await updateCustomerHandler(customer)
             setLoading(true)
           } else {
-            const customerId = await createCustomerHandler(customer)
-            window.location.assign(`${window.location.protocol}//${window.location.host}/customer?identity=${customerId}`)
+            await createCustomerHandler(customer)
+            window.location.assign(`${window.location.protocol}//${window.location.host}/customer`)
           }
         }}
         variant="contained"
