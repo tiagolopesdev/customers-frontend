@@ -1,7 +1,8 @@
 
 
 export const validationToken = (nbf: number, exp: number) => {
-  return (exp * 1000) < Date.now() || (nbf * 1000) > Date.now() ? 
-    false : 
-    true
+
+  const currentTime = Math.floor(Date.now() / 1000)
+
+  return currentTime < nbf || currentTime > exp ? false : true
 }
