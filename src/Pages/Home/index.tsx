@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CustomerCardList } from "../../Components/Cards/Customer/customerList"
 import { Navbar } from "../../Components/Navbar"
 import { ScroolCustom } from "../../Styles"
@@ -8,10 +8,12 @@ import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
 import { Button, Skeleton } from "@mui/material"
 import { Link } from "react-router-dom"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
+import { MinimarketContext } from "../../Context/minimarket"
 
 
 export const Home = () => {
 
+  const { logout } = useContext(MinimarketContext)
   const [customers, setCustomers] = useState<ICustomer[]>([])
   const [filter, setFilter] = useState('')
   const [openQr, setOpenQr] = useState<boolean>(false);
@@ -34,9 +36,9 @@ export const Home = () => {
     }
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     localStorage.removeItem('customerId')
-    findCustomers() 
+    findCustomers()
   }, [filter])
 
   return <div
@@ -104,7 +106,13 @@ export const Home = () => {
           variant="contained"
           onClick={() => setOpenQr(!openQr)}
         >Scanner</Button>
-        <Button style={{ height: '7vh', margin: '0px 5px' }} color="info" variant="contained">Exportar</Button>
+        <Button
+          style={{ height: '7vh', margin: '0px 5px' }}
+          color="error"
+          variant="contained"
+          onClick={() => { logout() }}
+        >Sair</Button>
+        {/* <Button style={{ height: '7vh', margin: '0px 5px' }} color="info" variant="contained">Exportar</Button> */}
       </div>
     </div>
     {
