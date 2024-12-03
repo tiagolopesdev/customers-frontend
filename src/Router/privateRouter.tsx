@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Login } from "../Pages/Login"
 import { MinimarketContext } from "../Context/minimarket"
 
@@ -12,38 +12,60 @@ export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => 
 
   const { loadUserLocalStorage } = useContext(MinimarketContext)
 
-  // const [isValidToken, setIsValidToken] = useState(false)
+  const [isValid, setIsValid] = useState(false)
 
   const validationToken = (nbf: number, exp: number) => {
     const currentTime = Math.floor(Date.now() / 1000)
-    if (currentTime < nbf) return false
-    if (currentTime > exp) return false
-    return true
+    return currentTime >= nbf && currentTime <= exp;
   }
 
-  const managerAccess = () => {
-
+  useEffect(() => {
     const userLocalStorage = localStorage.getItem('user')
 
     console.log('UserLocal: ', userLocalStorage)
 
-    if (userLocalStorage === null) return <Login toRedirect={redirect} />
+    if (userLocalStorage === null) {
+      setIsValid(false)
+      return //<Login toRedirect={redirect} />
+    }
 
     const user = JSON.parse(userLocalStorage)
 
-    // validationToken(user.nbf, user.exp)
-
     console.log('User converted ', user)
 
-    if (!validationToken(user.nbf, user.exp)) {
-      console.log('Not validated: ', user)
-      return <Login toRedirect={redirect} />
-    } else {
-      console.log('Validated: ', user)
+    if (validationToken(user.nbf, user.exp)) {
       loadUserLocalStorage()
-      return permitedElement
+      setIsValid(true)
+    } else {
+      setIsValid(false)
     }
-  }
+  }, [loadUserLocalStorage])
 
-  return managerAccess()
+  return isValid ? permitedElement : <Login toRedirect={redirect} />
+
+  // const managerAccess = () => {
+
+  //   const userLocalStorage = localStorage.getItem('user')
+
+  //   console.log('UserLocal: ', userLocalStorage)
+
+  //   if (userLocalStorage === null) return <Login toRedirect={redirect} />
+
+  //   const user = JSON.parse(userLocalStorage)
+
+  //   // validationToken(user.nbf, user.exp)
+
+  //   console.log('User converted ', user)
+
+  //   if (!validationToken(user.nbf, user.exp)) {
+  //     console.log('Not validated: ', user)
+  //     return <Login toRedirect={redirect} />
+  //   } else {
+  //     console.log('Validated: ', user)
+  //     loadUserLocalStorage()
+  //     return permitedElement
+  //   }
+  // }
+
+  // return managerAccess()
 }
