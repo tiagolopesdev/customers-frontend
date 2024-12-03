@@ -1,7 +1,6 @@
 import { Alert, Button, Card, CardContent, CircularProgress, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
-import { useNavigate } from "react-router-dom"
 
 interface IMessageFeedback {
   message: string
@@ -16,7 +15,6 @@ export const Login = ({ toRedirect }: ILogin) => {
 
   const { login } = useContext(MinimarketContext)
 
-  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState<IMessageFeedback>({
@@ -46,8 +44,9 @@ export const Login = ({ toRedirect }: ILogin) => {
       await login(email)
       setLoading(false)
 
-      // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
-      navigate({ pathname: toRedirect === 'home' ? '' : toRedirect })
+      window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
+      console.log('Redirect 1')
+      // navigate({ pathname: toRedirect === 'home' ? '' : toRedirect })
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -115,12 +114,23 @@ export const Login = ({ toRedirect }: ILogin) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(event: any) => { setEmail(event.target.value ?? '') }}
         />
+        {/* <Link
+          component="button"
+          variant="body2"          
+          onClick={() => {
+            console.info("I'm a button.");
+          }}
+          
+        >
+          Button Link
+        </Link> */}
+        {/* <Link to={{ pathname: toRedirect === 'home' ? '' : toRedirect }} >Acessar</Link> */}
         <Button
           sx={{ marginTop: 2, width: '50dvw' }}
           variant="contained"
           onClick={async () => {
             handleClick()
-            window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
+            // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
           }}
         >{
             loading ?
