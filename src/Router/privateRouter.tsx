@@ -45,8 +45,7 @@ export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => 
     // }
   }
 
-  const showElement = () => {
-    managerAccess()
+  const showElement = () => {    
     if (isValidToken) {
       return <Login toRedirect={redirect} />
     } else {
@@ -55,7 +54,7 @@ export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => 
     }
   }
 
-  useEffect(() => { showElement() }, [isValidToken])
+  useEffect(() => { managerAccess() }, [isValidToken])
 
   return showElement()
 }

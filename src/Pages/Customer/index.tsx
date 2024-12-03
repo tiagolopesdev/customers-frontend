@@ -23,7 +23,14 @@ export const Customer = () => {
 
     const customerId = localStorage.getItem('customerId')
 
-    let result: ICustomer = initialStateCustomer
+    let result: ICustomer = {
+      id: '',
+      amountPaid: 0,
+      amountToPay: 0,
+      name: '',
+      buys: [],
+      payments: []
+    }
 
     if (customerId) {
       result = await findByIdCustomersHandler(customerId) as ICustomer
