@@ -17,13 +17,17 @@ export const PrivateRouter = ({ permitedElement, redirect }: IPrivateRouter) => 
 
     const userLocalStorage = localStorage.getItem('user')
 
+    console.log('UserLocal: ', userLocalStorage)
+    
     if (userLocalStorage === null) return <Login toRedirect={redirect} />
-
+    
     const user = JSON.parse(userLocalStorage)
-
+    
     if (!validationToken(Number(user.nbf), Number(user.exp))) {
+      console.log('Not validated: ', userLocalStorage)
       return <Login toRedirect={redirect} />
     } else {
+      console.log('Validated: ', userLocalStorage)
       loadUserLocalStorage()
       return permitedElement
     }
