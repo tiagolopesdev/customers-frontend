@@ -70,10 +70,17 @@ export const getByNameCustomers = async (name: string) => {
   }
 }
 
-export const getAllCustomers = async () => {
+export const getAllCustomers = async (usersSales?: string, owing?: boolean) => {
   try {
 
-    const response = await customerChannel.get(`api/Customer/GetAllCustomer`)
+    const response = await customerChannel.get(`api/Customer/GetAllCustomer`,
+      {
+        params: {
+          UsersSales: usersSales,
+          Owing: owing
+        }
+      }
+    )
 
     return response.data as ICustomer[]
 
