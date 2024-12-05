@@ -38,7 +38,8 @@ export const Home = () => {
 
       const result = filter === '' ?
         await findCustomersHandler(usersSales, filters.owing) :
-        await findByNameCustomersHandler(filter)
+        await findByNameCustomersHandler(filter, usersSales, filters.owing)
+
       setCustomers(result as ICustomer[])
       setLoading(false)
 
