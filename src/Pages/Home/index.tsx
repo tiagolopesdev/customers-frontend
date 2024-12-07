@@ -10,6 +10,7 @@ import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
 
 interface IFilters {
+  all: boolean,
   owing: boolean,
   usersSales: boolean,
   name: string
@@ -23,6 +24,7 @@ export const Home = () => {
   const [openQr, setOpenQr] = useState<boolean>(false);
   const [loading, setLoading] = useState(false)
   const [filters, setFilters] = useState<IFilters>({
+    all: true,
     name: '',
     owing: false,
     usersSales: false
@@ -64,7 +66,7 @@ export const Home = () => {
     <div
       style={{
         backgroundColor: '#ffffff',
-        height: '10dvh',
+        height: '15dvh',
         display: 'flex',
         padding: '10px',
         flexDirection: 'column'
@@ -88,17 +90,48 @@ export const Home = () => {
       >
         <Chip
           sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-          label="Veacos"
-          color={filters.owing ? 'info' : 'default'}
-          variant={filters.owing ? 'filled' : 'outlined'}
-          onClick={() => { setFilters({ ...filters, owing: !filters.owing }) }}
+          label="Todos"
+          color={filters.all ? 'info' : 'default'}
+          variant={filters.all ? 'filled' : 'outlined'}
+          onClick={() => {
+            setFilters({
+              ...filters, ...{
+                owing: false,
+                usersSales: false,
+                all: !filters.all
+              }
+            })
+          }}
         />
         <Chip
           sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-          label="Minhas vendas"
+          label="Veacos"
+          color={filters.owing ? 'info' : 'default'}
+          variant={filters.owing ? 'filled' : 'outlined'}
+          onClick={() => {
+            setFilters({
+              ...filters, ...{
+                owing: !filters.owing,
+                usersSales: false,
+                all: false
+              }
+            })
+          }}
+        />
+        <Chip
+          sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+          label="Recebidos"
           color={filters.usersSales ? 'info' : 'default'}
           variant={filters.usersSales ? 'filled' : 'outlined'}
-          onClick={() => { setFilters({ ...filters, usersSales: !filters.usersSales }) }}
+          onClick={() => {
+            setFilters({
+              ...filters, ...{
+                all: false,
+                owing: false,
+                usersSales: !filters.usersSales
+              }
+            })
+          }}
         />
       </div>
     </div>
