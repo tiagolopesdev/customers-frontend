@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react"
+import { CSSProperties, useContext, useEffect, useState } from "react"
 import { ScroolCustom } from "../../Styles"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Accordion, AccordionDetails, AccordionSummary, Button, Skeleton, TextField, TextFieldProps, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Skeleton, TextField, TextFieldProps, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
@@ -16,12 +16,25 @@ interface IFilters {
   dateUsersSales: Dayjs | null
 }
 
+interface IStateFindData {
+  state: 'selectdate' | 'error' | 'search' | ''
+}
+
+const stateStyle: CSSProperties = {
+  width: '95vw',
+  height: '75vh',
+  borderRadius: '10px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
 export const Received = () => {
 
   const { logout, user } = useContext(MinimarketContext)
   const [customers, setCustomers] = useState<ICustomer[]>([])
   const [filter, setFilter] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [state, setState] = useState<IStateFindData>({ state: 'selectdate' })
   const [filters, setFilters] = useState<IFilters>({
     all: true,
     name: '',
@@ -39,29 +52,26 @@ export const Received = () => {
   const findCustomers = async () => {
     try {
 
-      setLoading(true)
-
       if (filters.dateUsersSales === null) return
+
+      setState({ state: 'search' })
 
       const result = filter === '' ?
         await findCustomersHandler(user.email, filters.dateUsersSales) :
         await findByNameCustomersHandler(filter, user.email)
 
       setCustomers(result as ICustomer[])
-      setLoading(false)
+      setState({ state: '' })
 
       // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
     } catch (error) {
-      setLoading(false)
+      setState({ state: 'error' })
     }
   }
 
   useEffect(() => {
-    // if (localStorage.getItem('customerId') !== null) localStorage.removeItem('customerId')
     findCustomers()
   }, [filters.dateUsersSales])
-
-  console.log('Filters ', filters)
 
   const showCustomers = () => {
     return customers.map((item) => {
@@ -89,6 +99,51 @@ export const Received = () => {
     })
   }
 
+  const managerShowData = () => {
+    if (state.state === 'selectdate') {
+      return <div style={stateStyle}>
+        <DatePicker
+          inputFormat="DD/MM/YYYY"
+          value={filters.dateUsersSales}
+          onChange={(newValue: Dayjs | null) => {
+            setFilters({ ...filters, dateUsersSales: newValue })
+          }}
+          renderInput={(params: TextFieldProps) => <TextField
+            style={{ width: '200px', marginRight: '10px' }}
+            {...params}
+            label="Insira a data"
+          />
+          }
+        />
+      </div >
+    } else if (state.state === 'search') {
+      return <div style={{ margin: '10px', height: '100%' }}>
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            width: '95vw',
+            height: '75vh',
+            borderRadius: '10px'
+          }}
+        />
+      </div>
+    } else if (state.state === 'error') {
+      return <div style={stateStyle}>
+        <Typography
+          sx={{ fontWeight: 550, color: '#7a7a7a' }}
+        >Não foi possível obter os dados</Typography>
+      </div >
+    } else {
+      return <ScroolCustom>
+        {showCustomers()}
+      </ScroolCustom>
+    }
+  }
+  const handleDelete = () => {
+    setState({ state: 'selectdate' })
+    setFilters({ ...filters, dateUsersSales: null })
+  };
+
   return <div
     style={{
       display: 'flex',
@@ -102,7 +157,9 @@ export const Received = () => {
         height: '15dvh',
         display: 'flex',
         padding: '10px',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'space-around'
       }}
     >
       <TextField
@@ -114,37 +171,19 @@ export const Received = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(event: any) => { setFilter(event.target.value ?? '') }}
       />
-      <DatePicker
-        inputFormat="DD/MM/YYYY"
-        value={filters.dateUsersSales}
-        onChange={(newValue: Dayjs | null) => {
-          setFilters({ ...filters, dateUsersSales: newValue })
-        }}
-        renderInput={(params: TextFieldProps) => <TextField
-          style={{ width: '200px', marginRight: '10px' }}
-          {...params}
-          label="Insira a data"
-        />
-        }
-      />
+      {
+        state.state === '' ?
+          <Chip
+            sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+            label="Todos"
+            color='info'
+            variant='filled'
+            onDelete={handleDelete}
+          /> :
+          ''
+      }
     </div>
-    {
-      loading ?
-        <div style={{ margin: '10px', height: '100%' }}>
-          <Skeleton
-            variant="rectangular"
-            sx={{
-              width: '95vw',
-              height: '75vh',
-              borderRadius: '10px'
-            }}
-          />
-        </div> :
-        <ScroolCustom>
-          {showCustomers()}
-          {/* <CustomerCardList customers={customers} /> */}
-        </ScroolCustom>
-    }
+    {managerShowData()}
     <div
       style={{
         display: "flex",

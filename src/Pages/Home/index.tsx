@@ -4,12 +4,16 @@ import { ScroolCustom } from "../../Styles"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Button, Chip, Skeleton, TextField, TextFieldProps } from "@mui/material"
+import { Button, Chip, Skeleton, TextField } from "@mui/material"
 import { Link } from "react-router-dom"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
-import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import { Dayjs } from "dayjs"
+
+import AddIcon from '@mui/icons-material/Add';
+import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface IFilters {
   all: boolean,
@@ -126,38 +130,6 @@ export const Home = () => {
             })
           }}
         />
-        <Chip
-          sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-          label="Recebidos"
-          color={filters.usersSales ? 'info' : 'default'}
-          variant={filters.usersSales ? 'filled' : 'outlined'}
-          onClick={() => {
-            setFilters({
-              ...filters, ...{
-                all: false,
-                owing: false,
-                usersSales: !filters.usersSales
-              }
-            })
-          }}
-        />
-        {
-          filters.usersSales ?
-            <DatePicker
-              inputFormat="DD/MM/YYYY"
-              value={filters.dateUsersSales}
-              onChange={(newValue: Dayjs | null) => {
-                setFilters({ ...filters, dateUsersSales: newValue })
-              }}
-              renderInput={(params: TextFieldProps) => <TextField
-                style={{ width: '200px', marginRight: '10px' }}
-                {...params}
-                onClick={() => { console.log('Clicked ok') }}
-              />
-              }
-            /> :
-            ""
-        }
       </div>
     </div>
     {
@@ -179,7 +151,7 @@ export const Home = () => {
     <div
       style={{
         display: "flex",
-        flex: 1
+        flex: 1,
       }}
     >
       <div
@@ -189,7 +161,7 @@ export const Home = () => {
           backgroundColor: '#1864BA',
           display: "flex",
           padding: '10px',
-          width: '100vw',
+          width: '100dvw',
           justifyContent: "center",
           height: '10dvh',
           flexShrink: 0,
@@ -206,14 +178,14 @@ export const Home = () => {
             style={{
               color: '#ffffff'
             }}
-          >Adicionar</Link>
-        </Button>        
+          ><AddIcon /></Link>
+        </Button>
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="primary"
           variant="contained"
           onClick={() => setOpenQr(!openQr)}
-        >Scanner</Button>
+        ><CenterFocusWeakIcon /></Button>
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
@@ -224,15 +196,14 @@ export const Home = () => {
             style={{
               color: '#ffffff'
             }}
-          >Recebidos</Link>
+          ><AttachMoneyIcon /></Link>
         </Button>
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="error"
           variant="contained"
           onClick={() => { logout() }}
-        >Sair</Button>
-        {/* <Button style={{ height: '7vh', margin: '0px 5px' }} color="info" variant="contained">Exportar</Button> */}
+        ><LogoutIcon /></Button>
       </div>
     </div>
     {
