@@ -4,16 +4,19 @@ import { ScroolCustom } from "../../Styles"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Button, Chip, Skeleton, TextField } from "@mui/material"
+import { Button, Chip, Skeleton, TextField, TextFieldProps } from "@mui/material"
 import { Link } from "react-router-dom"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
+import { Dayjs } from "dayjs"
 
 interface IFilters {
   all: boolean,
   owing: boolean,
   usersSales: boolean,
-  name: string
+  name: string,
+  dateUsersSales: Dayjs | null
 }
 
 export const Home = () => {
@@ -27,7 +30,8 @@ export const Home = () => {
     all: true,
     name: '',
     owing: false,
-    usersSales: false
+    usersSales: false,
+    dateUsersSales: null
   })
 
   const findCustomers = async () => {
@@ -35,11 +39,13 @@ export const Home = () => {
 
       setLoading(true)
 
+      if (filters.usersSales && filters.dateUsersSales === null) return
+
       let usersSales = undefined
       if (filters.usersSales) usersSales = user.email
 
       const result = filter === '' ?
-        await findCustomersHandler(usersSales, filters.owing) :
+        await findCustomersHandler(usersSales, filters.dateUsersSales, filters.owing) :
         await findByNameCustomersHandler(filter, usersSales, filters.owing)
 
       setCustomers(result as ICustomer[])
@@ -51,10 +57,12 @@ export const Home = () => {
     }
   }
 
+  console.log('Date: ', filters)
+
   useEffect(() => {
-    localStorage.removeItem('customerId')
+    if (localStorage.getItem('customerId') !== null) localStorage.removeItem('customerId')
     findCustomers()
-  }, [filter, filters.usersSales, filters.owing])
+  }, [filter, filters.dateUsersSales, filters.owing])
 
   return <div
     style={{
@@ -133,6 +141,23 @@ export const Home = () => {
             })
           }}
         />
+        {
+          filters.usersSales ?
+            <DatePicker
+              inputFormat="DD/MM/YYYY"
+              value={filters.dateUsersSales}
+              onChange={(newValue: Dayjs | null) => {
+                setFilters({ ...filters, dateUsersSales: newValue })
+              }}
+              renderInput={(params: TextFieldProps) => <TextField
+                style={{ width: '200px', marginRight: '10px' }}
+                {...params}
+                onClick={() => { console.log('Clicked ok') }}
+              />
+              }
+            /> :
+            ""
+        }
       </div>
     </div>
     {
@@ -182,13 +207,25 @@ export const Home = () => {
               color: '#ffffff'
             }}
           >Adicionar</Link>
-        </Button>
+        </Button>        
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="primary"
           variant="contained"
           onClick={() => setOpenQr(!openQr)}
         >Scanner</Button>
+        <Button
+          style={{ height: '7vh', margin: '0px 5px' }}
+          color="success"
+          variant="contained"
+        >
+          <Link
+            to="/received"
+            style={{
+              color: '#ffffff'
+            }}
+          >Recebidos</Link>
+        </Button>
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="error"

@@ -5,32 +5,46 @@ import { Customer } from './Pages/Customer'
 import { MinimarketProvider } from './Context/minimarket'
 import { Login } from './Pages/Login'
 import { PrivateRouter } from './Router/privateRouter'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { Received } from './Pages/Received'
 
 function App() {
 
   return <MinimarketProvider>
     <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route
-          path='/'
-          element={
-            <PrivateRouter
-              permitedElement={<Home />}
-              redirect='home'
-            />
-          }
-        />
-        <Route
-          path='/customer'
-          element={
-            <PrivateRouter
-              permitedElement={<Customer />}
-              redirect='customer'
-            />
-          }
-        />
-      </Routes>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ru'>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route
+            path='/'
+            element={
+              <PrivateRouter
+                permitedElement={<Home />}
+                redirect='home'
+              />
+            }
+          />
+          <Route
+            path='/customer'
+            element={
+              <PrivateRouter
+                permitedElement={<Customer />}
+                redirect='customer'
+              />
+            }
+          />
+          <Route
+            path='/received'
+            element={
+              <PrivateRouter
+                permitedElement={<Received />}
+                redirect='received'
+              />
+            }
+          />
+        </Routes>
+      </LocalizationProvider>
     </BrowserRouter>
   </MinimarketProvider>
 }
