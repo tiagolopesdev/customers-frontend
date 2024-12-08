@@ -123,7 +123,7 @@ export const Received = () => {
         renderInput={(params: TextFieldProps) => <TextField
           style={{ width: '200px', marginRight: '10px' }}
           {...params}
-          onClick={() => { console.log('Clicked ok') }}
+          label="Insira a data"
         />
         }
       />
