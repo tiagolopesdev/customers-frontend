@@ -44,7 +44,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
       setLoading(true)
       const response = await getProductsHandler(filterProduct)
 
-      response?.forEach((item: IProduct) => { item.quantity = 0 })
+      // response?.forEach((item: IProduct) => { item.quantity = 0 })
 
       setProducts(response as IProduct[])
       setLoading(false)

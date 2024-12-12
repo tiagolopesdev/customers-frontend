@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AddCircle from "@mui/icons-material/AddCircle"
 import RemoveCircle from "@mui/icons-material/RemoveCircle"
-import { Alert, Card, CardContent, IconButton, Typography } from "@mui/material"
+import { Alert, Card, CardContent, Chip, IconButton, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { IProduct } from "../../../Types/IProduct"
 import { hasStockService } from "../../../Services/Products"
@@ -29,17 +29,19 @@ export const ProductCard = ({ product }: IProductCard) => {
       if ((result - quantity) === 0) {
         setAddMore(true)
         setIsLoading(false)
+        return true
       } else {
-        product.quantity = product.quantity + 1
         setQuantity(quantity + 1)
         setAddMore(false)
         setIsLoading(false)
+        return false
       }
     } catch (error: any) {
       setIsLoading(false)
       console.log('Error: ', error.message)
     }
   }
+
 
   return <Card sx={{ minWidth: 270, width: 320, margin: '2px 0px', backgroundColor: '#ebebeb' }}>
     <CardContent
@@ -66,14 +68,17 @@ export const ProductCard = ({ product }: IProductCard) => {
                 {product.description ?? "Produto sem descrição cadastrada"}
               </Typography>
               <div style={{
-                display: 'flex'                
+                display: 'flex',
+                alignItems: 'center'
               }}>
                 <Typography gutterBottom sx={{ fontSize: 15, fontWeight: 550, margin: 0, color: 'green' }}>
                   {`R$ ${product.value}`}
                 </Typography>
-                {/* <Typography gutterBottom sx={{ fontSize: 15, fontWeight: 550, margin: '0px 10px', color: 'ButtonFace' }}>
-                  {`Estoque: ${product.quantity}`}
-                </Typography> */}
+                <Chip
+                  sx={{ height: 18, margin: '0px 5px', fontWeight: 550, color: 'ButtonShadow' }}
+                  label={`Estoque: ${product.quantity}`}
+                  variant='outlined'
+                />
               </div>
             </div>
         }
@@ -81,7 +86,8 @@ export const ProductCard = ({ product }: IProductCard) => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <IconButton sx={{ padding: 0 }} onClick={async () => {
-          await hasStock()
+
+          const stockResult = await hasStock()
 
           const index = selectedProducts.findIndex((item) => { return item.id === product.id })
 
@@ -90,11 +96,11 @@ export const ProductCard = ({ product }: IProductCard) => {
             description: product.description,
             id: product.id,
             name: product.name,
-            quantity: product.quantity,
+            quantity: quantity + 1,
             value: product.value
           }
 
-          if (product.quantity <= 0) return
+          if (productToInsert.quantity <= 0 || stockResult) return
 
           if (index >= 0) {
             selectedProducts.splice(index, 1, productToInsert)
@@ -117,8 +123,6 @@ export const ProductCard = ({ product }: IProductCard) => {
             setIsLoading(false)
             setAddMore(false)
 
-            product.quantity -= 1
-
             let indexToRemove = 0
             const element = selectedProducts.find((item, index) => {
               if (item.id === product.id) {
@@ -135,7 +139,7 @@ export const ProductCard = ({ product }: IProductCard) => {
                 description: product.description,
                 id: product.id,
                 name: product.name,
-                quantity: product.quantity,
+                quantity: quantity - 1,
                 value: product.value
               })
               setSelectProducts(selectedProducts)
