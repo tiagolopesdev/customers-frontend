@@ -65,9 +65,16 @@ export const ProductCard = ({ product }: IProductCard) => {
               <Typography gutterBottom sx={{ fontSize: 12, color: 'ButtonShadow', fontStyle: 'italic' }}>
                 {product.description ?? "Produto sem descrição cadastrada"}
               </Typography>
-              <Typography gutterBottom sx={{ fontSize: 15, fontWeight: 550, margin: 0, color: 'green' }}>
-                {`R$ ${product.value}`}
-              </Typography>
+              <div style={{
+                display: 'flex'                
+              }}>
+                <Typography gutterBottom sx={{ fontSize: 15, fontWeight: 550, margin: 0, color: 'green' }}>
+                  {`R$ ${product.value}`}
+                </Typography>
+                {/* <Typography gutterBottom sx={{ fontSize: 15, fontWeight: 550, margin: '0px 10px', color: 'ButtonFace' }}>
+                  {`Estoque: ${product.quantity}`}
+                </Typography> */}
+              </div>
             </div>
         }
 
@@ -86,6 +93,8 @@ export const ProductCard = ({ product }: IProductCard) => {
             quantity: product.quantity,
             value: product.value
           }
+
+          if (product.quantity <= 0) return
 
           if (index >= 0) {
             selectedProducts.splice(index, 1, productToInsert)
