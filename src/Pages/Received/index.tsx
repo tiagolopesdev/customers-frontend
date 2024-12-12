@@ -7,7 +7,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Skeleton, 
 import { Link } from "react-router-dom"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import { Dayjs } from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 
 interface IFilters {
   all: boolean,
@@ -77,21 +77,57 @@ export const Received = () => {
     return customers.map((item) => {
       return <Accordion expanded={expanded === `${item.id}`} onChange={handleChange(`${item.id}`)}>
         <AccordionSummary
-          // expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
           id="panel1bh-header"
+          sx={{
+            '.MuiAccordionSummary-content': {
+              display: 'flex',
+              justifyContent: 'space-between',
+            }
+          }}
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
+          <Typography sx={{
+            flexShrink: 0,
+            fontWeight: 550,
+            fontSize: 19,
+          }}
+            color="textPrimary"
+          >
             {item.name}
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>{item.amountToPay}</Typography>
+          <Typography color="error">{`Valor à pagar R$${item.amountToPay}`}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {
             item.payments?.map((buy) => {
-              return <Typography>
-                {`Valor de R$ ${buy.value}, debitado por ${buy.updatedBy}`}
-              </Typography>
+              return <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                margin: 10
+              }}>
+                <div style={{ display: 'flex' }}>
+                  <Typography sx={{
+                    fontSize: 18,
+                    fontWeight: 550
+                  }}
+                    color="success"
+                  >
+                    {`R$ ${buy.value}`}
+                  </Typography>
+                  <Chip
+                    sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+                    label={buy.updatedBy}
+                    color='default'
+                    variant='filled'
+                  />
+                </div>
+                <Chip
+                  sx={{ height: 18, fontWeight: 550, marginTop: '5px' }}
+                  label={dayjs(buy.dateCreated).format('L LT')}
+                  color='info'
+                  variant='outlined'
+                />
+              </div>
             })
           }
         </AccordionDetails>
@@ -164,7 +200,7 @@ export const Received = () => {
     >
       <TextField
         id="standard-basic"
-        label="Pesquise pelo nome do comprador"
+        label="Pesquise pelo nome do cliente"
         variant="standard"
         sx={{ width: '80dvw' }}
         defaultValue={filter}
@@ -175,7 +211,7 @@ export const Received = () => {
         state.state === '' ?
           <Chip
             sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-            label="Todos"
+            label={`Data: ${dayjs(filters.dateUsersSales).format('L')}`}
             color='info'
             variant='filled'
             onDelete={handleDelete}
