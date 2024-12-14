@@ -37,6 +37,25 @@ export const createCustomer = async (customer: ICustomerCreate) => {
   }
 }
 
+export const validationPayment = async (customerId: string, value: number) => {
+  try {
+
+    const response = await customerChannel.post(
+      `api/Customer/ValidatePayment`,
+      {
+        customerId,
+        value
+      }
+    )
+
+    return response.data as boolean
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw error.response.data
+  }
+}
+
 export const getByIdCustomers = async (id: string) => {
   try {
 

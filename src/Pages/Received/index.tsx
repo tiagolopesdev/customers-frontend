@@ -103,7 +103,10 @@ export const Received = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
-                margin: 10
+                margin: 5,
+                backgroundColor: '#eeeeee',
+                padding: '5px',
+                borderRadius: '5px'
               }}>
                 <div style={{ display: 'flex' }}>
                   <Typography sx={{
@@ -121,12 +124,20 @@ export const Received = () => {
                     variant='filled'
                   />
                 </div>
-                <Chip
-                  sx={{ height: 18, fontWeight: 550, marginTop: '5px' }}
-                  label={dayjs(buy.dateCreated).format('L LT')}
-                  color='info'
-                  variant='outlined'
-                />
+                <div style={{ display: 'flex', marginLeft: '15px' }}>
+                  <Chip
+                    sx={{ height: 18, fontWeight: 550, marginTop: '5px', marginRight: '10px' }}
+                    label={buy.paymentMethod}
+                    color='success'
+                    variant='filled'
+                  />
+                  <Chip
+                    sx={{ height: 18, fontWeight: 550, marginTop: '5px' }}
+                    label={dayjs(buy.dateCreated).format('DD/MM/YYYY HH:MM A')}
+                    color='info'
+                    variant='outlined'
+                  />
+                </div>
               </div>
             })
           }

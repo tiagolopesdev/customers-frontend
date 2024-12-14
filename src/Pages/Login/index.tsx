@@ -1,11 +1,7 @@
 import { Alert, Button, Card, CardContent, CircularProgress, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
-
-interface IMessageFeedback {
-  message: string
-  type: 'success' | 'warning' | 'info'
-}
+import { IMessageFeedback } from "../../Types/IMessageFeedback"
 
 interface ILogin {
   toRedirect?: string

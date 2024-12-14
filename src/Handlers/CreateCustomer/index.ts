@@ -8,6 +8,8 @@ export const createCustomerHandler = async (customer: ICustomer) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { amountPaid, amountToPay, id, ...objectToSend } = customer
 
+    console.log('objectToSend ', objectToSend)
+
     return await createCustomer(objectToSend)
     
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty

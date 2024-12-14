@@ -7,6 +7,7 @@ import { IPayments } from "../../../Types/IPayments";
 import { initialStatePayments } from "../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../Types/ICustomer";
 import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
+import dayjs from "dayjs";
 
 
 interface IPaymentsCard {
@@ -26,16 +27,22 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     const listRow: ITableRowProps[] = []
 
     if (!customer.payments) return listRow
-    
+
     customer.payments.map((item: IPayments) => {
       const listToReturn: ITableRowProps = {
         rows: [
           { name: `${item.value}`, align: 'left', style: { width: 50 } },
-          { name: `${item.dateCreated}`, align: 'center', style: { width: 80 } },
+          { name: `${item.paymentMethod}`, align: 'center', style: { width: 50 } },
+          {
+            name: `${item.dateCreated !== '' ?
+              dayjs(item.dateCreated).format('DD/MM/YYYY HH:MM A') :
+              ''
+              }`, align: 'center', style: { width: 80 }
+          },
         ]
       }
       listRow.push(listToReturn)
-    })    
+    })
     return listRow
   }
 
@@ -45,17 +52,17 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     setPaymentsTotal(result)
   }
 
-  useEffect(() => { 
+  useEffect(() => {
 
     if (!ObjectIsEquals(paymentManipulation, initialStatePayments)) {
       const buysListToAdd = customer.payments
       buysListToAdd?.push(paymentManipulation)
-      setCustomer({...customer, payments: buysListToAdd})
+      setCustomer({ ...customer, payments: buysListToAdd })
       setPaymentManipulation(initialStatePayments)
       return
     }
 
-    buildPaymentsForRender() 
+    buildPaymentsForRender()
     paymentsTotalCalculate()
   }, [customer.payments, paymentManipulation])
 
@@ -116,6 +123,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
         <TableComponent
           tableCell={[
             { name: 'Valor', align: 'left', style: { width: 50 } },
+            { name: 'Forma', align: 'center', style: { width: 50 } },
             { name: 'Data e horário', align: 'center', style: { width: 80 } }
           ]}
           tableRows={buildPaymentsForRender()}
