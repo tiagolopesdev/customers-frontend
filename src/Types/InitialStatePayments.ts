@@ -4,5 +4,6 @@ export const initialStatePayments: IPayments = {
   id: '',
   value: 0,
   dateCreated: '',
-  updatedBy: ''
+  updatedBy: '',
+  paymentMethod: ''
 }
