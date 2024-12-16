@@ -47,6 +47,7 @@ export const Customer = () => {
   }, [loading])
 
   const showComponent = (): JSX.Element | string => {
+    localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
     return !loading ?
       <div
         style={{
@@ -89,7 +90,7 @@ export const Customer = () => {
       </div>
   }
 
-  useEffect(() => { showComponent() }, [customer.buys, customer.payments])
+  useEffect(() => { showComponent() }, [customer.buys, customer.payments, customer.amountToPay])
 
   return <div
     style={{

@@ -52,7 +52,6 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
       setUser(claims)
 
       localStorage.setItem('user', JSON.stringify(claims))
-      console.log('Assigned user')
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -71,7 +70,7 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
     login,
     logout,
     user,
-    loadUserLocalStorage
+    loadUserLocalStorage,
   }}>
     {children}
   </MinimarketContext.Provider>

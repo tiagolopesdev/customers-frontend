@@ -21,7 +21,7 @@ export const Values = ({ amountPaid, amountToPay }: IValues) => {
         fontWeight: 550
       }}
     >{
-        `Valor pago: R$ ${amountPaid}`
+        `Valor pago: R$ ${amountPaid.toFixed(2)}`
       }</Typography>
     <Typography
       style={{
@@ -29,7 +29,7 @@ export const Values = ({ amountPaid, amountToPay }: IValues) => {
         fontWeight: 550
       }}
     >{
-      `Valor à pagar: R$ ${amountToPay}`
+      `Valor à pagar: R$ ${amountToPay.toFixed(2)}`
     }</Typography>
   </div>
 }

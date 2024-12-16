@@ -23,17 +23,13 @@ const QrReader = (props: IQrReader) => {
   const onScanSuccess = (result: QrScanner.ScanResult) => {
     try {
       const value = JSON.parse(result.data)
-      // console.log('Successs ', result)
       setValueScanned(value.name);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      // console.log('Sucess not')
       setMessageError('Qr Code não é válido')
       setValueScanned('');
     }
   };
-
-  // console.log('Value ', valueScanned)
 
   // Fail
   const onScanFail = (err: string | Error) => {

@@ -8,6 +8,7 @@ import { initialStatePayments } from "../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../Types/ICustomer";
 import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 import dayjs from "dayjs";
+import { IBuys } from "../../../Types/IBuys";
 
 
 interface IPaymentsCard {
@@ -50,6 +51,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     if (!customer.payments) return 0
     const result = customer.payments.reduce((accumulator, item) => { return accumulator += item.value }, 0)
     setPaymentsTotal(result)
+    localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
   }
 
   useEffect(() => {
@@ -57,7 +59,18 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     if (!ObjectIsEquals(paymentManipulation, initialStatePayments)) {
       const buysListToAdd = customer.payments
       buysListToAdd?.push(paymentManipulation)
-      setCustomer({ ...customer, payments: buysListToAdd })
+
+      const amountPaidUpdated = buysListToAdd?.reduce((accumulator, item) => { return accumulator += item.value }, 0)
+      const amountToPayUpdated = ([] as IBuys[]).concat(customer.buys ?? [])?.reduce((accumulator, item) => { return accumulator += (item.price * item.quantity) }, 0) - ([] as IPayments[]).concat(customer.payments ?? [])?.reduce((accumulator, item) => { return accumulator += item.value }, 0)
+
+      setCustomer({
+        ...customer,
+        ...{
+          payments: buysListToAdd,
+          amountPaid: amountPaidUpdated,
+          amountToPay: amountToPayUpdated
+        }
+      })
       setPaymentManipulation(initialStatePayments)
       return
     }
@@ -65,7 +78,6 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     buildPaymentsForRender()
     paymentsTotalCalculate()
   }, [customer.payments, paymentManipulation])
-
 
   return <>
     <Card sx={{

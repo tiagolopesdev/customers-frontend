@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Alert, Box, Button, CircularProgress, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
+import { Alert, Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
 import { IPayments } from "../../../Types/IPayments";
 import { useState } from "react";
-import { validationPayment } from "../../../Services/Customer";
 import { IMessageFeedback } from "../../../Types/IMessageFeedback";
 
 const style = {
@@ -34,7 +33,6 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
     message: '',
     type: "success"
   })
-  const [loading, setLoading] = useState(false)
 
   const handleClose = (
     _event: React.SyntheticEvent | Event,
@@ -105,19 +103,9 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
             return
           }
 
-          const customerId = localStorage.getItem('customerId')
+          const amountToPayStoraged = Number(localStorage.getItem('amountToPay') as string)
 
-          let isValide = false
-
-          if (customerId && customerId !== '') {
-            setLoading(true)
-            isValide = await validationPayment(customerId, payment.value)
-            setLoading(false)
-          } else {
-            isValide = true
-          }
-
-          if (isValide) {
+          if (payment.value <= amountToPayStoraged) {
             setPaymentProps(payment)
             setOpen(false)
           } else {
@@ -128,11 +116,7 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
             setOpenFeedback(true);
           }
 
-        }}>{
-            loading ?
-              <CircularProgress size={20} sx={{ color: '#ffffff' }} /> :
-              'Confirmar'
-          }</Button>
+        }}>Confirmar</Button>
       </div>
       <Snackbar
         open={openFeedback}

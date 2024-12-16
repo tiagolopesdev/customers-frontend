@@ -47,7 +47,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
                 result.forEach((buySearch: IBuys) => {
                   if (item.id === undefined) {
-                    if (item.name === buySearch.name) buySearch.isEnable = true                  
+                    if (item.name === buySearch.name) buySearch.isEnable = true
                   } else {
                     if (item.id === buySearch.id) buySearch.isEnable = true
                   }
@@ -56,7 +56,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
                 setCustomer({
                   ...customer, ...{
                     buys: result,
-                    amountToPay: result.reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
+                    amountToPay: result.filter((item) => { return !item.isEnable }).reduce((accumulate, item) => accumulate += (item.total ?? 0), 0)
                   }
                 })
               }}
@@ -72,7 +72,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
   const buysTotalCalculate = () => {
     if (customer.buys === undefined) return 0
-    const result = customer.buys.reduce((accumulator, item) => { return accumulator += (item.price * item.quantity) }, 0)
+    const result = customer.buys.filter((item) => { return !item.isEnable }).reduce((accumulator, item) => { return accumulator += (item.price * item.quantity) }, 0)
     setBuysTotal(result)
   }
 
@@ -94,7 +94,22 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
           buysToInsert.push(item)
         }
       })
-      setCustomer({ ...customer, buys: buysToInsert })
+
+      setCustomer({
+        ...customer,
+        ...{
+          buys: buysToInsert,
+          amountToPay: Number(
+            (
+              buysToInsert
+                .filter((item) => { return !item.isEnable })
+                .reduce((accumulator, item) => {
+                  return accumulator += (item.price * item.quantity)
+                }, 0) - (customer.amountPaid ?? 0)
+            ).toFixed(2)
+          )
+        }
+      })
       setBuyManipulation([])
       return
     }

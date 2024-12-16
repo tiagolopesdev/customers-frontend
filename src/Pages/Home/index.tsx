@@ -61,10 +61,11 @@ export const Home = () => {
     }
   }
 
-  console.log('Date: ', filters)
-
   useEffect(() => {
-    if (localStorage.getItem('customerId') !== null) localStorage.removeItem('customerId')
+    if (localStorage.getItem('customerId') !== null) {
+      localStorage.removeItem('customerId')
+      localStorage.removeItem('amountToPay')
+    }
     findCustomers()
   }, [filter, filters.dateUsersSales, filters.owing])
 
