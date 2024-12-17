@@ -191,6 +191,29 @@ export const Received = () => {
     setFilters({ ...filters, dateUsersSales: null })
   };
 
+  const stylePaymentMethodCard = (): CSSProperties => {
+    return {
+      backgroundColor: '#eeeeee',
+      margin: '18px',
+      width: '20vw',
+      height: '10vh',
+      borderRadius: '5px',
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  }
+
+  const showSumPaymentMethod = (paymentMethodFilter: string) => {
+    let pixMethodSum = 0
+    customers.forEach((customer) => {
+      const sumValue = customer.payments?.filter((filter) => { return filter.paymentMethod === paymentMethodFilter }).reduce((accumulator, item) => { return accumulator += item.value }, 0)
+      pixMethodSum += sumValue ?? 0
+    })
+    return pixMethodSum
+  }
+
   return <div
     style={{
       display: 'flex',
@@ -229,6 +252,36 @@ export const Received = () => {
           /> :
           ''
       }
+    </div>
+    <div
+      style={{
+        backgroundColor: '#FFFFFF',
+        margin: '10px',
+        borderRadius: '5px',
+        height: '15vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <div style={stylePaymentMethodCard()}>
+        <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Pix</Typography>
+        <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
+          {showSumPaymentMethod('PIX').toFixed(2)}
+        </Typography>
+      </div>
+      <div style={stylePaymentMethodCard()}>
+        <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Cartão</Typography>
+        <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
+          {showSumPaymentMethod('CARD').toFixed(2)}
+        </Typography>
+      </div>
+      <div style={stylePaymentMethodCard()}>
+        <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Espécie</Typography>
+        <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
+          {showSumPaymentMethod('CASH').toFixed(2)}
+        </Typography>
+      </div>
     </div>
     {managerShowData()}
     <div
