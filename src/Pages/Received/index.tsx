@@ -208,7 +208,11 @@ export const Received = () => {
   const showSumPaymentMethod = (paymentMethodFilter: string) => {
     let pixMethodSum = 0
     customers.forEach((customer) => {
-      const sumValue = customer.payments?.filter((filter) => { return filter.paymentMethod === paymentMethodFilter }).reduce((accumulator, item) => { return accumulator += item.value }, 0)
+      const sumValue = customer.payments?.filter((filter) => {
+        return filter.paymentMethod === paymentMethodFilter && filter.updatedBy === user.email
+      }).reduce((accumulator, item) => {
+        return accumulator += item.value
+      }, 0)
       pixMethodSum += sumValue ?? 0
     })
     return pixMethodSum
@@ -245,7 +249,7 @@ export const Received = () => {
         state.state === '' ?
           <Chip
             sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-            label={`Data: ${dayjs(filters.dateUsersSales).format('L')}`}
+            label={`Data: ${dayjs(filters.dateUsersSales).format('DD/MM/YYYY')}`}
             color='info'
             variant='filled'
             onDelete={handleDelete}
