@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Alert, Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
+import { Alert, Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
 import { IPayments } from "../../../Types/IPayments";
 import { useState } from "react";
 import { IMessageFeedback } from "../../../Types/IMessageFeedback";
+import { showPercentage } from "../../../Utils/percentage/showPercentage";
 
 const style = {
   position: 'absolute',
@@ -71,6 +72,13 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
         }}
         InputElement={<TextField label="Valor unitário" />}
       />
+      {
+        payment.paymentMethod === 'CARD' ?
+          <Typography
+            sx={{ color: '#000000', fontSize: 14, marginBottom: '12px' }}
+          >{`Com juros: ${showPercentage(true, payment.paymentMethod, payment.value)}`}</Typography> :
+          ''
+      }
       <FormControl>
         <FormLabel id="demo-row-radio-buttons-group-label">Forma de pagamento</FormLabel>
         <RadioGroup
@@ -82,7 +90,7 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
           onClick={(event: any) => { setPayment({ ...payment, paymentMethod: event.target.value }) }}
         >
           <FormControlLabel value="PIX" control={<Radio />} label="Pix" />
-          <FormControlLabel value="CARD" control={<Radio />} label="Cartão" />
+          <FormControlLabel value="CARD" control={<Radio />} label="Cartão (3,15%)" />
           <FormControlLabel value="CASH" control={<Radio />} label="Espécie" />
         </RadioGroup>
       </FormControl>
@@ -92,31 +100,35 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
         marginTop: '25px'
       }}>
         <Button color="success" variant="contained" onClick={() => { handleModalState() }}>Voltar</Button>
-        <Button color="success" variant="contained" onClick={async () => {
+        <Button
+          color="success"
+          variant="contained"
+          disabled={payment.value === 0}
+          onClick={async () => {
 
-          if (payment.paymentMethod === undefined || payment.paymentMethod === '') {
-            setMessage({
-              message: "Selecione o método de pagamento",
-              type: "warning"
-            })
-            setOpenFeedback(true);
-            return
-          }
+            if (payment.paymentMethod === undefined || payment.paymentMethod === '') {
+              setMessage({
+                message: "Selecione o método de pagamento",
+                type: "warning"
+              })
+              setOpenFeedback(true);
+              return
+            }
 
-          const amountToPayStoraged = Number(localStorage.getItem('amountToPay') as string)
+            const amountToPayStoraged = Number(localStorage.getItem('amountToPay') as string)
 
-          if (payment.value <= amountToPayStoraged) {
-            setPaymentProps(payment)
-            setOpen(false)
-          } else {
-            setMessage({
-              message: "Valor maior que saldo a pagar",
-              type: "warning"
-            })
-            setOpenFeedback(true);
-          }
+            if (payment.value <= amountToPayStoraged) {
+              setPaymentProps(payment)
+              setOpen(false)
+            } else {
+              setMessage({
+                message: "Valor maior que saldo a pagar",
+                type: "warning"
+              })
+              setOpenFeedback(true);
+            }
 
-        }}>Confirmar</Button>
+          }}>Confirmar</Button>
       </div>
       <Snackbar
         open={openFeedback}
