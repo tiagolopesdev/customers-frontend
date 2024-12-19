@@ -9,6 +9,7 @@ import { ICustomer } from "../../../Types/ICustomer";
 import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 import dayjs from "dayjs";
 import { IBuys } from "../../../Types/IBuys";
+import { showPercentage } from "../../../Utils/percentage/showPercentage";
 
 
 interface IPaymentsCard {
@@ -32,8 +33,8 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     customer.payments.map((item: IPayments) => {
       const listToReturn: ITableRowProps = {
         rows: [
-          { name: `${item.value}`, align: 'left', style: { width: 50 } },
-          { name: `${item.paymentMethod}`, align: 'center', style: { width: 50 } },
+          { name: showPercentage(true, item.paymentMethod, item.value), align: 'left', style: { width: 50 } },
+          { name: showPercentage(false, item.paymentMethod, item.value), align: 'center', style: { width: 50 } },
           {
             name: `${item.dateCreated !== '' ?
               dayjs(item.dateCreated).format('DD/MM/YYYY HH:MM A') :

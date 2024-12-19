@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import dayjs, { Dayjs } from "dayjs"
+import { showPercentage } from "../../Utils/percentage/showPercentage"
 
 interface IFilters {
   all: boolean,
@@ -115,7 +116,7 @@ export const Received = () => {
                   }}
                     color="success"
                   >
-                    {`R$ ${buy.value}`}
+                    {`R$ ${showPercentage(true, buy.paymentMethod, buy.value)}`}
                   </Typography>
                   <Chip
                     sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
@@ -127,7 +128,7 @@ export const Received = () => {
                 <div style={{ display: 'flex', marginLeft: '15px' }}>
                   <Chip
                     sx={{ height: 18, fontWeight: 550, marginTop: '5px', marginRight: '10px' }}
-                    label={buy.paymentMethod}
+                    label={showPercentage(false, buy.paymentMethod, buy.value)}
                     color='success'
                     variant='filled'
                   />
@@ -277,7 +278,9 @@ export const Received = () => {
       <div style={stylePaymentMethodCard()}>
         <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Cartão</Typography>
         <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
-          {showSumPaymentMethod('CARD').toFixed(2)}
+          {
+            `${showSumPaymentMethod('CARD')} (${(showSumPaymentMethod('CARD') + (showSumPaymentMethod('CARD') * (3.15 / 100))).toFixed(2)})`
+          }
         </Typography>
       </div>
       <div style={stylePaymentMethodCard()}>
