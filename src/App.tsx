@@ -8,6 +8,7 @@ import { PrivateRouter } from './Router/privateRouter'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { Received } from './Pages/Received'
+import { ProductsPage } from './Pages/Products'
 
 function App() {
 
@@ -40,6 +41,15 @@ function App() {
               <PrivateRouter
                 permitedElement={<Received />}
                 redirect='received'
+              />
+            }
+          />
+          <Route
+            path='/products'
+            element={
+              <PrivateRouter
+                permitedElement={<ProductsPage />}
+                redirect='products'
               />
             }
           />

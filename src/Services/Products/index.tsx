@@ -18,7 +18,6 @@ export const hasStockService = async (id: string) => {
 export const getProductsService = async (name: string) => {
   try {
 
-    //http://localhost:5048/api/Products/GetByNameProduct
     const response = await customerChannel.get(`api/Products/GetByNameProduct`, {
       params: {
         name: name

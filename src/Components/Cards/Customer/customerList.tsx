@@ -1,5 +1,6 @@
 import { CustomerCard } from "."
 import { ICustomer } from "../../../Types/ICustomer"
+import { renderList } from "../../../Utils/cardsList"
 import { CardListGroup } from "./style"
 
 interface ICustomerCardList {
@@ -8,13 +9,11 @@ interface ICustomerCardList {
 
 export const CustomerCardList = ({ customers }: ICustomerCardList) => {
 
-  const renderList = () => {
-    return ([] as ICustomer[]).concat(customers ?? [])?.map((item: ICustomer) => {
-      return <CustomerCard customer={item} key={`card-customer-${item.id}`}/>
-    })
+  const CustomerComponent = ({ item }: { item: ICustomer }) => {
+    return <CustomerCard customer={item} />
   }
 
   return <CardListGroup>
-    {renderList()}
+    {renderList(customers, CustomerComponent)}
   </CardListGroup>
 }
