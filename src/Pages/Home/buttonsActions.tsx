@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DiscountIcon from '@mui/icons-material/Discount';
 
 interface IButtonsActions {
   openScanner: boolean,
@@ -31,18 +32,20 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
       alignItems: 'center'
     }}
   >
-    <Button
-      style={{ height: '7vh', margin: '0px 5px' }}
-      color="success"
-      variant="contained"
+    <Link
+      to="/customer"
+      style={{
+        color: '#ffffff'
+      }}
     >
-      <Link
-        to="/customer"
-        style={{
-          color: '#ffffff'
-        }}
-      ><AddIcon /></Link>
-    </Button>
+      <Button
+        style={{ height: '7vh', margin: '0px 5px' }}
+        color="success"
+        variant="contained"
+      >
+        <AddIcon />
+      </Button>
+    </Link>
     <Button
       style={{ height: '7vh', margin: '0px 5px' }}
       color="primary"
@@ -51,37 +54,41 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
     ><CenterFocusWeakIcon /></Button>
     {
       user.role.includes('Admin') ?
-        <Button
-          style={{ height: '7vh', margin: '0px 5px' }}
-          color="success"
-          variant="contained"
+        <Link
+          to="/products"
+          style={{
+            color: '#ffffff'
+          }}
         >
-          <Link
-            to="/products"
-            style={{
-              color: '#ffffff'
-            }}
-          ><AttachMoneyIcon /></Link>
-        </Button> :
-        ''
+          <Button
+            style={{ height: '7vh', margin: '0px 5px' }}
+            color="success"
+            variant="contained"
+          >
+            <DiscountIcon />
+          </Button>
+        </Link>
+        : ''
     }
-    <Button
-      style={{ height: '7vh', margin: '0px 5px' }}
-      color="success"
-      variant="contained"
+    <Link
+      to="/received"
+      style={{
+        color: '#ffffff'
+      }}
     >
-      <Link
-        to="/received"
-        style={{
-          color: '#ffffff'
-        }}
-      ><AttachMoneyIcon /></Link>
-    </Button>
+      <Button
+        style={{ height: '7vh', margin: '0px 5px' }}
+        color="success"
+        variant="contained"
+      >
+        <AttachMoneyIcon />
+      </Button>
+    </Link>
     <Button
       style={{ height: '7vh', margin: '0px 5px' }}
       color="error"
       variant="contained"
       onClick={() => { logout() }}
     ><LogoutIcon /></Button>
-  </div>
+  </div >
 }
