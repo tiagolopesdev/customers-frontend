@@ -4,6 +4,7 @@ import { ScroolCustom } from "../../Styles"
 import { ProductCardList } from "../../Components/Cards/Products/productList"
 import { IProduct } from "../../Types/IProduct"
 import { getProductsService } from "../../Services/Products"
+import { useNavigate } from "react-router-dom"
 
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -14,6 +15,8 @@ import { ProductModal } from "../../Components/Modals/Product"
 export const ProductsPage = () => {
 
   const { productWasManipulated, setProductWasManipulated } = useContext(MinimarketContext)
+
+  const navigate = useNavigate()
 
   const [filter, setFilter] = useState('')
   const [loading, setLoading] = useState(false)
@@ -111,7 +114,7 @@ export const ProductsPage = () => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           variant="contained"
-          onClick={() => { }}
+          onClick={() => { navigate("/") }}
         >
           <ArrowBackIcon />
         </Button>
