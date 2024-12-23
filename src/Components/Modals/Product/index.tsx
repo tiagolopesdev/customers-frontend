@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Alert, Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material"
+import { Alert, Box, Button, Modal, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
 import { useContext, useState } from "react";
 import { IMessageFeedback } from "../../../Types/IMessageFeedback";
-import { showPercentage } from "../../../Utils/percentage/showPercentage";
 import { IProduct } from "../../../Types/IProduct";
 import { createProductService, updateProductService } from "../../../Services/Products";
 import { MinimarketContext } from "../../../Context/minimarket";

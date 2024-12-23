@@ -97,7 +97,9 @@ export const ProductCard = ({ product }: IProductCard) => {
             id: product.id,
             name: product.name,
             quantity: quantity + 1,
-            value: product.value
+            value: product.value,
+            basePrice: product.basePrice,
+            quantitySold: product.quantitySold
           }
 
           if (productToInsert.quantity <= 0 || stockResult) return
@@ -140,7 +142,9 @@ export const ProductCard = ({ product }: IProductCard) => {
                 id: product.id,
                 name: product.name,
                 quantity: quantity - 1,
-                value: product.value
+                value: product.value,
+                basePrice: product.basePrice,
+                quantitySold: product.quantitySold
               })
               setSelectProducts(selectedProducts)
             }
