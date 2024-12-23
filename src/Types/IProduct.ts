@@ -4,6 +4,7 @@ export interface IProduct {
   name: string,
   description: string,
   value: number,
+  basePrice: number,
   quantity: number,
   dateCreated: string
 }

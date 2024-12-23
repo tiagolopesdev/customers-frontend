@@ -31,3 +31,28 @@ export const getProductsService = async (name: string) => {
     throw error.response.data
   }
 }
+
+export const createProductService = async (product: IProduct) => {
+  try {
+
+    const response = await customerChannel.post(`api/Products/CreateProduct`, product)
+
+    return response.data as string
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw error.response.data
+  }
+}
+export const updateProductService = async (product: IProduct) => {
+  try {
+
+    const response = await customerChannel.put(`api/Products/UpdateProduct`, product)
+
+    return response.data as string
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw error.response.data
+  }
+}

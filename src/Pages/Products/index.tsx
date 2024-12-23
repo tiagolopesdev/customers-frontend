@@ -1,16 +1,24 @@
-import { Skeleton, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Button, Skeleton, TextField } from "@mui/material"
+import { useContext, useEffect, useState } from "react"
 import { ScroolCustom } from "../../Styles"
 import { ProductCardList } from "../../Components/Cards/Products/productList"
 import { IProduct } from "../../Types/IProduct"
 import { getProductsService } from "../../Services/Products"
 
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { MinimarketContext } from "../../Context/minimarket"
+import { ProductModal } from "../../Components/Modals/Product"
+
 
 export const ProductsPage = () => {
+
+  const { productWasManipulated, setProductWasManipulated } = useContext(MinimarketContext)
 
   const [filter, setFilter] = useState('')
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<IProduct[]>([])
+  const [openModal, setOpenModal] = useState(false)
 
   const findCustomers = async () => {
     try {
@@ -21,6 +29,7 @@ export const ProductsPage = () => {
 
       setProducts(result as IProduct[])
       setLoading(false)
+      setProductWasManipulated(false)
 
       // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -31,6 +40,10 @@ export const ProductsPage = () => {
   useEffect(() => {
     findCustomers()
   }, [filter])
+
+  useEffect(() => {
+    if (productWasManipulated) findCustomers()
+  }, [productWasManipulated])
 
   return <div
     style={{
@@ -80,6 +93,45 @@ export const ProductsPage = () => {
         flex: 1,
       }}
     >
+      <div
+        style={{
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: '#1864BA',
+          display: "flex",
+          padding: '10px',
+          width: '100vw',
+          justifyContent: "center",
+          height: '10dvh',
+          flexShrink: 0,
+          alignItems: 'center'
+        }}
+      >
+        <Button
+          style={{ height: '7vh', margin: '0px 5px' }}
+          color="success"
+          variant="contained"
+          onClick={() => { setOpenModal(true) }}
+        >
+          <AddIcon />
+        </Button>
+        <Button
+          style={{ height: '7vh', margin: '0px 5px' }}
+          color="success"
+          variant="contained"
+          onClick={() => { }}
+        >
+          <ArrowBackIcon />
+        </Button>
+      </div>
     </div>
+    {
+      openModal ?
+        <ProductModal
+          open={openModal}
+          setOpen={setOpenModal}
+        /> :
+        ''
+    }
   </div>
 }

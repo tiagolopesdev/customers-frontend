@@ -1,7 +1,10 @@
-import { Card, CardContent, Chip, IconButton, Typography } from "@mui/material"
+import { Button, Card, CardContent, Chip, Typography } from "@mui/material"
 import { IProduct } from "../../../Types/IProduct"
-import { AddCircle, RemoveCircle } from "@mui/icons-material"
 import dayjs from "dayjs"
+
+import EditIcon from '@mui/icons-material/Edit';
+import { useState } from "react"
+import { ProductModal } from "../../Modals/Product"
 
 interface IProductCard {
   product: IProduct
@@ -11,15 +14,42 @@ export const ProductCard = ({ product }: IProductCard) => {
 
   // const navigate = useNavigate();
 
+  const [openModal, setOpenModal] = useState(false)
+  // const [quantity, setQuantity] = useState(0)
+
+  const managerActions = () => {
+    return <div style={{ display: 'flex' }}>
+      <Button
+        color="info"
+        variant="text"
+        size="small"
+        sx={{ marginTop: '10px' }}
+        onClick={() => { setOpenModal(true) }}
+      >
+        <EditIcon sx={{ width: '25px' }} />
+      </Button>
+      {/* <Button
+        color="info"
+        variant="contained"
+        size="small"
+        sx={{ marginTop: '10px', marginLeft: '20px' }}
+      >
+        <Link
+          to="/"
+          style={{
+            color: '#ffffff',
+            lineHeight: '0px'
+          }}
+        ><UndoIcon sx={{ width: '25px' }} /></Link>
+      </Button> */}
+    </div>
+  }
+
   return <Card sx={{
     minWidth: '90vw',
     maxWidth: '65vw',
     minHeight: '10vh'
   }}
-    // onClick={() => {
-    //   localStorage.setItem('productId', product.id as string)
-    //   navigate(`/product`)
-    // }}
     key={`product-${product.name}-${product.id}`}
   >
     <CardContent
@@ -36,7 +66,7 @@ export const ProductCard = ({ product }: IProductCard) => {
       <Typography
         variant="h5"
         sx={{
-          fontWeight: 650
+          fontWeight: 760
         }}
       >
         {product.name}
@@ -60,18 +90,24 @@ export const ProductCard = ({ product }: IProductCard) => {
         alignItems: 'center'
       }}>
         <div>
-          <IconButton sx={{ padding: 0 }} >
+          {/* <IconButton sx={{ padding: 0 }} onClick={() => {
+            const quantityUpdated = quantity - 1
+            setQuantity(quantityUpdated)
+          }} >
             <RemoveCircle color="primary" />
-          </IconButton>
+          </IconButton> */}
           <Chip
             sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
             label={`Estoque: ${product.quantity}`}
             color='info'
             variant='filled'
           />
-          <IconButton sx={{ padding: 0 }} >
+          {/* <IconButton sx={{ padding: 0 }} onClick={() => {
+            const quantityUpdated = quantity + 1
+            setQuantity(quantityUpdated)
+          }} >
             <AddCircle color="primary" />
-          </IconButton>
+          </IconButton> */}
         </div>
         <Chip
           sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
@@ -87,8 +123,17 @@ export const ProductCard = ({ product }: IProductCard) => {
           fontStyle: "italic"
         }}
       >
-        {`Vendidos: 00 / Preço compra: R$00,00 / Lucro: R$00,00`}
+        {`Vendidos: 00 / Preço compra: R$${product.basePrice.toFixed(2)} / Lucro: R$00,00`}
       </Typography>
+      {managerActions()}
     </CardContent>
+    {
+      openModal ?
+      <ProductModal 
+        open={openModal}
+        setOpen={setOpenModal}
+        productProps={product}
+      /> : ''
+    }
   </Card>
 }

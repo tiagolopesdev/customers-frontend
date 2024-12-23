@@ -17,6 +17,8 @@ interface IMinimarketContext {
   login: (email: string) => Promise<void>,
   logout: () => void
   loadUserLocalStorage: () => void
+  productWasManipulated: boolean
+  setProductWasManipulated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const initialPropertiesUser: IUser = {
@@ -35,9 +37,10 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
 
   const [selectedProducts, setSelectProducts] = useState<IProduct[]>([])
   const [user, setUser] = useState<IUser>(initialPropertiesUser)
+  const [productWasManipulated, setProductWasManipulated] = useState(false)
 
-  const loadUserLocalStorage = () => {    
-    if (!ObjectIsEquals(user, initialPropertiesUser)) return 
+  const loadUserLocalStorage = () => {
+    if (!ObjectIsEquals(user, initialPropertiesUser)) return
     const userFounded: IUser = JSON.parse(localStorage.getItem('user') as string)
     if (localStorage.getItem('user') !== null) setUser(userFounded)
   }
@@ -53,7 +56,7 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
 
       localStorage.setItem('user', JSON.stringify(claims))
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error.message)
     }
@@ -71,6 +74,8 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
     logout,
     user,
     loadUserLocalStorage,
+    productWasManipulated,
+    setProductWasManipulated
   }}>
     {children}
   </MinimarketContext.Provider>
