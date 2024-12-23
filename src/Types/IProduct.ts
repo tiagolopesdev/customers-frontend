@@ -6,5 +6,7 @@ export interface IProduct {
   value: number,
   basePrice: number,
   quantity: number,
-  dateCreated: string
+  quantitySold: number,
+  dateCreated: string,
+  updatedBy?: string
 }

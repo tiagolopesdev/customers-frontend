@@ -8,6 +8,7 @@ import { showPercentage } from "../../../Utils/percentage/showPercentage";
 import { IProduct } from "../../../Types/IProduct";
 import { createProductService, updateProductService } from "../../../Services/Products";
 import { MinimarketContext } from "../../../Context/minimarket";
+import { IUser } from "../../../Types/IUser";
 
 
 const style = {
@@ -41,7 +42,8 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
     quantity: 0,
     value: 0,
     id: '',
-    dateCreated: ''
+    dateCreated: '',
+    quantitySold: 0
   })
   const [message, setMessage] = useState<IMessageFeedback>({
     message: '',
@@ -157,6 +159,8 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
             }
 
             if (product.id !== '') {
+              const user: IUser = JSON.parse(localStorage.getItem('user') as string)
+              product.updatedBy = user.email
               await updateProductService(product)
             } else {
               await createProductService(product)

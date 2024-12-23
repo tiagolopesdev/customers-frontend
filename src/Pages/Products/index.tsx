@@ -111,17 +111,17 @@ export const ProductsPage = () => {
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           variant="contained"
-          onClick={() => { setOpenModal(true) }}
+          onClick={() => { }}
         >
-          <AddIcon />
+          <ArrowBackIcon />
         </Button>
         <Button
           style={{ height: '7vh', margin: '0px 5px' }}
           color="success"
           variant="contained"
-          onClick={() => { }}
+          onClick={() => { setOpenModal(true) }}
         >
-          <ArrowBackIcon />
+          <AddIcon />
         </Button>
       </div>
     </div>

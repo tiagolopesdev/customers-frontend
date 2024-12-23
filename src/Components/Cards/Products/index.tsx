@@ -12,10 +12,8 @@ interface IProductCard {
 
 export const ProductCard = ({ product }: IProductCard) => {
 
-  // const navigate = useNavigate();
 
   const [openModal, setOpenModal] = useState(false)
-  // const [quantity, setQuantity] = useState(0)
 
   const managerActions = () => {
     return <div style={{ display: 'flex' }}>
@@ -28,20 +26,6 @@ export const ProductCard = ({ product }: IProductCard) => {
       >
         <EditIcon sx={{ width: '25px' }} />
       </Button>
-      {/* <Button
-        color="info"
-        variant="contained"
-        size="small"
-        sx={{ marginTop: '10px', marginLeft: '20px' }}
-      >
-        <Link
-          to="/"
-          style={{
-            color: '#ffffff',
-            lineHeight: '0px'
-          }}
-        ><UndoIcon sx={{ width: '25px' }} /></Link>
-      </Button> */}
     </div>
   }
 
@@ -90,24 +74,12 @@ export const ProductCard = ({ product }: IProductCard) => {
         alignItems: 'center'
       }}>
         <div>
-          {/* <IconButton sx={{ padding: 0 }} onClick={() => {
-            const quantityUpdated = quantity - 1
-            setQuantity(quantityUpdated)
-          }} >
-            <RemoveCircle color="primary" />
-          </IconButton> */}
           <Chip
             sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
             label={`Estoque: ${product.quantity}`}
             color='info'
             variant='filled'
           />
-          {/* <IconButton sx={{ padding: 0 }} onClick={() => {
-            const quantityUpdated = quantity + 1
-            setQuantity(quantityUpdated)
-          }} >
-            <AddCircle color="primary" />
-          </IconButton> */}
         </div>
         <Chip
           sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
@@ -123,7 +95,7 @@ export const ProductCard = ({ product }: IProductCard) => {
           fontStyle: "italic"
         }}
       >
-        {`Vendidos: 00 / Preço compra: R$${product.basePrice.toFixed(2)} / Lucro: R$00,00`}
+        {`Vendidos: ${product.quantitySold} / Preço compra: R$${product.basePrice.toFixed(2)} / Lucro: R$${((product.value - product.basePrice) * product.quantitySold).toFixed(2)}`}
       </Typography>
       {managerActions()}
     </CardContent>
