@@ -95,7 +95,7 @@ export const Received = () => {
           >
             {item.name}
           </Typography>
-          <Typography color="error">{`Valor à pagar R$${item.amountToPay}`}</Typography>
+          <Typography color="error">{`Valor à pagar R$${item.amountToPay !== undefined ? item.amountToPay.toFixed(2) : 0}`}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {
