@@ -48,6 +48,7 @@ export const updateCustomerHandler = async (customer: ICustomer) => {
     return await updateCustomer(customerToSend)  
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
   } catch (error) {
-
+    console.log('Handler: ', error)
+    throw error
   }
 }
