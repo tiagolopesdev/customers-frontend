@@ -36,8 +36,8 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           { name: showPercentage(true, item.paymentMethod, item.value), align: 'left', style: { width: 50 } },
           { name: showPercentage(false, item.paymentMethod, item.value), align: 'center', style: { width: 50 } },
           {
-            name: `${item.dateCreated !== '' ?
-              dayjs(item.dateCreated).format('DD/MM/YYYY HH:MM A') :
+            name: `${item.dateCreated !== undefined ?
+              dayjs(item.dateCreated).format('DD/MM/YYYY hh:mm A') :
               ''
               }`, align: 'center', style: { width: 80 }
           },

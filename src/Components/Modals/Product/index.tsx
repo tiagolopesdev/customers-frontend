@@ -49,8 +49,6 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
     type: "success"
   })
 
-  console.log('Product ', product)
-
   const handleClose = (
     _event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason,

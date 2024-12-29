@@ -4,51 +4,43 @@ import { ICustomer } from "../../Types/ICustomer"
 import { IPayments } from "../../Types/IPayments"
 
 export const updateCustomerHandler = async (customer: ICustomer) => {
+  delete customer.dateCreated
+  delete customer.amountPaid
+  delete customer.amountToPay
 
-  try {
-  
-    delete customer.dateCreated
-    delete customer.amountPaid
-    delete customer.amountToPay
+  const customerToSend: ICustomer = structuredClone(customer)
 
-    const customerToSend: ICustomer = structuredClone(customer)
+  if (customer.buys && customer.buys.length > 0) {
 
-    if (customer.buys && customer.buys.length > 0) {
+    customerToSend.buys = []
 
-      customerToSend.buys = []
+    customer.buys.map((item: IBuys) => {
 
-      customer.buys.map((item: IBuys) => {
+      delete item.total
+      delete item.dateCreated
 
-        delete item.total
-        delete item.dateCreated
+      if (item.id === "") item.id = undefined
 
-        if (item.id === "") item.id = undefined
+      if (!item.id && item.isEnable) return
 
-        if (!item.id && item.isEnable) return
-
-        customerToSend.buys?.push(item)
-      })
-    }
-    if (customer.payments && customer.payments.length > 0) {
-
-      customerToSend.payments = []
-
-      customer.payments.map((item: IPayments) => {
-        
-        delete item.dateCreated
-        
-        if (item.id === "") item.id = undefined
-
-        if (!item.id && item.isEnable) return 
-
-        customerToSend.payments?.push(item)
-      })
-    }
-
-    return await updateCustomer(customerToSend)  
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
-  } catch (error) {
-    console.log('Handler: ', error)
-    throw error
+      customerToSend.buys?.push(item)
+    })
   }
+  if (customer.payments && customer.payments.length > 0) {
+
+    customerToSend.payments = []
+
+    customer.payments.map((item: IPayments) => {
+      
+      delete item.dateCreated
+      
+      if (item.id === "") item.id = undefined
+
+      if (!item.id && item.isEnable) return 
+
+      customerToSend.payments?.push(item)
+    })
+  }
+
+  return await updateCustomer(customerToSend)  
 }

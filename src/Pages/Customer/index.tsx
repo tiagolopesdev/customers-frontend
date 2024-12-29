@@ -113,7 +113,10 @@ export const Customer = () => {
         type: "warning"
       })
       setOpenFeedback(true);
-      console.log('Error ', error)
+      setTimeout(
+        () => { setLoading(true) },
+        2000
+      )
     }
   }
 
