@@ -145,17 +145,10 @@ export const Home = () => {
           <CustomerCardList customers={customers} />
         </ScroolCustom>
     }
-    <div
-      style={{
-        display: "flex",
-        flex: 1,
-      }}
-    >
-      <ButtonsActions
-        openScanner={openQr}
-        setOpenScanner={setOpenQr}
-      />
-    </div>
+    <ButtonsActions
+      openScanner={openQr}
+      setOpenScanner={setOpenQr}
+    />
     {
       openQr ?
         <QrCodeScannerModal

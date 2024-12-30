@@ -8,6 +8,7 @@ import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DiscountIcon from '@mui/icons-material/Discount';
+import { GroupButtonsActions } from "./style";
 
 interface IButtonsActions {
   openScanner: boolean,
@@ -18,20 +19,7 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
 
   const { logout, user } = useContext(MinimarketContext)
 
-  return <div
-    style={{
-      position: "sticky",
-      bottom: 0,
-      backgroundColor: '#1864BA',
-      display: "flex",
-      padding: '10px',
-      width: '100dvw',
-      justifyContent: "center",
-      height: '10dvh',
-      flexShrink: 0,
-      alignItems: 'center'
-    }}
-  >
+  return <GroupButtonsActions>
     <Link
       to="/customer"
       style={{
@@ -39,7 +27,6 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
       }}
     >
       <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
         color="success"
         variant="contained"
       >
@@ -47,7 +34,6 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
       </Button>
     </Link>
     <Button
-      style={{ height: '7vh', margin: '0px 5px' }}
       color="primary"
       variant="contained"
       onClick={() => setOpenScanner(!openScanner)}
@@ -61,7 +47,6 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
           }}
         >
           <Button
-            style={{ height: '7vh', margin: '0px 5px' }}
             color="success"
             variant="contained"
           >
@@ -77,7 +62,6 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
       }}
     >
       <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
         color="success"
         variant="contained"
       >
@@ -85,10 +69,9 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
       </Button>
     </Link>
     <Button
-      style={{ height: '7vh', margin: '0px 5px' }}
       color="error"
       variant="contained"
       onClick={() => { logout() }}
     ><LogoutIcon /></Button>
-  </div >
+  </GroupButtonsActions>
 }
