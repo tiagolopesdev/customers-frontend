@@ -1,7 +1,23 @@
 {
   "rewrites": [
     {
-      "source": "/**",
+      "source": "/products",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/customer",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/received",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
       "destination": "/index.html"
     }
   ]
