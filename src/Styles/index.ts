@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-
 export const ScroolCustom = styled.div`
   scroll-behavior: smooth;
   overflow-y: auto;
-  height: 100%;
-  padding: 0.5rem;
+  height: inherit;
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -15,6 +13,6 @@ export const ScroolCustom = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     background: rgb(159 159 159);
-    border-radius : 10px;
+    border-radius: 10px;
   }
 `;

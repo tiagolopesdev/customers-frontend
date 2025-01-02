@@ -1,4 +1,4 @@
-import { Alert, Button, Skeleton, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
+import { Alert, Button, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
 import { Values } from "../../Components/Values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
@@ -11,6 +11,9 @@ import { initialStateCustomer } from "../../Types/InitialStateCustomer"
 import { createCustomerHandler } from "../../Handlers/CreateCustomer"
 import { updateCustomerHandler } from "../../Handlers/UpdateCustomer"
 import { IMessageFeedback } from "../../Types/IMessageFeedback"
+import { ManagerShowData } from "../../Components/ManagerShowData"
+import { IStateShowData } from "../../Types/IStateShowData"
+import { ContainerComponent, GroupButtons } from "./style"
 
 
 export const Customer = () => {
@@ -18,85 +21,85 @@ export const Customer = () => {
   const navigate = useNavigate()
   const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
   const [customerOrigin, setCustomerOrigin] = useState<ICustomer>(initialStateCustomer)
-  const [loading, setLoading] = useState(true)
   const [openFeedback, setOpenFeedback] = useState(false);
   const [message, setMessage] = useState<IMessageFeedback>({
     message: '',
     type: "success"
   })
+  const [state, setState] = useState<IStateShowData>({
+    state: ""
+  })
 
   const findCustomer = async () => {
+    try {
+      const customerId = localStorage.getItem('customerId')
 
-    const customerId = localStorage.getItem('customerId')
+      let result: ICustomer = {
+        id: '',
+        amountPaid: 0,
+        amountToPay: 0,
+        name: '',
+        buys: [],
+        payments: []
+      }
 
-    let result: ICustomer = {
-      id: '',
-      amountPaid: 0,
-      amountToPay: 0,
-      name: '',
-      buys: [],
-      payments: []
+      setState({ state: 'IN_PROGRESS' })
+
+      if (customerId) {
+        result = await findByIdCustomersHandler(customerId) as ICustomer
+        result.buys?.forEach((item) => { item.isEnable = false })
+      }
+
+      setCustomer(result)
+      setCustomerOrigin(structuredClone(result))
+      setState({ state: 'SUCCESS' })
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      setState({ state: 'ERROR' })
     }
-
-    if (customerId) {
-      result = await findByIdCustomersHandler(customerId) as ICustomer
-      result.buys?.forEach((item) => { item.isEnable = false })
-    }
-
-    setCustomer(result)
-    setCustomerOrigin(structuredClone(result))
-    setLoading(false)
   }
-
-  useEffect(() => {
-    if (loading) findCustomer()
-  }, [loading])
 
   const showComponent = (): JSX.Element | string => {
     localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
-    return !loading ?
-      <div
-        style={{
-          backgroundColor: '#ffffff',
-          maxWidth: '95vw',
-          minWidth: '45vw',
-          height: '90dvh',
-          display: 'flex',
-          flexDirection: "column",
-          padding: '25px',
-        }}
-      >
-        <div>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            style={{
-              width: '100%',
-              marginBottom: '20px'
-            }}
-            defaultValue={customer.name}
-            label="Nome do cliente"
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
-          />
-          <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
-        </div>
-        <ShoppingCard customer={customer} setCustomer={setCustomer} />
-        <PaymentsCard customer={customer} setCustomer={setCustomer} />
-      </div> :
-      <div style={{ padding: '20px' }}>
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            width: '95vw',
-            height: '84dvh',
-            borderRadius: '10px',
+    return <ManagerShowData
+      data={
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            maxWidth: '95vw',
+            minWidth: '45vw',
+            height: '90dvh',
+            display: 'flex',
+            flexDirection: "column",
+            padding: '25px',
           }}
-        />
-      </div>
+        >
+          <div>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              style={{
+                width: '100%',
+                marginBottom: '20px'
+              }}
+              defaultValue={customer.name}
+              label="Nome do cliente"
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
+            />
+            <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
+          </div>
+          <ShoppingCard customer={customer} setCustomer={setCustomer} />
+          <PaymentsCard customer={customer} setCustomer={setCustomer} />
+        </div>}
+      state={state}
+      scrool={false}
+    />
   }
 
   useEffect(() => { showComponent() }, [customer.buys, customer.payments, customer.amountToPay])
+  useEffect(() => { findCustomer() }, [])
 
   const saveChanges = async () => {
     try {
@@ -106,7 +109,7 @@ export const Customer = () => {
         const customerId = await createCustomerHandler(customer)
         localStorage.setItem('customerId', customerId as string)
       }
-      setLoading(true)
+      findCustomer()
     } catch (error) {
       setMessage({
         message: error as string,
@@ -114,7 +117,7 @@ export const Customer = () => {
       })
       setOpenFeedback(true);
       setTimeout(
-        () => { setLoading(true) },
+        () => { findCustomer() },
         2000
       )
     }
@@ -130,29 +133,9 @@ export const Customer = () => {
     setOpenFeedback(false);
   };
 
-  return <div
-    style={{
-      display: 'flex',
-      flexDirection: "column",
-      height: '100dvh',
-      alignItems: "center"
-    }}
-  >
+  return <ContainerComponent>
     {showComponent()}
-    <div
-      style={{
-        position: "sticky",
-        bottom: 0,
-        backgroundColor: '#1864BA',
-        display: "flex",
-        padding: '10px',
-        width: '100vw',
-        justifyContent: "center",
-        height: '10dvh',
-        flexShrink: 0,
-        alignItems: 'center'
-      }}
-    >
+    <GroupButtons>
       <Button
         style={{ height: '7vh', margin: '0px 5px' }}
         color="info"
@@ -176,9 +159,9 @@ export const Customer = () => {
         color="warning"
         variant="contained"
         disabled={ObjectIsEquals(customer, customerOrigin)}
-        onClick={() => { setLoading(true) }}
+        onClick={() => { findCustomer() }}
       >Reverter</Button>
-    </div>
+    </GroupButtons>
     <Snackbar
       open={openFeedback}
       autoHideDuration={2500}
@@ -194,5 +177,5 @@ export const Customer = () => {
         {message.message}
       </Alert>
     </Snackbar>
-  </div>
+  </ContainerComponent>
 }

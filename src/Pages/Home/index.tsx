@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react"
 import { CustomerCardList } from "../../Components/Cards/Customer/customerList"
-import { ScroolCustom } from "../../Styles"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Chip, Skeleton, TextField } from "@mui/material"
+import { Chip, TextField } from "@mui/material"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
 import { Dayjs } from "dayjs"
 
 import { ButtonsActions } from "./buttonsActions"
+
+import { ManagerShowData } from "../../Components/ManagerShowData"
+import { IStateShowData } from "../../Types/IStateShowData"
 
 interface IFilters {
   all: boolean,
@@ -23,9 +25,7 @@ export const Home = () => {
 
   const { user } = useContext(MinimarketContext)
   const [customers, setCustomers] = useState<ICustomer[]>([])
-  const [filter, setFilter] = useState('')
   const [openQr, setOpenQr] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false)
   const [filters, setFilters] = useState<IFilters>({
     all: true,
     name: '',
@@ -33,27 +33,33 @@ export const Home = () => {
     usersSales: false,
     dateUsersSales: null
   })
+  const [state, setState] = useState<IStateShowData>({
+    state: ""
+  })
 
   const findCustomers = async () => {
     try {
 
-      setLoading(true)
+      setState({ state: "IN_PROGRESS" })
 
       if (filters.usersSales && filters.dateUsersSales === null) return
 
       let usersSales = undefined
       if (filters.usersSales) usersSales = user.email
 
-      const result = filter === '' ?
+      const result = filters.name === '' ?
         await findCustomersHandler(usersSales, filters.dateUsersSales, filters.owing) :
-        await findByNameCustomersHandler(filter, usersSales, filters.owing)
+        await findByNameCustomersHandler(filters.name, usersSales, filters.owing)
 
-      setCustomers(result as ICustomer[])
-      setLoading(false)
-
-      // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
+      if (result.length === 0) {
+        setState({ state: "NOT_FOUND" })
+      } else {
+        setCustomers(result as ICustomer[])
+        setState({ state: "SUCCESS" })
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      setLoading(false)
+      setState({ state: "ERROR" })
     }
   }
 
@@ -63,7 +69,7 @@ export const Home = () => {
       localStorage.removeItem('amountToPay')
     }
     findCustomers()
-  }, [filter, filters.dateUsersSales, filters.owing])
+  }, [filters.name, filters.dateUsersSales, filters.owing])
 
   return <div
     style={{
@@ -83,12 +89,16 @@ export const Home = () => {
     >
       <TextField
         id="standard-basic"
-        label="Pesquise pelo nome do comprador"
+        label="Pesquise pelo nome do cliente"
         variant="standard"
         sx={{ width: '80dvw' }}
-        defaultValue={filter}
+        defaultValue={filters.name}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => { setFilter(event.target.value ?? '') }}
+        onChange={(event: any) => {
+          setFilters({
+            ...filters, name: event.target.value ?? ''
+          })
+        }}
       />
       <div
         style={{
@@ -129,22 +139,10 @@ export const Home = () => {
         />
       </div>
     </div>
-    {
-      loading ?
-        <div style={{ margin: '10px', height: '100%' }}>
-          <Skeleton
-            variant="rectangular"
-            sx={{
-              width: '95vw',
-              height: '75vh',
-              borderRadius: '10px'
-            }}
-          />
-        </div> :
-        <ScroolCustom>
-          <CustomerCardList customers={customers} />
-        </ScroolCustom>
-    }
+    <ManagerShowData
+      data={<CustomerCardList customers={customers} />}
+      state={state}
+    />
     <ButtonsActions
       openScanner={openQr}
       setOpenScanner={setOpenQr}

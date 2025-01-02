@@ -1,23 +1,25 @@
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Button, Modal, Skeleton, TextField } from "@mui/material"
+import { Box, Button, Modal, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { IBuys } from "../../../Types/IBuys";
 import { getProductsHandler } from "../../../Handlers/GetProducts";
 import { IProduct } from "../../../Types/IProduct";
 import { ProductCardList } from "./product-list";
 import { MinimarketContext } from "../../../Context/minimarket";
+import { IStateShowData } from "../../../Types/IStateShowData";
+import { ManagerShowData } from "../../ManagerShowData";
 
 const style = {
   position: 'absolute',
-  top: '34%',
+  top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 320,
-  height: 355,
+  height: 410,
   bgcolor: 'background.paper',
   boxShadow: 20,
-  p: 2.5,
+  p: 2.8,
 };
 
 interface IShoppingModal {
@@ -37,20 +39,24 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
   const [filterProduct, setFilterProduct] = useState('')
   const [products, setProducts] = useState<IProduct[]>([])
-  const [loading, setLoading] = useState(false)
+  const [state, setState] = useState<IStateShowData>({
+    state: ''
+  })
 
   const findProducts = async () => {
     try {
-      setLoading(true)
+      setState({ state: "IN_PROGRESS" })
+
       const response = await getProductsHandler(filterProduct)
 
-      // response?.forEach((item: IProduct) => { item.quantity = 0 })
-
-      setProducts(response as IProduct[])
-      setLoading(false)
-
+      if (response?.length === 0) {
+        setState({ state: "NOT_FOUND" })
+      } else {
+        setProducts(response as IProduct[])
+        setState({ state: "SUCCESS" })
+      }
     } catch (error) {
-      setLoading(false)
+      setState({ state: "ERROR" })
     }
   }
 
@@ -58,6 +64,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
   const managerButtons = () => {
     return <div style={{
+      marginTop: '10px',
       display: 'flex',
       justifyContent: 'space-evenly'
     }}>
@@ -110,29 +117,12 @@ export const ShoppingModal = (props: IShoppingModal) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(event: any) => { setFilterProduct(event.target.value) }}
       />
-      {
-        loading ?
-          <div style={{ margin: '10px' }}>
-            <Skeleton
-              variant="rectangular"
-              sx={{
-                width: '75vw',
-                height: '28vh',
-                borderRadius: '10px'
-              }}
-            />
-          </div> :
-          <div
-            style={{
-              marginTop: '20px',
-              marginBottom: '15px',
-              overflow: 'scroll',
-              height: '225px',
-            }}
-          >
-            <ProductCardList products={products} />
-          </div>
-      }
+      <div style={{ height: '35dvh', width: 'inherit' }}>
+        <ManagerShowData
+          data={<ProductCardList products={products} />}
+          state={state}
+        />
+      </div>
       {managerButtons()}
     </Box>
   </Modal>
