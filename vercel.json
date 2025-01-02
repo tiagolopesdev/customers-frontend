@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/products",
+      "source": "/**",
       "destination": "/index.html"
     }
   ]
