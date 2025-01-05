@@ -69,7 +69,7 @@ export const Login = ({ toRedirect }: ILogin) => {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100vw',
-    height: '40vh'
+    height: '65vh'
   }}>
     <Card sx={{
       minWidth: '90vw',
@@ -108,23 +108,11 @@ export const Login = ({ toRedirect }: ILogin) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(event: any) => { setEmail(event.target.value ?? '') }}
         />
-        {/* <Link
-          component="button"
-          variant="body2"          
-          onClick={() => {
-            console.info("I'm a button.");
-          }}
-          
-        >
-          Button Link
-        </Link> */}
-        {/* <Link to={{ pathname: toRedirect === 'home' ? '' : toRedirect }} >Acessar</Link> */}
         <Button
           sx={{ marginTop: 2, width: '50dvw' }}
           variant="contained"
           onClick={async () => {
             handleClick()
-            // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
           }}
         >{
             loading ?
