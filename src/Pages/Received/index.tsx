@@ -1,14 +1,18 @@
-import { CSSProperties, useContext, useEffect, useState } from "react"
-import { ScroolCustom } from "../../Styles"
+import { useContext, useEffect, useState } from "react"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Skeleton, TextField, TextFieldProps, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, TextField, TextFieldProps, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import dayjs, { Dayjs } from "dayjs"
 import { showPercentage } from "../../Utils/percentage/showPercentage"
+import { ManagerShowData } from "../../Components/ManagerShowData"
+import { IStateShowData } from "../../Types/IStateShowData"
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ButtonsContainer, FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
 
 interface IFilters {
   all: boolean,
@@ -17,25 +21,12 @@ interface IFilters {
   dateUsersSales: Dayjs | null
 }
 
-interface IStateFindData {
-  state: 'selectdate' | 'error' | 'search' | ''
-}
-
-const stateStyle: CSSProperties = {
-  width: '95vw',
-  height: '75vh',
-  borderRadius: '10px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-}
-
 export const Received = () => {
 
-  const { logout, user } = useContext(MinimarketContext)
+  const { user } = useContext(MinimarketContext)
   const [customers, setCustomers] = useState<ICustomer[]>([])
   const [filter, setFilter] = useState('')
-  const [state, setState] = useState<IStateFindData>({ state: 'selectdate' })
+  const [state, setState] = useState<IStateShowData>({ state: '' })
   const [filters, setFilters] = useState<IFilters>({
     all: true,
     name: '',
@@ -55,18 +46,22 @@ export const Received = () => {
 
       if (filters.dateUsersSales === null) return
 
-      setState({ state: 'search' })
+      setState({ state: 'IN_PROGRESS' })
 
       const result = filter === '' ?
         await findCustomersHandler(user.email, filters.dateUsersSales) :
         await findByNameCustomersHandler(filter, user.email)
 
       setCustomers(result as ICustomer[])
-      setState({ state: '' })
+      if (result.length === 0) {
+        setState({ state: 'NOT_FOUND' })
+      } else {
+        setState({ state: 'SUCCESS' })
+      }
 
       // eslint-disable-next-line no-empty, @typescript-eslint/no-unused-vars
     } catch (error) {
-      setState({ state: 'error' })
+      setState({ state: 'ERROR' })
     }
   }
 
@@ -148,8 +143,8 @@ export const Received = () => {
   }
 
   const managerShowData = () => {
-    if (state.state === 'selectdate') {
-      return <div style={stateStyle}>
+    return state.state === '' ?
+      <SelectDateContainer>
         <DatePicker
           inputFormat="DD/MM/YYYY"
           value={filters.dateUsersSales}
@@ -163,47 +158,11 @@ export const Received = () => {
           />
           }
         />
-      </div >
-    } else if (state.state === 'search') {
-      return <div style={{ margin: '10px', height: '100%' }}>
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            width: '95vw',
-            height: '75vh',
-            borderRadius: '10px'
-          }}
-        />
-      </div>
-    } else if (state.state === 'error') {
-      return <div style={stateStyle}>
-        <Typography
-          sx={{ fontWeight: 550, color: '#7a7a7a' }}
-        >Não foi possível obter os dados</Typography>
-      </div >
-    } else {
-      return <ScroolCustom>
-        {showCustomers()}
-      </ScroolCustom>
-    }
-  }
-  const handleDelete = () => {
-    setState({ state: 'selectdate' })
-    setFilters({ ...filters, dateUsersSales: null })
-  };
-
-  const stylePaymentMethodCard = (): CSSProperties => {
-    return {
-      backgroundColor: '#eeeeee',
-      margin: '18px',
-      width: '20vw',
-      height: '10vh',
-      borderRadius: '5px',
-      display: 'flex',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      alignItems: 'center'
-    }
+      </SelectDateContainer> :
+      <ManagerShowData
+        data={<div>{showCustomers()}</div>}
+        state={state}
+      />
   }
 
   const showSumPaymentMethod = (paymentMethodFilter: string) => {
@@ -219,24 +178,8 @@ export const Received = () => {
     return pixMethodSum
   }
 
-  return <div
-    style={{
-      display: 'flex',
-      flexDirection: "column",
-      height: '100dvh',
-    }}
-  >
-    <div
-      style={{
-        backgroundColor: '#ffffff',
-        height: '15dvh',
-        display: 'flex',
-        padding: '10px',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'space-around'
-      }}
-    >
+  return <ReceivedContainer>
+    <FiltersContainer>
       <TextField
         id="standard-basic"
         label="Pesquise pelo nome do cliente"
@@ -247,49 +190,42 @@ export const Received = () => {
         onChange={(event: any) => { setFilter(event.target.value ?? '') }}
       />
       {
-        state.state === '' ?
+        state.state === 'SUCCESS' || state.state === 'NOT_FOUND' ?
           <Chip
-            sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+            sx={{ height: 25, margin: '10px 5px', fontWeight: 550 }}
             label={`Data: ${dayjs(filters.dateUsersSales).format('DD/MM/YYYY')}`}
             color='info'
             variant='filled'
-            onDelete={handleDelete}
+            onDelete={() => {
+              setState({ state: '' })
+              setFilters({ ...filters, dateUsersSales: null })
+            }}
           /> :
           ''
       }
-    </div>
-    <div
-      style={{
-        backgroundColor: '#FFFFFF',
-        margin: '10px',
-        borderRadius: '5px',
-        height: '15vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <div style={stylePaymentMethodCard()}>
+    </FiltersContainer>
+    <PaymentMethodsContainer>
+      <PaymentMethodsType>
         <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Pix</Typography>
         <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
           {showSumPaymentMethod('PIX').toFixed(2)}
         </Typography>
-      </div>
-      <div style={stylePaymentMethodCard()}>
+      </PaymentMethodsType>
+      <PaymentMethodsType>
         <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Cartão</Typography>
         <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
           {
             `${showSumPaymentMethod('CARD')} (${(showSumPaymentMethod('CARD') + (showSumPaymentMethod('CARD') * (3.15 / 100))).toFixed(2)})`
           }
         </Typography>
-      </div>
-      <div style={stylePaymentMethodCard()}>
+      </PaymentMethodsType>
+      <PaymentMethodsType>
         <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Espécie</Typography>
         <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
           {showSumPaymentMethod('CASH').toFixed(2)}
         </Typography>
-      </div>
-    </div>
+      </PaymentMethodsType>
+    </PaymentMethodsContainer>
     {managerShowData()}
     <div
       style={{
@@ -297,39 +233,22 @@ export const Received = () => {
         flex: 1
       }}
     >
-      <div
-        style={{
-          position: "sticky",
-          bottom: 0,
-          backgroundColor: '#1864BA',
-          display: "flex",
-          padding: '10px',
-          width: '100vw',
-          justifyContent: "center",
-          height: '10dvh',
-          flexShrink: 0,
-          alignItems: 'center'
-        }}
-      >
-        <Button
-          style={{ height: '7vh', margin: '0px 5px' }}
-          color="success"
-          variant="contained"
+      <ButtonsContainer>
+        <Link
+          to="/"
+          style={{
+            color: '#ffffff'
+          }}
         >
-          <Link
-            to="/"
-            style={{
-              color: '#ffffff'
-            }}
-          >Voltar</Link>
-        </Button>
-        <Button
-          style={{ height: '7vh', margin: '0px 5px' }}
-          color="error"
-          variant="contained"
-          onClick={() => { logout() }}
-        >Sair</Button>
-      </div>
+          <Button
+            style={{ height: '7vh', margin: '0px 5px' }}
+            color="success"
+            variant="contained"
+          >
+            <ArrowBackIcon />
+          </Button>
+        </Link>
+      </ButtonsContainer>
     </div>
-  </div>
+  </ReceivedContainer>
 }

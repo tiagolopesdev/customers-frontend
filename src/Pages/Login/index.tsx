@@ -76,8 +76,6 @@ export const Login = ({ toRedirect }: ILogin) => {
       maxWidth: '65vw',
       minHeight: '10vh'
     }}
-      onClick={() => {
-      }}
       key={`login-page`}
     >
       <CardContent
@@ -102,7 +100,6 @@ export const Login = ({ toRedirect }: ILogin) => {
         <TextField
           id="standard-basic"
           label="Digite seu e-mail"
-          // variant="standard"
           sx={{ width: '80dvw' }}
           defaultValue={email}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

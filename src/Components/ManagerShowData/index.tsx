@@ -32,7 +32,7 @@ export const ManagerShowData = ({ data, state, scrool }: IManagerShowData) => {
       >
         <ReportGmailerrorredIcon style={{ fontSize: '40pt', color: '#e60202' }} />
         <Typography style={{ color: '#6e6e6e', fontWeight: 550 }} >
-          Não foi possível obter os dados
+          Não foi possível obter o(s) dado(s)
         </Typography>
       </div>
     case 'NOT_FOUND':
@@ -46,7 +46,7 @@ export const ManagerShowData = ({ data, state, scrool }: IManagerShowData) => {
       >
         <WarningAmberIcon style={{ fontSize: '40pt', color: '#e6cf02' }} />
         <Typography style={{ color: '#6e6e6e', fontWeight: 550 }} >
-          Registro pesquisado não encontrado
+          Registro(s) pesquisado não encontrado(s)
         </Typography>
       </div>
     case 'IN_PROGRESS':
