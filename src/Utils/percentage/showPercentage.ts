@@ -7,7 +7,7 @@ export const showPercentage = (showValue: boolean, paymentMethod: string, value:
       `${value.toFixed(2)}`
   } else {
     return paymentMethod === 'CARD' ?
-      `${paymentMethod} (3,15%)` :
+      `${paymentMethod} (3,58%)` :
       `${paymentMethod}`
   }
 }
