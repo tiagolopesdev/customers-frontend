@@ -13,6 +13,7 @@ import { IStateShowData } from "../../Types/IStateShowData"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ButtonsContainer, FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
+import { enviroments } from "../../config/enviroments"
 
 interface IFilters {
   all: boolean,
@@ -215,7 +216,7 @@ export const Received = () => {
         <Typography sx={{ color: '#555555', fontWeight: 550, fontSize: 13 }}>Cartão</Typography>
         <Typography sx={{ color: '#2e7d32', fontWeight: 800, fontSize: 20 }}>
           {
-            `${showSumPaymentMethod('CARD')} (${(showSumPaymentMethod('CARD') + (showSumPaymentMethod('CARD') * (3.15 / 100))).toFixed(2)})`
+            `${showSumPaymentMethod('CARD')} (${(showSumPaymentMethod('CARD') + (showSumPaymentMethod('CARD') * (Number(enviroments.PERCENTAGE_CARD) / 100))).toFixed(2)})`
           }
         </Typography>
       </PaymentMethodsType>

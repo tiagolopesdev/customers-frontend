@@ -5,6 +5,7 @@ import { IPayments } from "../../../Types/IPayments";
 import { useState } from "react";
 import { IMessageFeedback } from "../../../Types/IMessageFeedback";
 import { showPercentage } from "../../../Utils/percentage/showPercentage";
+import { enviroments } from "../../../config/enviroments";
 
 const style = {
   position: 'absolute',
@@ -90,7 +91,7 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
           onClick={(event: any) => { setPayment({ ...payment, paymentMethod: event.target.value }) }}
         >
           <FormControlLabel value="PIX" control={<Radio />} label="Pix" />
-          <FormControlLabel value="CARD" control={<Radio />} label="Cartão (3,15%)" />
+          <FormControlLabel value="CARD" control={<Radio />} label={`Cartão (${enviroments.PERCENTAGE_CARD.replace('.', ',')}%)`} />
           <FormControlLabel value="CASH" control={<Radio />} label="Espécie" />
         </RadioGroup>
       </FormControl>
