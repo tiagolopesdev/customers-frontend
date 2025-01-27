@@ -8,7 +8,7 @@ export const showPercentage = (showValue: boolean, paymentMethod: string, value:
       `${value.toFixed(2)}`
   } else {
     return paymentMethod === 'CARD' ?
-      `${paymentMethod} (${enviroments.VITE_CUSTOMER_API.replace('.', ',')}3,58%)` :
+      `${paymentMethod} (${enviroments.PERCENTAGE_CARD.replace('.', ',')})` :
       `${paymentMethod}`
   }
 }
