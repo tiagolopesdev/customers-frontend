@@ -2,6 +2,7 @@ import { Alert, Button, Card, CardContent, CircularProgress, Snackbar, SnackbarC
 import { useContext, useState } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
 import { IMessageFeedback } from "../../Types/IMessageFeedback"
+import { useNavigate } from "react-router-dom"
 
 interface ILogin {
   toRedirect?: string
@@ -10,6 +11,8 @@ interface ILogin {
 export const Login = ({ toRedirect }: ILogin) => {
 
   const { login } = useContext(MinimarketContext)
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('')
   const [open, setOpen] = useState(false);
@@ -40,7 +43,8 @@ export const Login = ({ toRedirect }: ILogin) => {
       await login(email)
       setLoading(false)
 
-      window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
+      navigate(`${toRedirect === 'home' ? '' : toRedirect}`)
+      // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
