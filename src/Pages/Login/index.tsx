@@ -3,6 +3,9 @@ import { useContext, useState } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
 import { IMessageFeedback } from "../../Types/IMessageFeedback"
 import { useNavigate } from "react-router-dom"
+import { getToken } from "../../Services/Users"
+import { IUser } from "../../Types/IUser"
+import { jwtDecode } from "jwt-decode"
 
 interface ILogin {
   toRedirect?: string
@@ -40,10 +43,12 @@ export const Login = ({ toRedirect }: ILogin) => {
       })
       setOpen(true);
 
-      await login(email)
+      await login(email)    
       setLoading(false)
 
+      console.log('To Redirect')
       navigate(`${toRedirect === 'home' ? '' : toRedirect}`)
+      console.log('Redirected')
       // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
