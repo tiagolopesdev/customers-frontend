@@ -11,7 +11,8 @@ interface IMinimarketContextProvider {
 }
 
 interface IMinimarketContext {
-  user: IUser
+  user: IUser,
+  setUser: React.Dispatch<React.SetStateAction<IUser>>,
   selectedProducts: IProduct[];
   setSelectProducts: React.Dispatch<React.SetStateAction<IProduct[]>>,
   login: (email: string) => Promise<void>,
@@ -73,6 +74,7 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
     login,
     logout,
     user,
+    setUser,
     loadUserLocalStorage,
     productWasManipulated,
     setProductWasManipulated

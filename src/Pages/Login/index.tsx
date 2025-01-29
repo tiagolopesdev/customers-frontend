@@ -13,7 +13,7 @@ interface ILogin {
 
 export const Login = ({ toRedirect }: ILogin) => {
 
-  const { login } = useContext(MinimarketContext)
+  const { setUser } = useContext(MinimarketContext)
 
   const navigate = useNavigate();
 
@@ -43,7 +43,14 @@ export const Login = ({ toRedirect }: ILogin) => {
       })
       setOpen(true);
 
-      await login(email)    
+      // await login(email)    
+      const token = await getToken(email)
+
+      const claims: IUser = jwtDecode(token)
+
+      setUser(claims)
+
+      localStorage.setItem('user', JSON.stringify(claims))
       setLoading(false)
 
       console.log('To Redirect')
