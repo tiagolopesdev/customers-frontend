@@ -7,7 +7,7 @@ export interface ITableCellProps {
 }
 
 export interface ITableItensRowProps {
-  name: string
+  name: string | JSX.Element
   align: 'inherit' | 'left' | 'center' | 'right' | 'justify',
   actions?: JSX.Element,
   style?: SxProps<Theme> | undefined

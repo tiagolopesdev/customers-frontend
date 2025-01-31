@@ -85,6 +85,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
               name: item.name,
               price: item.value,
               quantity: item.quantity,
+              total: item.value * item.quantity,
               productId: item.id,
               updatedBy: user.email
             })

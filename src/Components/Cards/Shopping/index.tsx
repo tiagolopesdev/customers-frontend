@@ -1,10 +1,15 @@
-import { Button, Card, CardContent, Typography } from "@mui/material"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, Card, CardContent, Chip, IconButton, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { ShoppingModal } from "../../Modals/Shopping";
 import { TableComponent } from "../../Table";
 import { IBuys } from "../../../Types/IBuys";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
+import { CurrencyInput } from "react-currency-mask";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IShoppingCard {
@@ -17,6 +22,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
   const [open, setOpen] = useState(false);
   const [buysTotal, setBuysTotal] = useState(0)
   const [buyManipulation, setBuyManipulation] = useState<IBuys[]>([])
+  const [updatedUnitValue, setUpdatedUnitValue] = useState(false)
 
   const handleStateModal = () => setOpen(!open)
 
@@ -25,14 +31,84 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
 
     if (!customer.buys) return listRow
 
-    customer.buys.map((item: IBuys) => {
+    customer.buys.map((item: IBuys, indexBuy: number) => {
       if (item.isEnable) return
+
+      let priceUpdated = 0
+
       const listToReturn: ITableRowProps = {
         rows: [
-          { style: { width: '12dvw' }, name: `${item.name}`, align: 'left', useTooltip: true },
+          {
+            style: { width: '12dvw' }, name: !item.id || item.id === undefined ?
+              <Chip
+                sx={{ height: 25, fontWeight: 550 }}
+                label={`${item.name}`}
+                color='info'
+                variant='outlined'
+              /> : item.name
+            , align: 'left', useTooltip: true
+          },
           { style: { width: '10dvw' }, name: `${item.quantity}`, align: 'center' },
-          { style: { width: '10dvw' }, name: `${item.price}`, align: 'center' },
-          { style: { width: '10dvw' }, name: `${(item.price * item.quantity).toFixed(2)}`, align: 'center' },
+          {
+            style: { width: '10dvw' }, name: !item.id || item.id === undefined ?
+              <div style={{ display: 'flex' }}>
+                <IconButton onClick={() => {
+                  customer.buys?.splice(indexBuy, 1, {
+                    name: item.name,
+                    price: priceUpdated,
+                    quantity: item.quantity,
+                    total: item.quantity * priceUpdated,
+                    productId: item.productId,
+                    updatedBy: item.updatedBy,
+                    dateCreated: item.dateCreated,
+                    id: item.id,
+                    isEnable: item.isEnable
+                  } as IBuys)
+                  setUpdatedUnitValue(true)
+                }}>
+                  <CheckCircleIcon color="info" />
+                </IconButton>
+                <CurrencyInput
+                  defaultValue={item.total?.toFixed(2)}
+                  onChangeValue={(
+                    _event: React.ChangeEvent<HTMLInputElement>,
+                    originalValue: string | number,
+                    _maskedValue: string | number
+                  ) => {
+                    priceUpdated = originalValue as number
+                  }}
+                  InputElement={
+                    <TextField
+                      id="standard-basic"
+                      label=""
+                      variant="standard"
+                      size="small"
+                      defaultValue={item.price.toFixed(2)}
+                      style={{ minWidth: '100px' }}
+                    />
+                  }
+                />
+                {/* <IconButton onClick={() => {
+                  customer.buys?.splice(indexBuy, 1, {
+                    name: item.name,
+                    price: fixedValue,
+                    quantity: item.quantity,
+                    total: item.quantity * item.price,
+                    productId: item.productId,
+                    updatedBy: item.updatedBy,
+                    dateCreated: item.dateCreated,
+                    id: item.id,
+                    isEnable: item.isEnable
+                  } as IBuys)
+                  setUpdatedUnitValue(true)
+                }}>
+                  <ReplayIcon color="warning" />
+                </IconButton> */}
+              </div> : `${item.price.toFixed(2)}`, align: 'center'
+          },
+          {
+            style: { width: '10dvw' }, name: `${(item.price * item.quantity).toFixed(2)}`, align: 'center'
+          },
           {
             style: { width: '5px' },
             name: 'jkgjhjgh',
@@ -118,6 +194,24 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
     buysTotalCalculate()
   }, [customer.buys, buyManipulation])
 
+  const tableComponentToShow = () => <TableComponent
+    tableCell={[
+      { name: 'Produto', align: 'left', style: { width: 100 } },
+      { name: 'Quant.', align: 'center' },
+      { name: 'Unitário', align: 'center' },
+      { name: 'Total', align: 'center' },
+      { name: 'Ações', align: "center" }
+    ]}
+    tableRows={buildBuysForRender()}
+  />
+
+  useEffect(() => {
+    if (updatedUnitValue) {
+      tableComponentToShow()
+      setUpdatedUnitValue(false)
+    }
+  }, [updatedUnitValue])
+
   return <>
     <Card sx={{
       minWidth: '35vw',
@@ -163,7 +257,8 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
               color: "#64BC6D"
             }}
           >
-            {`R$ ${buysTotal.toFixed(2)}`}
+            {`R$ ${buysTotal.toFixed(2)
+              }`}
           </Typography>
           <Button
             variant="contained"
@@ -171,7 +266,8 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             onClick={() => { handleStateModal() }}
           >Adicionar</Button>
         </div>
-        <TableComponent
+        {tableComponentToShow()}
+        {/* <TableComponent
           tableCell={[
             { name: 'Produto', align: 'left', style: { width: 100 } },
             { name: 'Quant.', align: 'center' },
@@ -180,7 +276,7 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             { name: 'Ações', align: "center" }
           ]}
           tableRows={buildBuysForRender()}
-        />
+        /> */}
       </CardContent>
     </Card>
     {
