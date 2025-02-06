@@ -11,7 +11,11 @@ interface ITableProps {
 
 export const TableComponent = (props: ITableProps) => {
 
-  return <TableContainer component={Paper} sx={{ maxHeight: 200, ...props.style }} >
+  return <TableContainer component={Paper} sx={{
+    maxHeight: '25dvh',
+    ...props.style
+  }}
+  >
     <Table stickyHeader sx={{ minWidth: props.width ?? 460 }} aria-label="simple table" >
       <TableHead>
         <TableRow>
