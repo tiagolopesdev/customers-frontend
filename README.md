@@ -1,5 +1,5 @@
 # :bulb: Projeto mini-mercado
-#### Em suma, a aplicação vem para solucionar o controle de vendas de produtos e ao final do evento realizer a prestação de conta dos itens
+#### Em suma, a aplicação vem para solucionar o controle de vendas de produtos e ao final do evento realizar a prestação de conta dos itens
 
 # Tópicos
   1. [Status do projeto](#status-do-projeto)
@@ -9,7 +9,7 @@
   7. [Meus contatos](#meus-contatos)
 
 # Status do projeto
-Concluido. O projeto foi levado para produção onde no decorrer do uso dos usuários foram levantados pontos de melhorias a serem implementadas, bem como outras funcionalidades para agregar na robustez do projeto
+Concluído. O projeto foi levado para produção onde no decorrer do uso dos usuários foram levantados pontos de melhorias a serem implementadas, bem como outras funcionalidades para agregar na robustez do projeto.
 
 # Funcionalidades da aplicação
 - [x] Cadastro, edição e exclusão produtos.
