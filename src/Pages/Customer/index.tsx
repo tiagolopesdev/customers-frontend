@@ -15,6 +15,9 @@ import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { ContainerComponent, GroupButtons } from "./style"
 
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export const Customer = () => {
 
@@ -29,6 +32,7 @@ export const Customer = () => {
   const [state, setState] = useState<IStateShowData>({
     state: ""
   })
+  const [editName, setEditName] = useState(true)
 
   const findCustomer = async () => {
     try {
@@ -75,7 +79,7 @@ export const Customer = () => {
             padding: '25px',
           }}
         >
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField
               id="standard-basic"
               variant="standard"
@@ -83,13 +87,27 @@ export const Customer = () => {
                 width: '100%',
                 marginBottom: '20px'
               }}
+              disabled={editName}
               defaultValue={customer.name}
               label="Nome do cliente"
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
             />
-            <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
+            <Button
+              onClick={() => { setEditName(!editName) }}
+              variant="contained"
+              sx={{ marginLeft: '20px' }}
+              size="small"
+              color={editName? "info" : "error"  }
+            >
+              {
+                editName ?
+                  <EditIcon style={{ fontSize: '20pt', color: '#FFFFFF' }} /> :
+                  <CloseIcon style={{ fontSize: '20pt', color: '#FFFFFF' }} />
+              }
+            </Button>
           </div>
+          <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
           <ShoppingCard customer={customer} setCustomer={setCustomer} />
           <PaymentsCard customer={customer} setCustomer={setCustomer} />
         </div>}
