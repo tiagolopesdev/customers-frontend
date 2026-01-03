@@ -15,12 +15,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ButtonsContainer, FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
 import { enviroments } from "../../config/enviroments"
 import formatDate from "../../Utils/formatDate"
+import { IBaseFilters } from "../../Types/IFilters"
 
-interface IFilters {
-  all: boolean,
+interface IFilters extends IBaseFilters {
   usersSales: string,
-  name: string,
-  dateUsersSales: string | undefined | null
 }
 
 export const Received = () => {

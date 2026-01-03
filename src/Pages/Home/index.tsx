@@ -6,19 +6,16 @@ import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
 import { Chip, TextField } from "@mui/material"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
-import { Dayjs } from "dayjs"
 
 import { ButtonsActions } from "./buttonsActions"
 
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
+import { IBaseFilters } from "../../Types/IFilters"
 
-interface IFilters {
-  all: boolean,
+interface IFilters extends IBaseFilters {
   owing: boolean,
   usersSales: boolean,
-  name: string,
-  dateUsersSales: Dayjs | null
 }
 
 export const Home = () => {
