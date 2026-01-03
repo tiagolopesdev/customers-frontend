@@ -14,12 +14,13 @@ import { IStateShowData } from "../../Types/IStateShowData"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ButtonsContainer, FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
 import { enviroments } from "../../config/enviroments"
+import formatDate from "../../Utils/formatDate"
 
 interface IFilters {
   all: boolean,
   usersSales: string,
   name: string,
-  dateUsersSales: Dayjs | null
+  dateUsersSales: string | undefined | null
 }
 
 export const Received = () => {
@@ -130,7 +131,7 @@ export const Received = () => {
                   />
                   <Chip
                     sx={{ height: 18, fontWeight: 550, marginTop: '5px' }}
-                    label={dayjs(buy.dateCreated).format('DD/MM/YYYY HH:MM A')}
+                    label={formatDate(buy.dateCreated as string)}
                     color='info'
                     variant='outlined'
                   />
@@ -150,7 +151,7 @@ export const Received = () => {
           inputFormat="DD/MM/YYYY"
           value={filters.dateUsersSales}
           onChange={(newValue: Dayjs | null) => {
-            setFilters({ ...filters, dateUsersSales: newValue })
+            setFilters({ ...filters, dateUsersSales: newValue?.toISOString() })
           }}
           renderInput={(params: TextFieldProps) => <TextField
             style={{ width: '200px', marginRight: '10px' }}
@@ -194,12 +195,13 @@ export const Received = () => {
         state.state === 'SUCCESS' || state.state === 'NOT_FOUND' ?
           <Chip
             sx={{ height: 25, margin: '10px 5px', fontWeight: 550 }}
-            label={`Data: ${dayjs(filters.dateUsersSales).format('DD/MM/YYYY')}`}
+            label={`Data: ${dayjs(filters.dateUsersSales?.toString()).format('DD/MM/YYYY')}`}
             color='info'
             variant='filled'
             onDelete={() => {
               setState({ state: '' })
               setFilters({ ...filters, dateUsersSales: null })
+              setCustomers([])
             }}
           /> :
           ''

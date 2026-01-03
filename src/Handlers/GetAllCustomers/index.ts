@@ -1,12 +1,14 @@
-import { Dayjs } from "dayjs"
+// import { Dayjs } from "dayjs"
 import { getAllCustomers } from "../../Services/Customer"
 
-export const findCustomersHandler = async (usersSales?: string, dateUsersSales?: Dayjs | null, owing?: boolean) => {
+export const findCustomersHandler = async (usersSales?: string, dateUsersSales?: string | null, owing?: boolean) => {
   let dateFormated = ''
 
   if (dateUsersSales !== null) {
-    dateFormated = dateUsersSales?.toISOString().substring(0, 10) ?? ''
+    dateFormated = dateUsersSales?.substring(0, 10) ?? ''
   }
+
+  console.log('Date Formated: ' + dateFormated)
 
   return await getAllCustomers(usersSales, dateFormated, owing)
 }

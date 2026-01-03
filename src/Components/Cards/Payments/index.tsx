@@ -7,9 +7,9 @@ import { IPayments } from "../../../Types/IPayments";
 import { initialStatePayments } from "../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../Types/ICustomer";
 import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
-import dayjs from "dayjs";
 import { IBuys } from "../../../Types/IBuys";
 import { showPercentage } from "../../../Utils/percentage/showPercentage";
+import formatDate from "../../../Utils/formatDate";
 
 
 interface IPaymentsCard {
@@ -37,7 +37,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           { name: showPercentage(false, item.paymentMethod, item.value), align: 'center', style: { width: 50 } },
           {
             name: `${item.dateCreated !== undefined ?
-              dayjs(item.dateCreated).format('DD/MM/YYYY hh:mm A') :
+              formatDate(item.dateCreated) :
               ''
               }`, align: 'center', style: { width: 80 }
           },
