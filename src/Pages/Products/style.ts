@@ -14,16 +14,3 @@ export const ComponentContainer = styled.div`
   flex-direction: column;
   height: 100dvh;
 `
-
-export const ButtonsGroup = styled.div`
-  position: sticky;
-  bottom: 0;
-  background-color: #1864BA;
-  display: flex;
-  padding: 10px;
-  width: 100vw;
-  justify-content: center;
-  height: 10dvh;
-  flex-shrink: 0;
-  align-items: center
-`

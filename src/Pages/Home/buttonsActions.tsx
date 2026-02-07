@@ -1,14 +1,12 @@
-import { Button } from "@mui/material"
 import { useContext } from "react"
 import { MinimarketContext } from "../../Context/minimarket"
-import { Link } from "react-router-dom"
+import { GroupButtonsActions, ElementLink } from "../../Styles";
 
-import AddIcon from '@mui/icons-material/Add';
+import PersonIcon from '@mui/icons-material/Person';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DiscountIcon from '@mui/icons-material/Discount';
-import { GroupButtonsActions } from "./style";
 
 interface IButtonsActions {
   openScanner: boolean,
@@ -20,58 +18,41 @@ export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions)
   const { logout, user } = useContext(MinimarketContext)
 
   return <GroupButtonsActions>
-    <Link
-      to="/customer"
-      style={{
-        color: '#ffffff'
-      }}
+    <ElementLink
+      to="/customer"     
     >
-      <Button
-        color="success"
-        variant="contained"
-      >
-        <AddIcon />
-      </Button>
-    </Link>
-    <Button
-      color="primary"
-      variant="contained"
+      <PersonIcon />
+      Cadastro
+    </ElementLink>
+    <ElementLink
+      to=""
       onClick={() => setOpenScanner(!openScanner)}
-    ><CenterFocusWeakIcon /></Button>
+    >
+      <CenterFocusWeakIcon />
+      Scanner
+      </ElementLink>
     {
       user.role.includes('Admin') ?
-        <Link
+        <ElementLink
           to="/products"
-          style={{
-            color: '#ffffff'
-          }}
         >
-          <Button
-            color="success"
-            variant="contained"
-          >
-            <DiscountIcon />
-          </Button>
-        </Link>
+          <DiscountIcon />
+          Produtos
+        </ElementLink>
         : ''
     }
-    <Link
+    <ElementLink
       to="/received"
-      style={{
-        color: '#ffffff'
-      }}
     >
-      <Button
-        color="success"
-        variant="contained"
-      >
-        <AttachMoneyIcon />
-      </Button>
-    </Link>
-    <Button
-      color="error"
-      variant="contained"
+      <AttachMoneyIcon />
+      Prestação
+    </ElementLink>
+    <ElementLink
+      to=""
       onClick={() => { logout() }}
-    ><LogoutIcon /></Button>
+    >
+      <LogoutIcon />
+      Sair
+    </ElementLink>
   </GroupButtonsActions>
 }

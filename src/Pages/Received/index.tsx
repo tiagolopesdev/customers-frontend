@@ -2,20 +2,20 @@ import { useContext, useEffect, useState } from "react"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, TextField, TextFieldProps, Typography } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Accordion, AccordionDetails, AccordionSummary, Chip, TextField, TextFieldProps, Typography } from "@mui/material"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import dayjs, { Dayjs } from "dayjs"
 import { showPercentage } from "../../Utils/percentage/showPercentage"
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
-
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ButtonsContainer, FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
+import { FiltersContainer, PaymentMethodsContainer, PaymentMethodsType, ReceivedContainer, SelectDateContainer } from "./style"
 import { enviroments } from "../../config/enviroments"
 import formatDate from "../../Utils/formatDate"
 import { IBaseFilters } from "../../Types/IFilters"
+import { ElementLink, GroupButtonsActions } from "../../Styles"
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface IFilters extends IBaseFilters {
   usersSales: string,
@@ -234,22 +234,14 @@ export const Received = () => {
         flex: 1
       }}
     >
-      <ButtonsContainer>
-        <Link
+      <GroupButtonsActions>
+        <ElementLink
           to="/"
-          style={{
-            color: '#ffffff'
-          }}
         >
-          <Button
-            style={{ height: '7vh', margin: '0px 5px' }}
-            color="success"
-            variant="contained"
-          >
-            <ArrowBackIcon />
-          </Button>
-        </Link>
-      </ButtonsContainer>
+          <ArrowBackIcon />
+          Voltar
+        </ElementLink>
+      </GroupButtonsActions>
     </div>
   </ReceivedContainer>
 }

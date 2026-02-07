@@ -1,17 +1,18 @@
-import { Button, TextField } from "@mui/material"
+import { TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { ProductCardList } from "../../Components/Cards/Products/productList"
 import { IProduct } from "../../Types/IProduct"
 import { getProductsService } from "../../Services/Products"
 import { useNavigate } from "react-router-dom"
-
-import AddIcon from '@mui/icons-material/Add';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { MinimarketContext } from "../../Context/minimarket"
 import { ProductModal } from "../../Components/Modals/Product"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { ManagerShowData } from "../../Components/ManagerShowData"
-import { ComponentContainer, ButtonsGroup, SearchContainer } from "./style"
+import { ComponentContainer, SearchContainer } from "./style"
+import { ElementButton, GroupButtonsActions } from "../../Styles"
+
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 export const ProductsPage = () => {
@@ -72,24 +73,20 @@ export const ProductsPage = () => {
       data={<ProductCardList products={products} />}
       state={state}
     />
-    <ButtonsGroup>
-      <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
-        color="success"
-        variant="contained"
+    <GroupButtonsActions>
+      <ElementButton
         onClick={() => { navigate("/") }}
       >
         <ArrowBackIcon />
-      </Button>
-      <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
-        color="success"
-        variant="contained"
+        Voltar
+      </ElementButton>
+      <ElementButton
         onClick={() => { setOpenModal(true) }}
       >
         <AddIcon />
-      </Button>
-    </ButtonsGroup>
+        Adicionar
+      </ElementButton>
+    </GroupButtonsActions>
     {
       openModal ?
         <ProductModal

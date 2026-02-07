@@ -13,8 +13,12 @@ import { updateCustomerHandler } from "../../Handlers/UpdateCustomer"
 import { IMessageFeedback } from "../../Types/IMessageFeedback"
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
-import { ContainerComponent, GroupButtons } from "./style"
+import { ContainerComponent } from "./style"
+import { ElementButton, GroupButtonsActions } from "../../Styles"
 
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import SaveIcon from '@mui/icons-material/Save';
+import UndoIcon from '@mui/icons-material/Undo';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -153,33 +157,31 @@ export const Customer = () => {
 
   return <ContainerComponent>
     {showComponent()}
-    <GroupButtons>
-      <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
-        color="info"
-        variant="contained"
+    <GroupButtonsActions>
+      <ElementButton
         onClick={() => {
           setCustomer(initialStateCustomer)
           navigate("/")
         }}
       >
+        <ArrowBackIosNewIcon />
         Voltar
-      </Button>
-      <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
-        color="success"
+      </ElementButton>
+      <ElementButton
         disabled={ObjectIsEquals(customer, customerOrigin)}
         onClick={async () => { saveChanges() }}
-        variant="contained"
-      >Salvar</Button>
-      <Button
-        style={{ height: '7vh', margin: '0px 5px' }}
-        color="warning"
-        variant="contained"
+      >
+        <SaveIcon />
+        Salvar
+      </ElementButton>
+      <ElementButton
         disabled={ObjectIsEquals(customer, customerOrigin)}
         onClick={() => { findCustomer() }}
-      >Reverter</Button>
-    </GroupButtons>
+      >
+        <UndoIcon />
+        Reverter
+      </ElementButton>
+    </GroupButtonsActions>
     <Snackbar
       open={openFeedback}
       autoHideDuration={2500}
