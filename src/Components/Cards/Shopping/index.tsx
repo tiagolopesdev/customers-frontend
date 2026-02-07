@@ -9,8 +9,10 @@ import { ITableRowProps } from "../../../Types/TableProps";
 import { ICustomer } from "../../../Types/ICustomer";
 import { CurrencyInput } from "react-currency-mask";
 
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ElementButton } from "../../../Styles";
 
 interface IShoppingCard {
   customer: ICustomer
@@ -218,8 +220,12 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
       maxWidth: '90vw',
       minHeight: '32vh',
       maxHeight: '30vh',
-      backgroundColor: "#EFEFEF",
-      marginTop: '10px'
+      backgroundColor: "#ffffff",
+      marginTop: '10px',
+      borderRadius: '8px',
+      borderTopColor: '#0D6EFD',
+      borderTopStyle: 'solid',
+      borderTopWidth: '4px'
     }}
     >
       <CardContent
@@ -260,23 +266,15 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             {`R$ ${buysTotal.toFixed(2)
               }`}
           </Typography>
-          <Button
+          <ElementButton
             variant="contained"
-            color="success"
             onClick={() => { handleStateModal() }}
-          >Adicionar</Button>
+            style={{ flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
+          >
+            <AddShoppingCartIcon />
+          </ElementButton>
         </div>
         {tableComponentToShow()}
-        {/* <TableComponent
-          tableCell={[
-            { name: 'Produto', align: 'left', style: { width: 100 } },
-            { name: 'Quant.', align: 'center' },
-            { name: 'Unitário', align: 'center' },
-            { name: 'Total', align: 'center' },
-            { name: 'Ações', align: "center" }
-          ]}
-          tableRows={buildBuysForRender()}
-        /> */}
       </CardContent>
     </Card>
     {

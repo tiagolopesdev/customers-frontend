@@ -18,7 +18,12 @@ export const ElementLink = styled(Link)`
   }
 `
 
-export const ElementButton = styled(Button)`
+interface ElementButtonProps {
+  color?: string
+  backgroundColor?: string
+}
+
+export const ElementButton = styled(Button)<ElementButtonProps>`
   color: #6C757D;
   display: flex;
   flex-direction: column;
@@ -30,8 +35,6 @@ export const ElementButton = styled(Button)`
   
   &:hover {
     font-weight: 700;
-    color: #0D6EFD;
-    background-color: #FFFFFF;
     text-transform: none;
   }
 `

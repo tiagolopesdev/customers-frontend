@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Typography } from "@mui/material"
+import { Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { TableComponent } from "../../Table";
 import { PaymentsModal } from "../../Modals/Payments";
@@ -10,7 +10,9 @@ import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
 import { IBuys } from "../../../Types/IBuys";
 import { showPercentage } from "../../../Utils/percentage/showPercentage";
 import formatDate from "../../../Utils/formatDate";
+import { ElementButton } from "../../../Styles";
 
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 
 interface IPaymentsCard {
   customer: ICustomer
@@ -86,8 +88,11 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
       maxWidth: '90vw',
       minHeight: '32vh',
       maxHeight: '30vh',
-      backgroundColor: "#EFEFEF",
-      marginTop: '10px'
+      marginTop: '10px',
+      borderRadius: '8px',
+      borderTopColor: '#0D6EFD',
+      borderTopStyle: 'solid',
+      borderTopWidth: '4px'
     }}
     >
       <CardContent
@@ -127,11 +132,13 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           >
             {`R$ ${paymentsTotal}`}
           </Typography>
-          <Button
+          <ElementButton
             variant="contained"
-            color="success"
             onClick={() => { handleStateModal() }}
-          >Adicionar</Button>
+            style={{ flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
+          >
+            <PriceCheckIcon />
+          </ElementButton>
         </div>
         <TableComponent
           tableCell={[
