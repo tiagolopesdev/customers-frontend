@@ -115,10 +115,11 @@ export const Customer = () => {
             style={{
               maxWidth: '95vw',
               minWidth: '45vw',
-              height: '90dvh',
+              height: '65dvh',
               display: 'flex',
               flexDirection: "column",
               padding: '25px',
+              overflow: "scroll"
             }}
           >
             <ShoppingCard customer={customer} setCustomer={setCustomer} />

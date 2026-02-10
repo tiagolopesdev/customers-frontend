@@ -86,7 +86,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
     <Card sx={{
       minWidth: '35vw',
       maxWidth: '90vw',
-      minHeight: '32vh',
+      minHeight: '35vh',
       maxHeight: '30vh',
       marginTop: '10px',
       borderRadius: '8px',
