@@ -9,7 +9,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 export const showPercentage = (showValue: boolean, paymentMethod: string, value: number): string | JSX.Element => {
   if (showValue) {
     return paymentMethod === 'CARD' ?
-      `${value.toFixed(2)} (${calculetePercentage(value)})` :
+      `${calculetePercentage(value)}` :
       `${value.toFixed(2)}`
   }
   switch (paymentMethod) {
