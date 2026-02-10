@@ -3,6 +3,9 @@ import { Values } from "../../Values"
 import { useNavigate } from "react-router-dom"
 import { ICustomer } from "../../../Types/ICustomer"
 
+import PersonIcon from '@mui/icons-material/Person';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 interface ICustomerCard {
   customer: ICustomer
 }
@@ -14,7 +17,8 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
   return <Card sx={{
     minWidth: '90vw',
     maxWidth: '65vw',
-    minHeight: '10vh'
+    minHeight: '10vh',
+    borderRadius: '8px'
   }}
     onClick={() => {
       localStorage.setItem('customerId', customer.id as string)
@@ -25,23 +29,40 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
     <CardContent
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: "flex-start",
+        alignItems: "center",
         padding: "8px",
         '&:last-child': {
           paddingBottom: "8px"
         }
       }}
     >
-      <Typography
-        variant="h5"
-        sx={{
-          fontWeight: 650
+      <PersonIcon
+        style={{
+          backgroundColor: '#E6F2FD',
+          color: '#3896f3',
+          borderRadius: '15px',
+          padding: '4px',
         }}
+      />
+      <div style={{
+        marginLeft: '12px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '100%'
+      }}
       >
-        {customer.name}
-      </Typography>
-      <Values amountPaid={customer.amountPaid as number} amountToPay={customer.amountToPay as number} />
+        <Typography
+          sx={{
+            fontWeight: 550,
+            color: '#414141'
+          }}
+        >
+          {customer.name}
+        </Typography>
+        <Values amountPaid={customer.amountPaid as number} amountToPay={customer.amountToPay as number} />
+      </div>
+      <ArrowForwardIosIcon style={{ fontSize: '10pt', color: '#b4b5b6' }}/>
     </CardContent>
   </Card>
 }

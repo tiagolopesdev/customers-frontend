@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 
-import PaidIcon from '@mui/icons-material/Paid';
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 
 interface IValues {
@@ -15,29 +15,30 @@ export const Values = ({ amountPaid, amountToPay }: IValues) => {
     style={{
       display: 'flex',
       flexDirection: "row",
-      paddingTop: 5
+      gap: '5px'
     }}
   >
     <Typography
       style={{
         marginRight: '10px',
         color: '#64BC6D',
-        fontWeight: 550,
         display: 'flex',
+        alignItems: 'center'
       }}
-    >
-      <PriceCheckIcon sx={{ marginRight: '10px' }} />
-      <Typography style={{ fontWeight: 700 }} fontSize={18}>{amountPaid.toFixed(2)}</Typography>
+      >
+      <CallReceivedIcon sx={{ fontSize: '12pt' }} />
+      <Typography style={{ fontWeight: 500 }} fontSize={14}>{amountPaid.toFixed(2)}</Typography>
     </Typography>
     <Typography
       style={{
         color: '#B03333',
         fontWeight: 550,
         display: 'flex',
+        alignItems: 'center'
       }}
     >
-      <PaidIcon sx={{ marginRight: '10px' }} />
-      <Typography style={{ fontWeight: 700 }} fontSize={18}>{amountToPay.toFixed(2)}</Typography>
+      <AttachMoneyIcon sx={{ fontSize: '12pt'}} />
+      <Typography style={{ fontWeight: 500 }} fontSize={14}>{amountToPay.toFixed(2)}</Typography>
     </Typography>
   </div>
 }
