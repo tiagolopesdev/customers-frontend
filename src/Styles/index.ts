@@ -46,7 +46,7 @@ export const GroupButtonsActions = styled.div`
   display: flex;
   padding: 10px;
   width: 100dvw;
-  height: 10dvh;
+  height: 7dvh;
   flex-shrink: 0;
   align-items: center;
   justify-content: space-evenly;

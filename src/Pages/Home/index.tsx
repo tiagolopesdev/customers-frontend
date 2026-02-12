@@ -3,7 +3,7 @@ import { CustomerCardList } from "../../Components/Cards/Customer/customerList"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Chip, TextField } from "@mui/material"
+import { Chip, TextField, Typography } from "@mui/material"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
 
@@ -12,6 +12,8 @@ import { ButtonsActions } from "./buttonsActions"
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { IBaseFilters } from "../../Types/IFilters"
+
+import SearchIcon from '@mui/icons-material/Search';
 
 interface IFilters extends IBaseFilters {
   owing: boolean,
@@ -78,34 +80,51 @@ export const Home = () => {
     <div
       style={{
         backgroundColor: '#ffffff',
-        height: '15dvh',
+        height: '16dvh',
         display: 'flex',
-        padding: '10px',
+        padding: '10px 20px',
         flexDirection: 'column'
       }}
     >
-      <TextField
-        id="standard-basic"
-        label="Pesquise pelo nome do cliente"
-        variant="standard"
-        sx={{ width: '80dvw' }}
-        defaultValue={filters.name}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => {
-          setFilters({
-            ...filters, name: event.target.value ?? ''
-          })
-        }}
-      />
+      <div style={{ display: 'flex', alignItems: "flex-start", flexDirection: 'column' }}>
+        <Typography
+          color="textSecondary"
+          fontSize={18}
+          fontWeight={550}
+        >Clientes</Typography>
+        <Typography
+          color="textSecondary"
+          fontSize={13}
+        >Pesquise abaixo pelo nome dos clientes</Typography>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <SearchIcon color="action" />
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          sx={{ width: '90dvw' }}
+          defaultValue={filters.name}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(event: any) => {
+            setFilters({
+              ...filters, name: event.target.value ?? ''
+            })
+          }}
+        />
+      </div>
       <div
         style={{
-          margin: '10px',
+          margin: '10px 0px',
           display: 'flex',
           justifyContent: 'flex-start'
         }}
       >
         <Chip
-          sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+          sx={{
+            height: 25,
+            margin: '0px 5px',
+            fontWeight: 550,
+          }}
           label="Todos"
           color={filters.all ? 'info' : 'default'}
           variant={filters.all ? 'filled' : 'outlined'}

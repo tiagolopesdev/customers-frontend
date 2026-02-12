@@ -17,7 +17,6 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
   return <Card sx={{
     minWidth: '90vw',
     maxWidth: '65vw',
-    minHeight: '10vh',
     borderRadius: '8px'
   }}
     onClick={() => {
@@ -62,7 +61,7 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
         </Typography>
         <Values amountPaid={customer.amountPaid as number} amountToPay={customer.amountToPay as number} />
       </div>
-      <ArrowForwardIosIcon style={{ fontSize: '10pt', color: '#b4b5b6' }}/>
+      <ArrowForwardIosIcon style={{ fontSize: '10pt', color: '#b4b5b6' }} />
     </CardContent>
   </Card>
 }
