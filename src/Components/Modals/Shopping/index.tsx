@@ -124,23 +124,30 @@ export const ShoppingModal = (props: IShoppingModal) => {
           color: '#6C757D'
         }}
       >Pesquise e selecione os produtos desejados</Typography>
-      <div style={{ 
+      <div style={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: '10px'
       }}>
-        <SearchIcon style={{ color: '#6C757D', marginRight: '5px' }}/>
+        <SearchIcon style={{ color: '#6C757D', marginRight: '5px' }} />
         <TextField
           style={{ width: '100%' }}
           id="outlined-basic"
-          variant="standard"        
+          variant="standard"
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(event: any) => { setFilterProduct(event.target.value) }}
         />
       </div>
     </DialogTitle>
-    <DialogContent style={{ backgroundColor: '#F3F4F7', padding: '0px' }}>
+    <DialogContent style={{
+      display: 'flex',
+      height: '350px',
+      minHeight: '250px',
+      backgroundColor: '#F3F4F7',
+      padding: '0px'
+    }}
+    >
       <ManagerShowData
         data={<ProductCardList products={products} />}
         state={state}

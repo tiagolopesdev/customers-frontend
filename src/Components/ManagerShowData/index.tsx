@@ -14,8 +14,10 @@ interface IManagerShowData {
 }
 
 const style: React.CSSProperties = {
+  flex: 1,
+  display: 'flex',
+  width: 'inherit',
   height: '100%',
-  width: 'inherit'
 }
 
 
@@ -53,11 +55,8 @@ export const ManagerShowData = ({ data, state, scrool }: IManagerShowData) => {
       return <div style={style}>
         <Skeleton
           variant="rectangular"
-          sx={{
-            width: 'inherit',
-            height: 'inherit',
-            borderRadius: '10px'
-          }}
+          width={'100%'}
+          height={'100%'}
         />
       </div>
     case 'SUCCESS':
