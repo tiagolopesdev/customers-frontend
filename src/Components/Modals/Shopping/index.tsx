@@ -145,7 +145,8 @@ export const ShoppingModal = (props: IShoppingModal) => {
       height: '350px',
       minHeight: '250px',
       backgroundColor: '#F3F4F7',
-      padding: '0px'
+      padding: '0px',
+      overflow: 'hidden'
     }}
     >
       <ManagerShowData
