@@ -5,6 +5,7 @@ export const ContainerComponent = styled.div`
   flex-direction: column;
   height: 100dvh;
   align-items: center;
+  justify-content: space-between;
 `
 
 export const GroupButtons = styled.div`
