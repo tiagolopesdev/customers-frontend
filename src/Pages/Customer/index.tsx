@@ -1,4 +1,4 @@
-import { Alert, Button, Snackbar, SnackbarCloseReason, TextField } from "@mui/material"
+import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material"
 import { Values } from "../../Components/Values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
@@ -19,8 +19,7 @@ import { ElementButton, GroupButtonsActions } from "../../Styles"
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
+import { ManagerShowName } from "./components/managerShowName"
 
 
 export const Customer = () => {
@@ -36,7 +35,6 @@ export const Customer = () => {
   const [state, setState] = useState<IStateShowData>({
     state: ""
   })
-  const [editName, setEditName] = useState(true)
 
   const findCustomer = async () => {
     try {
@@ -66,7 +64,7 @@ export const Customer = () => {
     } catch (error) {
       setState({ state: 'ERROR' })
     }
-  }
+  }  
 
   const showComponent = (): JSX.Element | string => {
     localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
@@ -81,34 +79,10 @@ export const Customer = () => {
             justifyContent: 'center',
             paddingTop: '10px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', width: '90%' }}>
-              <TextField
-                id="standard-basic"
-                variant="standard"
-                style={{
-                  width: '100%',
-                  marginBottom: '20px',                  
-                }}
-                disabled={editName}
-                defaultValue={customer.name}
-                label="Nome do cliente"
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                onChange={(event: any) => { setCustomer({ ...customer, name: event.target.value }) }}
-              />
-              <Button
-                onClick={() => { setEditName(!editName) }}
-                variant="contained"
-                sx={{ marginLeft: '20px' }}
-                size="small"
-                color={editName ? "info" : "error"}
-              >
-                {
-                  editName ?
-                    <EditIcon style={{ fontSize: '20pt', color: '#FFFFFF' }} /> :
-                    <CloseIcon style={{ fontSize: '20pt', color: '#FFFFFF' }} />
-                }
-              </Button>
-            </div>
+            <ManagerShowName 
+              customer={customer}
+              setCustomer={setCustomer}
+            />
             <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
           </div>
           <div
