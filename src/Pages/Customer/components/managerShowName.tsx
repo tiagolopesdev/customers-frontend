@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { CSSProperties, useState } from "react"
 import { ICustomer } from "../../../Types/ICustomer"
 import { TextField, Typography } from "@mui/material"
 
@@ -7,6 +7,22 @@ import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
 import CheckIcon from '@mui/icons-material/Check';
 
+const containerStyle: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  backgroundColor: '#f8f7f7',
+  width: '100%',
+  padding: '15px',
+  borderRadius: '8px'
+}
+
+const iconActionStyle: CSSProperties = {
+  fontSize: '14pt',
+  marginLeft: '10px',
+  borderRadius: '15px',
+  padding: '4px'
+}
 
 export const ManagerShowName = ({ customer, setCustomer }: {
   customer: ICustomer,
@@ -18,19 +34,17 @@ export const ManagerShowName = ({ customer, setCustomer }: {
     currentName: ''
   })
 
-  return <div style={{ display: 'flex', alignItems: 'center', width: '90%' }}>
+  return <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      width: '90%',
+    }}
+  >
     {
       !editName.isEdit ?
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            backgroundColor: '#f8f7f7',
-            width: '100%',
-            padding: '5px',
-            borderRadius: '8px'
-          }}
+          style={containerStyle}
         >
           <PersonIcon
             style={{
@@ -58,15 +72,7 @@ export const ManagerShowName = ({ customer, setCustomer }: {
           />
         </div> :
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            width: '100%',
-            backgroundColor: '#f8f7f7',
-            padding: '5px',
-            borderRadius: '8px'
-          }}
+          style={containerStyle}
         >
           <PersonIcon
             style={{
@@ -86,12 +92,9 @@ export const ManagerShowName = ({ customer, setCustomer }: {
           />
           <CheckIcon
             style={{
-              fontSize: '14pt',
               color: '#ffffff',
               backgroundColor: '#29A366',
-              marginLeft: '10px',
-              borderRadius: '15px',
-              padding: '4px'
+              ...iconActionStyle
             }}
             onClick={() => {
               setCustomer({ ...customer, name: editName.currentName });
@@ -100,15 +103,9 @@ export const ManagerShowName = ({ customer, setCustomer }: {
           />
           <CloseIcon
             style={{
-              fontSize: '14pt',
               color: '#E35151',
               backgroundColor: '#FBEBEB',
-              marginLeft: '10px',
-              borderRadius: '15px',
-              padding: '4px',
-              cursor: 'pointer',
-              pointerEvents: 'auto',
-              zIndex: 9999
+              ...iconActionStyle
             }}
             onClick={() => { setEditName({ isEdit: false, currentName: '' }) }}
           />
