@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
-import { TableComponent } from "../../Table";
+// import { TableComponent } from "../../Table";
 import { PaymentsModal } from "../../Modals/Payments";
 import { ITableRowProps } from "../../../Types/TableProps";
 import { IPayments } from "../../../Types/IPayments";
@@ -13,12 +13,14 @@ import formatDate from "../../../Utils/formatDate";
 import { ElementButton } from "../../../Styles";
 
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface IPaymentsCard {
   customer: ICustomer
   setCustomer: React.Dispatch<React.SetStateAction<ICustomer>>
 }
 
+// TODO: change the local file, to place inside ./pages/customer/componentes 
 export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
 
   const [open, setOpen] = useState(false);
@@ -140,7 +142,50 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
             <PriceCheckIcon />
           </ElementButton>
         </div>
-        <TableComponent
+        {
+          customer.payments?.map((item: IPayments, index: number) => {
+            return <div
+              key={index}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                backgroundColor: '#F7F8F9',
+                width: '90%',
+                height: '50px',
+                margin: '2px 0px',
+                padding: '5px 15px',
+                borderRadius: '8px',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start'
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#4f535f'
+                  }}
+                >R$ {item.value.toFixed(2)}</Typography>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '50px'
+                }}>
+                  {showPercentage(false, item.paymentMethod, item.value)}
+                  <Typography style={{ color: '#8E959F', fontSize: '10pt' }} >{item.dateCreated !== undefined ? formatDate(item.dateCreated) : ''}</Typography>
+                </div>
+              </div>
+              <DeleteOutlineIcon color="error"/>
+            </div>
+          })
+        }
+        {/* <TableComponent
           tableCell={[
             { name: 'Valor', align: 'left', style: { width: 50 } },
             { name: 'Forma', align: 'center', style: { width: 50 } },
@@ -148,7 +193,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           ]}
           tableRows={buildPaymentsForRender()}
           width={100}
-        />
+        /> */}
       </CardContent>
     </Card>
     {
