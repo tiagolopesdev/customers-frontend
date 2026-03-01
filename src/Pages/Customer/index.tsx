@@ -18,8 +18,8 @@ import { ElementButton, GroupButtonsActions } from "../../Styles"
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
-import { Values } from "./Components/values"
-import { ManagerShowName } from "./Components/managerShowName"
+import { Values } from "./Components/Values"
+import { ManagerShowName } from "./Components/ManagerShowName"
 
 export const Customer = () => {
 

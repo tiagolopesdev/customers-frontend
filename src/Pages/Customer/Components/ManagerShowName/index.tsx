@@ -1,5 +1,5 @@
 import { CSSProperties, useState } from "react"
-import { ICustomer } from "../../../Types/ICustomer"
+import { ICustomer } from "../../../../Types/ICustomer"
 import { TextField, Typography } from "@mui/material"
 
 import EditIcon from '@mui/icons-material/Edit';
