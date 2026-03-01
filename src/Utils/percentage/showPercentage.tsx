@@ -6,6 +6,7 @@ import PixIcon from '@mui/icons-material/Pix';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import WarningIcon from '@mui/icons-material/Warning';
 
+// TODO: change the local file, to place inside ./components/paymentMethodComponent
 export const showPercentage = (showValue: boolean, paymentMethod: string, value: number): string | JSX.Element => {
   if (showValue) {
     return paymentMethod === 'CARD' ?

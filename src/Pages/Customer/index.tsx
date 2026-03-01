@@ -1,5 +1,5 @@
 import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material"
-import { Values } from "../../Components/Values"
+import { Values } from "./Components/values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
 import { useEffect, useState } from "react"
@@ -19,7 +19,7 @@ import { ElementButton, GroupButtonsActions } from "../../Styles"
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
-import { ManagerShowName } from "./components/managerShowName"
+import { ManagerShowName } from "./Components/managerShowName"
 
 
 export const Customer = () => {
@@ -64,7 +64,7 @@ export const Customer = () => {
     } catch (error) {
       setState({ state: 'ERROR' })
     }
-  }  
+  }
 
   const showComponent = (): JSX.Element | string => {
     localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
@@ -72,18 +72,21 @@ export const Customer = () => {
       data={
         <div>
           <div style={{
-            backgroundColor: '#ffffff',
+            // backgroundColor: '#fafafa',
             display: "flex",
             flexDirection: "column",
             alignItems: 'center',
             justifyContent: 'center',
             paddingTop: '10px'
           }}>
-            <ManagerShowName 
+            <ManagerShowName
               customer={customer}
               setCustomer={setCustomer}
             />
-            <Values amountPaid={customer.amountPaid ?? 0} amountToPay={customer.amountToPay ?? 0} />
+            <Values 
+              amountPaid={customer.amountPaid ?? 0}
+              amountToPay={customer.amountToPay ?? 0}
+            />
           </div>
           <div
             style={{
