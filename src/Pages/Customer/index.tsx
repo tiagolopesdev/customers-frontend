@@ -1,5 +1,4 @@
 import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material"
-import { Values } from "./Components/values"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
 import { useEffect, useState } from "react"
@@ -19,8 +18,8 @@ import { ElementButton, GroupButtonsActions } from "../../Styles"
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
+import { Values } from "./Components/values"
 import { ManagerShowName } from "./Components/managerShowName"
-
 
 export const Customer = () => {
 
@@ -72,7 +71,6 @@ export const Customer = () => {
       data={
         <div>
           <div style={{
-            // backgroundColor: '#fafafa',
             display: "flex",
             flexDirection: "column",
             alignItems: 'center',
