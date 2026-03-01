@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Card, CardContent, Chip, IconButton, TextField, Typography } from "@mui/material"
+import { Button, Card, CardContent, Chip, IconButton, TextField, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { ShoppingModal } from "../../Modals/Shopping";
 import { TableComponent } from "../../Table";
@@ -11,8 +11,10 @@ import { CurrencyInput } from "react-currency-mask";
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ElementButton } from "../../../Styles";
+
+import { ElementButton, ScroolCustom } from "../../../Styles";
 
 interface IShoppingCard {
   customer: ICustomer
@@ -274,7 +276,85 @@ export const ShoppingCard = ({ customer, setCustomer }: IShoppingCard) => {
             <AddShoppingCartIcon />
           </ElementButton>
         </div>
-        {tableComponentToShow()}
+        <ScroolCustom style={{ width: '100%', height: '25dvh' }}>
+          {
+            customer.buys?.map((item: IBuys, index: number) => {
+              return <div>
+                <div
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: '#F7F8F9',
+                    width: '90%',
+                    height: '50px',
+                    margin: '2px 0px',
+                    padding: '5px 15px',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start'
+                    }}
+                  >
+                    <Tooltip title={item.name} placement="top-start" arrow>
+                      <Typography
+                        style={{
+                          fontWeight: '550',
+                          color: '#4f535f',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          maxWidth: '21dvh'
+                        }}
+                      >{item.name}</Typography>
+                    </Tooltip>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '15px'
+                    }}>
+                      <Typography
+                        style={{
+                          color: '#8E959F',
+                          fontSize: '9pt'
+                        }}
+                      >{`${item.quantity}x`}</Typography>
+                      <Typography
+                        style={{
+                          color: '#8E959F',
+                          fontSize: '10pt'
+                        }}
+                      >{`R$ ${item.price.toFixed(2)}`}</Typography>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '20px'
+                    }}
+                  >
+                    <Typography
+                      style={{
+                        fontWeight: 700,
+                        color: '#4f535f'
+                      }}
+                    >
+                      {`R$ ${item.total?.toFixed(2)}`}
+                    </Typography>
+                    <DeleteOutlineIcon color="error" />
+                  </div>
+                </div>
+              </div>
+            })
+          }
+        </ScroolCustom>
       </CardContent>
     </Card>
     {
