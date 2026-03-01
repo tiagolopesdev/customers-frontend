@@ -1,7 +1,6 @@
 import { Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { PaymentsModal } from "../../Modals/Payments";
-import { ITableRowProps } from "../../../Types/TableProps";
 import { IPayments } from "../../../Types/IPayments";
 import { initialStatePayments } from "../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../Types/ICustomer";
@@ -27,29 +26,6 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
   const [paymentManipulation, setPaymentManipulation] = useState<IPayments>(initialStatePayments)
 
   const handleStateModal = () => setOpen(!open)
-
-  const buildPaymentsForRender = (): ITableRowProps[] => {
-    const listRow: ITableRowProps[] = []
-
-    if (!customer.payments) return listRow
-
-    customer.payments.map((item: IPayments) => {
-      const listToReturn: ITableRowProps = {
-        rows: [
-          { name: showPercentage(true, item.paymentMethod, item.value), align: 'left', style: { width: 50 } },
-          { name: showPercentage(false, item.paymentMethod, item.value), align: 'center', style: { width: 50 } },
-          {
-            name: `${item.dateCreated !== undefined ?
-              formatDate(item.dateCreated) :
-              ''
-              }`, align: 'center', style: { width: 80 }
-          },
-        ]
-      }
-      listRow.push(listToReturn)
-    })
-    return listRow
-  }
 
   const paymentsTotalCalculate = () => {
     if (!customer.payments) return 0
@@ -78,8 +54,6 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
       setPaymentManipulation(initialStatePayments)
       return
     }
-
-    buildPaymentsForRender()
     paymentsTotalCalculate()
   }, [customer.payments, paymentManipulation])
 
