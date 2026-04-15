@@ -4,6 +4,8 @@ import { getToken } from "../Services/Users";
 import { jwtDecode } from "jwt-decode";
 import { IUser } from "../Types/IUser";
 import { ObjectIsEquals } from "../Utils/objectIsEqual";
+import { ICustomer } from "../Types/ICustomer";
+import { initialStateCustomer } from "../Types/InitialStateCustomer";
 
 
 interface IMinimarketContextProvider {
@@ -13,6 +15,8 @@ interface IMinimarketContextProvider {
 interface IMinimarketContext {
   user: IUser,
   setUser: React.Dispatch<React.SetStateAction<IUser>>,
+  customer: ICustomer,
+  setCustomer: React.Dispatch<React.SetStateAction<ICustomer>>,
   selectedProducts: IProduct[];
   setSelectProducts: React.Dispatch<React.SetStateAction<IProduct[]>>,
   login: (email: string) => Promise<void>,
@@ -39,6 +43,7 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
   const [selectedProducts, setSelectProducts] = useState<IProduct[]>([])
   const [user, setUser] = useState<IUser>(initialPropertiesUser)
   const [productWasManipulated, setProductWasManipulated] = useState(false)
+  const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
 
   const loadUserLocalStorage = () => {
     if (!ObjectIsEquals(user, initialPropertiesUser)) return
@@ -77,7 +82,9 @@ export const MinimarketProvider = ({ children }: IMinimarketContextProvider) => 
     setUser,
     loadUserLocalStorage,
     productWasManipulated,
-    setProductWasManipulated
+    setProductWasManipulated,
+    customer,
+    setCustomer
   }}>
     {children}
   </MinimarketContext.Provider>

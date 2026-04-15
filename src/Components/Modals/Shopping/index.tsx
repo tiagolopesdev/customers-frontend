@@ -15,15 +15,22 @@ import SearchIcon from '@mui/icons-material/Search';
 interface IShoppingModal {
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  buyProps: IBuys[]
-  setBuyProps: React.Dispatch<React.SetStateAction<IBuys[]>>
+  // buyProps: IBuys[]
+  // setBuyProps: React.Dispatch<React.SetStateAction<IBuys[]>>
 }
 
 export const ShoppingModal = (props: IShoppingModal) => {
 
-  const { open, setOpen, setBuyProps, buyProps } = props
+  const { open, setOpen } = props
+  // const { open, setOpen, setBuyProps, buyProps } = props
 
-  const { selectedProducts, setSelectProducts, user } = useContext(MinimarketContext)
+  const { 
+    selectedProducts, 
+    setSelectProducts, 
+    user,
+    setCustomer,
+    customer
+  } = useContext(MinimarketContext)
 
   const handleModalState = () => setOpen(!open)
 
@@ -90,7 +97,12 @@ export const ShoppingModal = (props: IShoppingModal) => {
             })
           })
 
-          setBuyProps([...buyProps, ...buysToInsert])
+          setCustomer({
+            ...customer,
+            ...{
+              buys: [...(customer.buys || []), ...buysToInsert]
+            }
+          })
 
           setSelectProducts([])
 

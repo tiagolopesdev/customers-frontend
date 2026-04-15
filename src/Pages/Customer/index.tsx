@@ -1,7 +1,7 @@
 import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { findByIdCustomersHandler } from "../../Handlers/GetByIdCustomer"
 import { ICustomer } from "../../Types/ICustomer"
@@ -20,11 +20,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import { Values } from "./Components/Values"
 import { ManagerShowName } from "./Components/ManagerShowName"
+import { MinimarketContext } from "../../Context/minimarket"
 
 export const Customer = () => {
 
   const navigate = useNavigate()
-  const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
+  // const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
   const [customerOrigin, setCustomerOrigin] = useState<ICustomer>(initialStateCustomer)
   const [openFeedback, setOpenFeedback] = useState(false);
   const [message, setMessage] = useState<IMessageFeedback>({
@@ -35,9 +36,13 @@ export const Customer = () => {
     state: ""
   })
 
+  const { customer, setCustomer } = useContext(MinimarketContext)
+
   const findCustomer = async () => {
     try {
       const customerId = localStorage.getItem('customerId')
+
+      // if (state.state === 'SUCCESS') return
 
       let result: ICustomer = {
         id: '',
@@ -81,7 +86,7 @@ export const Customer = () => {
               customer={customer}
               setCustomer={setCustomer}
             />
-            <Values 
+            <Values
               amountPaid={customer.amountPaid ?? 0}
               amountToPay={customer.amountToPay ?? 0}
             />
@@ -93,11 +98,12 @@ export const Customer = () => {
               height: '65dvh',
               display: 'flex',
               flexDirection: "column",
-              padding: '25px',
+              alignItems: 'center',
+              padding: '5px 0px',
               overflow: "scroll"
             }}
           >
-            <ShoppingCard customer={customer} setCustomer={setCustomer} />
+            <ShoppingCard />
             <PaymentsCard customer={customer} setCustomer={setCustomer} />
           </div>
         </div>}
@@ -106,11 +112,11 @@ export const Customer = () => {
     />
   }
 
-  useEffect(() => { showComponent() }, [customer.buys, customer.payments, customer.amountToPay])
   useEffect(() => { findCustomer() }, [])
 
   const saveChanges = async () => {
     try {
+      console.log(customer)
       if (customer.id) {
         await updateCustomerHandler(customer)
       } else {

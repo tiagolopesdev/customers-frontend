@@ -8,7 +8,5 @@ export const findCustomersHandler = async (usersSales?: string, dateUsersSales?:
     dateFormated = dateUsersSales?.substring(0, 10) ?? ''
   }
 
-  console.log('Date Formated: ' + dateFormated)
-
   return await getAllCustomers(usersSales, dateFormated, owing)
 }

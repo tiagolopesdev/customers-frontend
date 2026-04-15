@@ -53,9 +53,7 @@ export const Login = ({ toRedirect }: ILogin) => {
       localStorage.setItem('user', JSON.stringify(claims))
       setLoading(false)
 
-      console.log('To Redirect')
       navigate(`${toRedirect === 'home' ? '' : toRedirect}`)
-      console.log('Redirected')
       // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

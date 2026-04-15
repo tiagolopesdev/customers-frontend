@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IBuys } from "../../../../Types/IBuys"
 
 import { Chip, TextField } from "@mui/material";
@@ -7,11 +7,14 @@ import { CurrencyInput } from "react-currency-mask";
 
 import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
+import { MinimarketContext } from "../../../../Context/minimarket";
 
 export const DiscountManager = ({ buy }: { buy: IBuys }) => {
 
   const [editPrice, setEditPrice] = useState(false)
-  const [lastPrice, setLastPrice] = useState(buy.price)
+  const [lastPrice] = useState(buy.price)
+
+  const { customer, setCustomer } = useContext(MinimarketContext)
 
   const showToEditPrice = () => {
     return <>
@@ -41,7 +44,36 @@ export const DiscountManager = ({ buy }: { buy: IBuys }) => {
           padding: '4px',
           borderRadius: '15px'
         }}
-        onClick={() => { setEditPrice(false) }}
+        onClick={() => {
+          setEditPrice(false)
+
+          const updatedBuyIndex = customer.buys?.findIndex((item: IBuys) => {
+            return item.name === buy.name
+          }) || -1
+
+          if (updatedBuyIndex === -1) return
+
+          const buysToInsert = customer.buys || []
+
+          buysToInsert.splice(updatedBuyIndex, 1, {
+            ...buy,
+            total: buy.price * buy.quantity
+          })
+
+          setCustomer({
+            ...customer,
+            buys: buysToInsert,
+            amountToPay: Number(
+              (
+                buysToInsert
+                  .filter((item) => { return !item.isEnable })
+                  .reduce((accumulator, item) => {
+                    return accumulator += (item.price * item.quantity)
+                  }, 0) - (customer.amountPaid ?? 0)
+              ).toFixed(2)
+            )
+          })
+        }}
       />
     </>
   }
@@ -108,7 +140,6 @@ export const DiscountManager = ({ buy }: { buy: IBuys }) => {
           minHeight: '40px',
         }}
       >
-
         <p style={{
           fontSize: '10pt',
           margin: "0px"
