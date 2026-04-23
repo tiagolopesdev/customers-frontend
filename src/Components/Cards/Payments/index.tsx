@@ -59,10 +59,11 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
 
   return <>
     <Card sx={{
-      minWidth: '35vw',
-      maxWidth: '90vw',
-      minHeight: '35vh',
-      maxHeight: '30vh',
+      width: '95%',
+      minHeight: '40vh',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: "#ffffff",
       marginTop: '10px',
       borderRadius: '8px',
       borderTopColor: '#0D6EFD',
@@ -75,6 +76,8 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: "flex-start",
+          flex: 1,
+          minHeight: 0,
           padding: "8px",
           '&:last-child': {
             paddingBottom: "8px"
@@ -115,7 +118,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
             <PriceCheckIcon />
           </ElementButton>
         </div>
-        <ScroolCustom style={{ width: '100%', height: '25dvh' }}>
+        <ScroolCustom>
           {
             customer.payments?.map((item: IPayments, index: number) => {
               return <div>
@@ -127,7 +130,6 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     backgroundColor: '#F7F8F9',
-                    width: '90%',
                     height: '50px',
                     margin: '2px 0px',
                     padding: '5px 15px',

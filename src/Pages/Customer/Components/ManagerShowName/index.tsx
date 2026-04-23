@@ -11,10 +11,10 @@ const containerStyle: CSSProperties = {
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  backgroundColor: '#f8f7f7',
+  backgroundColor: '#FFFFFF',
   width: '100%',
   padding: '15px',
-  borderRadius: '8px'
+  borderRadius: '8px',
 }
 
 const iconActionStyle: CSSProperties = {
@@ -38,7 +38,7 @@ export const ManagerShowName = ({ customer, setCustomer }: {
     style={{
       display: 'flex',
       alignItems: 'center',
-      width: '90%',
+      width: '95%',
     }}
   >
     {

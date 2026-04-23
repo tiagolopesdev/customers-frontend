@@ -29,8 +29,9 @@ export const ShoppingCard = () => {
   return <>
     <Card sx={{
       width: '95%',
-      minHeight: '35vh',
-      maxHeight: '30vh',
+      minHeight: '40vh',
+      display: 'flex',
+      flexDirection: 'column',
       backgroundColor: "#ffffff",
       marginTop: '10px',
       borderRadius: '8px',
@@ -43,6 +44,8 @@ export const ShoppingCard = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
+          flex: 1,
+          minHeight: 0,
           alignItems: "flex-start",
           padding: "8px",
           '&:last-child': {
@@ -84,7 +87,7 @@ export const ShoppingCard = () => {
             <AddShoppingCartIcon />
           </ElementButton>
         </div>
-        <ScroolCustom style={{ width: '100%', height: '25dvh' }}>
+        <ScroolCustom>
           {
             customer.buys?.map((item: IBuys, index: number) => {
               return <Buy item={item} key={index} />

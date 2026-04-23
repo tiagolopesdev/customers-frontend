@@ -9,7 +9,7 @@ interface IValues {
 }
 
 const containerInfoStyle: CSSProperties = {
-  backgroundColor: '#f8f7f7',
+  backgroundColor: '#FFFFFF',
   width: '100%',
   height: '30px',
   borderRadius: '5px',
@@ -17,7 +17,7 @@ const containerInfoStyle: CSSProperties = {
   alignItems: 'center',
   justifyContent: 'flex-start',
   padding: '10px',
-  margin: '5px',
+  marginTop: '5px',
   gap: '7px'
 }
 
@@ -55,8 +55,7 @@ export const Values = ({ amountPaid, amountToPay }: IValues) => {
       display: 'flex',
       flexDirection: "row",
       gap: '5px',
-      width: '370px',
-      minWidth: '270px',
+      width: '95%',
     }}
   >
     <div style={containerInfoStyle} >

@@ -16,7 +16,6 @@ export const Buy = ({ item, key }: {
       alignItems: 'flex-start',
       justifyContent: 'space-between',
       backgroundColor: '#F7F8F9',
-      width: '90%',
       minHeight: '50px',
       margin: '2px 0px',
       padding: '5px 15px',

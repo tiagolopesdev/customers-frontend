@@ -1,4 +1,4 @@
-import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material"
+import { Alert, Box, Snackbar, SnackbarCloseReason } from "@mui/material"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
 import { useContext, useEffect, useState } from "react"
@@ -74,39 +74,20 @@ export const Customer = () => {
     localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
     return <ManagerShowData
       data={
-        <div>
-          <div style={{
-            display: "flex",
+        <Box
+          sx={{            
+            width: { xs: "100%", md: "66%" },
+            display: 'flex',
             flexDirection: "column",
             alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: '10px'
-          }}>
-            <ManagerShowName
-              customer={customer}
-              setCustomer={setCustomer}
-            />
-            <Values
-              amountPaid={customer.amountPaid ?? 0}
-              amountToPay={customer.amountToPay ?? 0}
-            />
-          </div>
-          <div
-            style={{
-              maxWidth: '95vw',
-              minWidth: '45vw',
-              height: '65dvh',
-              display: 'flex',
-              flexDirection: "column",
-              alignItems: 'center',
-              padding: '5px 0px',
-              overflow: "scroll"
-            }}
-          >
-            <ShoppingCard />
-            <PaymentsCard customer={customer} setCustomer={setCustomer} />
-          </div>
-        </div>}
+            overflowY: "auto",
+            flex: 1,
+          }}
+        >
+          <ShoppingCard />
+          <PaymentsCard customer={customer} setCustomer={setCustomer} />
+        </Box>
+      }
       state={state}
       scrool={false}
     />
@@ -148,6 +129,24 @@ export const Customer = () => {
   };
 
   return <ContainerComponent>
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '10px 5px 10px 5px',
+      width: { xs: "100%", md: "66%" },
+      backgroundColor: "#E4E4E4",
+    }}>
+      <ManagerShowName
+        customer={customer}
+        setCustomer={setCustomer}
+      />
+      <Values
+        amountPaid={customer.amountPaid ?? 0}
+        amountToPay={customer.amountToPay ?? 0}
+      />
+    </Box>
     {showComponent()}
     <GroupButtonsActions>
       <ElementButton
