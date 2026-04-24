@@ -12,7 +12,7 @@ import { ElementButton, ScroolCustom } from "../../../Styles";
 
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { EmptyData } from "../../emptyData";
+import { EmptyData } from "../../ManagerEmptyData";
 
 interface IPaymentsCard {
   customer: ICustomer

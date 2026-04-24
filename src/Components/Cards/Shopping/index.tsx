@@ -10,7 +10,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { ElementButton, ScroolCustom } from "../../../Styles";
 import { Buy } from "../../../Pages/Customer/Components/Buy";
 import { MinimarketContext } from "../../../Context/minimarket";
-import { EmptyData } from "../../emptyData";
+import { EmptyData } from "../../ManagerEmptyData";
 
 
 export const ShoppingCard = () => {
