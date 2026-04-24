@@ -12,6 +12,7 @@ import { ElementButton, ScroolCustom } from "../../../Styles";
 
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { EmptyData } from "../../emptyData";
 
 interface IPaymentsCard {
   customer: ICustomer
@@ -118,57 +119,64 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
             <PriceCheckIcon />
           </ElementButton>
         </div>
-        <ScroolCustom>
-          {
-            customer.payments?.map((item: IPayments, index: number) => {
-              return <div>
-                <div
-                  key={index}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: '#F7F8F9',
-                    height: '50px',
-                    margin: '2px 0px',
-                    padding: '5px 15px',
-                    borderRadius: '8px',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start'
-                    }}
-                  >
-                    <Typography
+        <EmptyData
+          condition={customer.payments?.length === 0}
+          title="Nenhum pagamento realizado."
+          subtitle="Registre novos pagamentos."
+          dataToShow={
+            <ScroolCustom>
+              {
+                customer.payments?.map((item: IPayments, index: number) => {
+                  return <div>
+                    <div
+                      key={index}
                       style={{
-                        fontWeight: 'bold',
-                        color: '#4f535f'
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        backgroundColor: '#F7F8F9',
+                        height: '50px',
+                        margin: '2px 0px',
+                        padding: '5px 15px',
+                        borderRadius: '8px',
                       }}
-                    >R$ {item.value.toFixed(2)}</Typography>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '25px'
-                    }}>
-                      <Typography
+                    >
+                      <div
                         style={{
-                          color: '#8E959F',
-                          fontSize: '9pt'
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-start'
                         }}
-                      >{item.dateCreated !== undefined ? formatDate(item.dateCreated) : ''}</Typography>
-                      {showPercentage(false, item.paymentMethod, item.value)}
+                      >
+                        <Typography
+                          style={{
+                            fontWeight: 'bold',
+                            color: '#4f535f'
+                          }}
+                        >R$ {item.value.toFixed(2)}</Typography>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '25px'
+                        }}>
+                          <Typography
+                            style={{
+                              color: '#8E959F',
+                              fontSize: '9pt'
+                            }}
+                          >{item.dateCreated !== undefined ? formatDate(item.dateCreated) : ''}</Typography>
+                          {showPercentage(false, item.paymentMethod, item.value)}
+                        </div>
+                      </div>
+                      <DeleteOutlineIcon color="error" />
                     </div>
                   </div>
-                  <DeleteOutlineIcon color="error" />
-                </div>
-              </div>
-            })
+                })
+              }
+            </ScroolCustom>
           }
-        </ScroolCustom>
+        />
       </CardContent>
     </Card>
     {

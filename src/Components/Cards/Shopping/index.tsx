@@ -10,6 +10,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { ElementButton, ScroolCustom } from "../../../Styles";
 import { Buy } from "../../../Pages/Customer/Components/Buy";
 import { MinimarketContext } from "../../../Context/minimarket";
+import { EmptyData } from "../../emptyData";
 
 
 export const ShoppingCard = () => {
@@ -25,6 +26,8 @@ export const ShoppingCard = () => {
     const result = customer.buys.filter((item) => { return !item.isEnable }).reduce((accumulator, item) => { return accumulator += (item.price * item.quantity) }, 0)
     return result.toFixed(2)
   }
+
+  console.log(customer.buys)
 
   return <>
     <Card sx={{
@@ -87,13 +90,20 @@ export const ShoppingCard = () => {
             <AddShoppingCartIcon />
           </ElementButton>
         </div>
-        <ScroolCustom>
-          {
-            customer.buys?.map((item: IBuys, index: number) => {
-              return <Buy item={item} key={index} />
-            })
+        <EmptyData
+          condition={customer.buys?.length === 0}
+          title="Nenhuma compra realizada."
+          subtitle="Acesse os produtos disponíveis e registre as compras."
+          dataToShow={
+            <ScroolCustom>
+              {
+                customer.buys?.map((item: IBuys, index: number) => {
+                  return <Buy item={item} key={index} />
+                })
+              }
+            </ScroolCustom>
           }
-        </ScroolCustom>
+        />
       </CardContent>
     </Card>
     {

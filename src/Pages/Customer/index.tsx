@@ -60,6 +60,8 @@ export const Customer = () => {
         result.buys?.forEach((item) => { item.isEnable = false })
       }
 
+      console.log(result)
+
       setCustomer(result)
       setCustomerOrigin(structuredClone(result))
       setState({ state: 'SUCCESS' })
