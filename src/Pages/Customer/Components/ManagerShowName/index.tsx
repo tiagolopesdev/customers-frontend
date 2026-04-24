@@ -61,7 +61,7 @@ export const ManagerShowName = ({ customer, setCustomer }: {
               fontWeight: 'bolder',
               fontSize: '14pt'
             }}
-          >{customer.name}</Typography>
+          >{customer.name === "" ? "Defina um nome" : customer.name}</Typography>
           <EditIcon
             style={{
               fontSize: '14pt',
