@@ -1,4 +1,5 @@
 import { ICustomer, ICustomerCreate } from "../../Types/ICustomer"
+import { IPagination } from "../../Types/IPagination"
 import { customerChannel } from "../Bases/api"
 
 
@@ -69,7 +70,13 @@ export const getByIdCustomers = async (id: string) => {
   }
 }
 
-export const getByNameCustomers = async (name: string, usersSales?: string, owing?: boolean) => {
+export const getByNameCustomers = async (
+  pageIndex: number,
+  pageSize: number, 
+  name: string, 
+  usersSales?: string, 
+  owing?: boolean
+) => {
   try {
 
     const response = await customerChannel.get(
@@ -78,12 +85,14 @@ export const getByNameCustomers = async (name: string, usersSales?: string, owin
         params: {
           name, 
           UsersSales: usersSales,
-          Owing: owing
+          Owing: owing,
+          PageSize: pageSize,
+          PageIndex: pageIndex
         }
       }
     )
 
-    return response.data as ICustomer[]
+    return response.data as IPagination
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -91,7 +100,13 @@ export const getByNameCustomers = async (name: string, usersSales?: string, owin
   }
 }
 
-export const getAllCustomers = async (usersSales?: string, dateUsersSales?: string | null, owing?: boolean) => {
+export const getAllCustomers = async (
+  pageIndex: number,
+  pageSize: number,
+  usersSales?: string, 
+  dateUsersSales?: string | null, 
+  owing?: boolean,
+) => {
   try {
 
     const response = await customerChannel.get(`api/Customer/GetAllCustomer`,
@@ -99,12 +114,14 @@ export const getAllCustomers = async (usersSales?: string, dateUsersSales?: stri
         params: {
           UsersSales: usersSales,
           Owing: owing,
-          DateUsersSales: dateUsersSales
+          DateUsersSales: dateUsersSales,
+          PageSize: pageSize,
+          PageIndex: pageIndex
         }
       }
     )
 
-    return response.data as ICustomer[]
+    return response.data as IPagination
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

@@ -65,9 +65,11 @@ export const GroupButtonsActions = styled.div`
 `
 
 export const ScroolCustom = styled.div`
-  scroll-behavior: smooth;
-  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
   width: 100%;
+  overflow-y: auto;
+  scroll-behavior: auto;
 
   ::-webkit-scrollbar {
     width: 5px;

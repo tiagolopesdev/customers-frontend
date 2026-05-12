@@ -1,5 +1,18 @@
 import { getByNameCustomers } from "../../Services/Customer"
+import { IPagination } from "../../Types/IPagination"
 
-export const findByNameCustomersHandler = async (name: string, usersSales?: string, owing?: boolean) => {
-  return await getByNameCustomers(name, usersSales, owing)
+interface IFindByNameCustomerHandler {
+  pagination: IPagination,
+  name: string,
+  usersSales?: string,
+  owing?: boolean
+}
+
+export const findByNameCustomersHandler = async ({
+  pagination,
+  name,
+  usersSales,
+  owing
+}: IFindByNameCustomerHandler) => {
+  return await getByNameCustomers(pagination.pageIndex, pagination.pageSize, name, usersSales, owing)
 }

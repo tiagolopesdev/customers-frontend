@@ -1,16 +1,20 @@
 
 
-import { Skeleton, Typography } from '@mui/material';
+import { Alert, CircularProgress, Skeleton, Typography } from '@mui/material';
 import { ScroolCustom } from '../../Styles';
 import { IStateShowData } from '../../Types/IStateShowData';
 
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import { TriggerPagination } from '../TriggerPagination/TriggerPagination';
+import { IPagination } from '../../Types/IPagination';
 
 interface IManagerShowData {
   state: IStateShowData
   data: JSX.Element,
-  scrool?: boolean | undefined
+  scrool?: boolean | undefined,
+  pagination?: IPagination,
+  setPagination?: React.Dispatch<React.SetStateAction<IPagination>>
 }
 
 const style: React.CSSProperties = {
@@ -21,7 +25,13 @@ const style: React.CSSProperties = {
 }
 
 
-export const ManagerShowData = ({ data, state, scrool }: IManagerShowData) => {
+export const ManagerShowData = ({
+  data,
+  state,
+  scrool,
+  pagination,
+  setPagination,
+}: IManagerShowData) => {
   switch (state.state) {
     case 'ERROR':
       return <div style={{
@@ -60,8 +70,46 @@ export const ManagerShowData = ({ data, state, scrool }: IManagerShowData) => {
         />
       </div>
     case 'SUCCESS':
-      return scrool === undefined || scrool ? <ScroolCustom>
-        {data}
-      </ScroolCustom> : data
+      return scrool === undefined || scrool
+        ? <ScroolCustom id="scrool-container">
+          {data}
+          <TriggerPagination
+            elementId="trigger-load-data"
+            setPagination={setPagination as React.Dispatch<React.SetStateAction<IPagination>>}
+            rootId="scrool-container"
+          />
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <div
+              id="trigger-load-data"
+              style={{
+                padding: "10px",
+                margin: "5px",
+                width: "87dvw",
+              }}
+            >
+              {
+                pagination?.hasMore
+                  ? <CircularProgress size="0px" />
+                  : <Alert
+                    severity="info"
+                    sx={{
+                      borderRadius: "8px",
+                      display: "flex",
+                      justifyContent: "center",
+                      fontWeight: "600"
+                    }}
+                  >Não há mais dados para carregar</Alert>
+              }
+            </div>
+          </div>
+        </ScroolCustom>
+        : data
   }
 }

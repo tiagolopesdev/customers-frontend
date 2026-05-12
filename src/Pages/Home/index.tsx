@@ -14,6 +14,7 @@ import { IStateShowData } from "../../Types/IStateShowData"
 import { IBaseFilters } from "../../Types/IFilters"
 
 import SearchIcon from '@mui/icons-material/Search';
+import { defaultPagination, IPagination } from "../../Types/IPagination"
 
 interface IFilters extends IBaseFilters {
   owing: boolean,
@@ -35,11 +36,18 @@ export const Home = () => {
   const [state, setState] = useState<IStateShowData>({
     state: ""
   })
+  const [pagination, setPagination] = useState<IPagination>(defaultPagination)
+  const [cleanData, setCleanData] = useState<boolean>(false)
 
   const findCustomers = async () => {
     try {
 
-      setState({ state: "IN_PROGRESS" })
+      console.log('dskldksldkls ', filters)
+
+      // only show full-page IN_PROGRESS on initial load (pageIndex 0)
+      if (pagination.pageIndex === 0) {
+        setState({ state: "IN_PROGRESS" })
+      }
 
       if (filters.usersSales && filters.dateUsersSales === null) return
 
@@ -47,14 +55,31 @@ export const Home = () => {
       if (filters.usersSales) usersSales = user.email
 
       const result = filters.name === '' ?
-        await findCustomersHandler(usersSales, filters.dateUsersSales, filters.owing) :
-        await findByNameCustomersHandler(filters.name, usersSales, filters.owing)
+        await findCustomersHandler({
+          pagination,
+          usersSales,
+          dateUsersSales: filters.dateUsersSales,
+          owing: filters.owing
+        }) :
+        await findByNameCustomersHandler({
+          pagination,
+          name: filters.name,
+          usersSales,
+          owing: filters.owing
+        })
 
-      if (result.length === 0) {
+      if (result.data.length === 0) {
         setState({ state: "NOT_FOUND" })
       } else {
-        setCustomers(result as ICustomer[])
+        setPagination(result)
+
+        setCustomers(prevCustomers => {
+          return cleanData
+            ? result.data
+            : [...prevCustomers, ...result.data]
+        })
         setState({ state: "SUCCESS" })
+        setCleanData(false)
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -68,7 +93,10 @@ export const Home = () => {
       localStorage.removeItem('amountToPay')
     }
     findCustomers()
-  }, [filters.name, filters.dateUsersSales, filters.owing])
+  }, [filters.name, cleanData, pagination.pageIndex])
+  // }, [filters.name, filters.dateUsersSales, filters.owing, pagination.pageIndex])
+
+  console.log("clean ", cleanData)
 
   return <div
     style={{
@@ -105,10 +133,11 @@ export const Home = () => {
           sx={{ width: '90dvw' }}
           defaultValue={filters.name}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(event: any) => {
+          onChange={(event: any) => {            
             setFilters({
               ...filters, name: event.target.value ?? ''
             })
+            setPagination(defaultPagination)
           }}
         />
       </div>
@@ -136,6 +165,8 @@ export const Home = () => {
                 all: !filters.all
               }
             })
+            setCleanData(true)
+            setPagination(defaultPagination)
           }}
         />
         <Chip
@@ -151,6 +182,8 @@ export const Home = () => {
                 all: false
               }
             })
+            setCleanData(true)
+            setPagination(defaultPagination)
           }}
         />
       </div>
@@ -158,6 +191,8 @@ export const Home = () => {
     <ManagerShowData
       data={<CustomerCardList customers={customers} />}
       state={state}
+      pagination={pagination}
+      setPagination={setPagination}
     />
     <ButtonsActions
       openScanner={openQr}
