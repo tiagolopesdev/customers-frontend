@@ -6,6 +6,7 @@ import QrReader from "../../QrCodeRead/QrReader";
 import { createCustomerHandler } from "../../../Handlers/CreateCustomer";
 import { useNavigate } from "react-router-dom";
 import { findByNameCustomersHandler } from "../../../Handlers/GetByNameCustomers";
+import { defaultPagination } from "../../../Types/IPagination";
 
 const style = {
   position: 'absolute',
@@ -37,12 +38,15 @@ export const QrCodeScannerModal = (props: IQrCodeScannerModal) => {
 
       setLoading(true)
 
-      const existCustomer = await findByNameCustomersHandler(nameScanned)
+      const existCustomer = await findByNameCustomersHandler({
+        pagination: defaultPagination,
+        name: nameScanned
+      })
 
       let idCustomer = ''
 
-      if (existCustomer && existCustomer?.length > 0) {        
-        idCustomer = existCustomer[0].id as string
+      if (existCustomer && existCustomer.data.length > 0) {        
+        idCustomer = existCustomer.data[0].id as string
       } else {
         idCustomer = await createCustomerHandler({ 
           name: nameScanned,

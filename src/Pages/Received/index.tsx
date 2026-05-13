@@ -16,6 +16,7 @@ import { IBaseFilters } from "../../Types/IFilters"
 import { ElementLink, GroupButtonsActions } from "../../Styles"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { defaultPagination } from "../../Types/IPagination"
 
 interface IFilters extends IBaseFilters {
   usersSales: string,
@@ -48,12 +49,23 @@ export const Received = () => {
 
       setState({ state: 'IN_PROGRESS' })
 
+      //TODO: adjustment and implement pagination logic
       const result = filter === '' ?
-        await findCustomersHandler(user.email, filters.dateUsersSales) :
-        await findByNameCustomersHandler(filter, user.email)
+        await findCustomersHandler({
+          pagination: defaultPagination,
+          usersSales: user.email,
+          dateUsersSales: filters.dateUsersSales
+        }) :
+        await findByNameCustomersHandler({
+          pagination: defaultPagination,
+          usersSales: user.email,
+          name: filter
+        })
+        // await findCustomersHandler(user.email, filters.dateUsersSales) :
+        // await findByNameCustomersHandler(filter, user.email)
 
-      setCustomers(result as ICustomer[])
-      if (result.length === 0) {
+      setCustomers(result.data as ICustomer[])
+      if (result.data.length === 0) {
         setState({ state: 'NOT_FOUND' })
       } else {
         setState({ state: 'SUCCESS' })
