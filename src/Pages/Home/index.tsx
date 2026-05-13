@@ -42,8 +42,6 @@ export const Home = () => {
   const findCustomers = async () => {
     try {
 
-      console.log('dskldksldkls ', filters)
-
       // only show full-page IN_PROGRESS on initial load (pageIndex 0)
       if (pagination.pageIndex === 0) {
         setState({ state: "IN_PROGRESS" })
@@ -74,9 +72,13 @@ export const Home = () => {
         setPagination(result)
 
         setCustomers(prevCustomers => {
-          return cleanData
-            ? result.data
-            : [...prevCustomers, ...result.data]
+          if (cleanData) { 
+            return result.data
+          } else if (pagination.pageIndex === 1) {
+            return result.data
+          } else {
+            return [...prevCustomers, ...result.data]
+          }
         })
         setState({ state: "SUCCESS" })
         setCleanData(false)
@@ -93,10 +95,7 @@ export const Home = () => {
       localStorage.removeItem('amountToPay')
     }
     findCustomers()
-  }, [filters.name, cleanData, pagination.pageIndex])
-  // }, [filters.name, filters.dateUsersSales, filters.owing, pagination.pageIndex])
-
-  console.log("clean ", cleanData)
+  }, [filters.name, pagination.pageIndex])
 
   return <div
     style={{
@@ -133,13 +132,14 @@ export const Home = () => {
           sx={{ width: '90dvw' }}
           defaultValue={filters.name}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(event: any) => {            
+          onChange={(event: any) => {
             setFilters({
               ...filters, name: event.target.value ?? ''
             })
-            setPagination(defaultPagination)
+            setCleanData(true)
+            setPagination({...defaultPagination, pageIndex: 0})
           }}
-        />
+          />
       </div>
       <div
         style={{
@@ -147,7 +147,7 @@ export const Home = () => {
           display: 'flex',
           justifyContent: 'flex-start'
         }}
-      >
+        >
         <Chip
           sx={{
             height: 25,
@@ -166,7 +166,7 @@ export const Home = () => {
               }
             })
             setCleanData(true)
-            setPagination(defaultPagination)
+            setPagination({...defaultPagination, pageIndex: 0})
           }}
         />
         <Chip
@@ -183,7 +183,7 @@ export const Home = () => {
               }
             })
             setCleanData(true)
-            setPagination(defaultPagination)
+            setPagination({...defaultPagination, pageIndex: 0})
           }}
         />
       </div>
