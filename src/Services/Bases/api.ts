@@ -2,8 +2,10 @@ import axios, { InternalAxiosRequestConfig } from 'axios'
 import { enviroments } from '../../config/enviroments'
 
 const paginationIntercept = (config: InternalAxiosRequestConfig<unknown>) => {
-  
-  config.params.PageIndex = config.params.PageIndex <= 0 ? 1 : config.params.PageIndex
+
+  if (config.params) {
+    config.params.PageIndex = config.params.PageIndex <= 0 ? 1 : config.params.PageIndex
+  }
   
   return config;
 }
