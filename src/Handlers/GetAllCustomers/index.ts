@@ -1,11 +1,12 @@
 import { getAllCustomers } from "../../Services/Customer"
+import { ICustomer } from "../../Types/ICustomer"
 import { IPagination } from "../../Types/IPagination"
 
 interface IFindCustomerHandler {
   usersSales?: string,
   dateUsersSales?: string | null,
   owing?: boolean
-  pagination: IPagination
+  pagination: IPagination<ICustomer>
 }
 
 export const findCustomersHandler = async ({

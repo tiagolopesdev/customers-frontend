@@ -36,7 +36,7 @@ export const Home = () => {
   const [state, setState] = useState<IStateShowData>({
     state: ""
   })
-  const [pagination, setPagination] = useState<IPagination>(defaultPagination)
+  const [pagination, setPagination] = useState<IPagination<ICustomer>>(defaultPagination)
   const [cleanData, setCleanData] = useState<boolean>(false)
 
   const findCustomers = async () => {

@@ -11,22 +11,20 @@ import { IStateShowData } from "../../../Types/IStateShowData";
 import { ManagerShowData } from "../../ManagerShowData";
 
 import SearchIcon from '@mui/icons-material/Search';
+import { defaultPagination, IPagination } from "../../../Types/IPagination";
 
 interface IShoppingModal {
   open: boolean,
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  // buyProps: IBuys[]
-  // setBuyProps: React.Dispatch<React.SetStateAction<IBuys[]>>
 }
 
 export const ShoppingModal = (props: IShoppingModal) => {
 
   const { open, setOpen } = props
-  // const { open, setOpen, setBuyProps, buyProps } = props
 
-  const { 
-    selectedProducts, 
-    setSelectProducts, 
+  const {
+    selectedProducts,
+    setSelectProducts,
     user,
     setCustomer,
     customer
@@ -39,17 +37,32 @@ export const ShoppingModal = (props: IShoppingModal) => {
   const [state, setState] = useState<IStateShowData>({
     state: ''
   })
+  const [pagination, setPagination] = useState<IPagination<IProduct>>(defaultPagination)
 
   const findProducts = async () => {
     try {
-      setState({ state: "IN_PROGRESS" })
 
-      const response = await getProductsHandler(filterProduct)
+      if (pagination.pageIndex === 0) {
+        setState({ state: "IN_PROGRESS" })
+      }
 
-      if (response?.length === 0) {
+      const response = await getProductsHandler(
+        filterProduct,
+        pagination.pageIndex,
+        pagination.pageSize
+      ) || defaultPagination
+
+      if (response.data.length === 0) {
         setState({ state: "NOT_FOUND" })
       } else {
-        setProducts(response as IProduct[])
+        setPagination(response)
+
+        setProducts(prevProducts => {
+          return pagination.pageIndex === 1 ?
+            response?.data :
+            [...prevProducts, ...response?.data ?? []]
+        })
+
         setState({ state: "SUCCESS" })
       }
     } catch (error) {
@@ -57,7 +70,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
     }
   }
 
-  useEffect(() => { findProducts() }, [filterProduct])
+  useEffect(() => { findProducts() }, [filterProduct, pagination.pageIndex])
 
   const managerButtons = () => {
     return <div style={{
@@ -148,7 +161,10 @@ export const ShoppingModal = (props: IShoppingModal) => {
           id="outlined-basic"
           variant="standard"
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(event: any) => { setFilterProduct(event.target.value) }}
+          onChange={(event: any) => {
+            setFilterProduct(event.target.value)
+            setPagination({ ...defaultPagination, pageIndex: 0 })
+          }}
         />
       </div>
     </DialogTitle>
@@ -164,6 +180,8 @@ export const ShoppingModal = (props: IShoppingModal) => {
       <ManagerShowData
         data={<ProductCardList products={products} />}
         state={state}
+        pagination={pagination}
+        setPagination={setPagination}
       />
     </DialogContent>
     <DialogActions style={{ justifyContent: 'center', backgroundColor: '#F3F4F7' }}>

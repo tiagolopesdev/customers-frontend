@@ -1,15 +1,15 @@
-import { ICustomer } from "./ICustomer"
 
-export interface IPagination {
+export interface IPagination<T> {
   pageIndex: number
   pageSize: number,
   hasMore: true,
   totalPages: number,
   totalItens: number,
-  data: ICustomer[]
+  data: T[]
 }
 
-export const defaultPagination: IPagination = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const defaultPagination: IPagination<any> = {
   pageIndex: 1,
   pageSize: 10,
   hasMore: true,

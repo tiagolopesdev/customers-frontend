@@ -13,6 +13,7 @@ import { ElementButton, GroupButtonsActions } from "../../Styles"
 
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { defaultPagination, IPagination } from "../../Types/IPagination"
 
 
 export const ProductsPage = () => {
@@ -27,18 +28,31 @@ export const ProductsPage = () => {
   })
   const [products, setProducts] = useState<IProduct[]>([])
   const [openModal, setOpenModal] = useState(false)
+  const [pagination, setPagination] = useState<IPagination<IProduct>>(defaultPagination)
 
   const findCustomers = async () => {
     try {
 
-      setState({ state: "IN_PROGRESS" })
+      if (pagination.pageIndex === 0) {
+        setState({ state: "IN_PROGRESS" })
+      }
 
-      const result = await getProductsService(filter)
+      const response = await getProductsService(
+        filter,
+        pagination.pageIndex,
+        pagination.pageSize
+      )
 
-      if (result.length === 0) {
+      if (response.data.length === 0) {
         setState({ state: "NOT_FOUND" })
       } else {
-        setProducts(result as IProduct[])
+        setPagination(response)
+
+        setProducts(prevProducts => {
+          return pagination.pageIndex === 1 ?
+            response?.data :
+            [...prevProducts, ...response?.data ?? []]
+        })
         setState({ state: "SUCCESS" })
       }
       setProductWasManipulated(false)
@@ -51,7 +65,7 @@ export const ProductsPage = () => {
 
   useEffect(() => {
     findCustomers()
-  }, [filter])
+  }, [filter, pagination.pageIndex])
 
   useEffect(() => {
     if (productWasManipulated) findCustomers()
@@ -66,12 +80,17 @@ export const ProductsPage = () => {
         sx={{ width: '80dvw' }}
         defaultValue={filter}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => { setFilter(event.target.value ?? '') }}
+        onChange={(event: any) => {
+          setFilter(event.target.value ?? '')
+          setPagination({ ...defaultPagination, pageIndex: 0 })
+        }}
       />
     </SearchContainer>
     <ManagerShowData
       data={<ProductCardList products={products} />}
       state={state}
+      pagination={pagination}
+      setPagination={setPagination}
     />
     <GroupButtonsActions>
       <ElementButton

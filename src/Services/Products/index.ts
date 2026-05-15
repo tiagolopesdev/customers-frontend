@@ -1,3 +1,4 @@
+import { IPagination } from "../../Types/IPagination"
 import { IProduct } from "../../Types/IProduct"
 import { customerChannel } from "../Bases/api"
 
@@ -9,24 +10,26 @@ export const hasStockService = async (id: string) => {
 
     return response.data.quantityAvailable
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw error.response.data
   }
 }
 
-export const getProductsService = async (name: string) => {
+export const getProductsService = async (name: string, pageIndex: number, pageSize: number) => {
   try {
 
     const response = await customerChannel.get(`api/Products/GetByNameProduct`, {
       params: {
-        name: name
+        name: name,
+        PageSize: pageSize,
+        PageIndex: pageIndex
       }
     })
 
-    return response.data as IProduct[]
+    return response.data as IPagination<IProduct>
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw error.response.data
   }
@@ -39,7 +42,7 @@ export const createProductService = async (product: IProduct) => {
 
     return response.data as string
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw error.response.data
   }
@@ -51,7 +54,7 @@ export const updateProductService = async (product: IProduct) => {
 
     return response.data as string
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw error.response.data
   }

@@ -93,7 +93,7 @@ export const getByNameCustomers = async (
       }
     )
 
-    return response.data as IPagination
+    return response.data as IPagination<ICustomer>
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -122,7 +122,7 @@ export const getAllCustomers = async (
       }
     )
 
-    return response.data as IPagination
+    return response.data as IPagination<ICustomer>
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
