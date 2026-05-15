@@ -60,8 +60,6 @@ export const Customer = () => {
         result.buys?.forEach((item) => { item.isEnable = false })
       }
 
-      console.log(result)
-
       setCustomer(result)
       setCustomerOrigin(structuredClone(result))
       setState({ state: 'SUCCESS' })
@@ -99,7 +97,6 @@ export const Customer = () => {
 
   const saveChanges = async () => {
     try {
-      console.log(customer)
       if (customer.id) {
         await updateCustomerHandler(customer)
       } else {

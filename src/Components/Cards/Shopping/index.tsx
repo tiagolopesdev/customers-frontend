@@ -27,8 +27,6 @@ export const ShoppingCard = () => {
     return result.toFixed(2)
   }
 
-  console.log(customer.buys)
-
   return <>
     <Card sx={{
       width: '95%',

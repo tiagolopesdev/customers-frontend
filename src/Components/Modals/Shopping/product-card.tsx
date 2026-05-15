@@ -42,8 +42,10 @@ export const ProductCard = ({ product }: IProductCard) => {
     }
   }
 
-
-  return <Card sx={{ minWidth: 270, width: 320, margin: '2px 0px', backgroundColor: '#ffffff', borderRadius: '8px' }}>
+  return <Card
+    sx={{ minWidth: 270, width: 320, margin: '2px 0px', backgroundColor: '#ffffff', borderRadius: '8px' }}
+    key={`product-card-${product.id}`}
+  >
     <CardContent
       sx={{
         margin: 1.2,
@@ -75,13 +77,13 @@ export const ProductCard = ({ product }: IProductCard) => {
                   {`R$ ${product.value}`}
                 </Typography>
                 <Chip
-                  sx={{ 
-                    height: 18, 
+                  sx={{
+                    height: 18,
                     margin: '0px 10px',
                     paddingLeft: '0px',
-                    borderRadius: '6px', 
-                    fontWeight: 500, 
-                    color: 'ButtonShadow' 
+                    borderRadius: '6px',
+                    fontWeight: 500,
+                    color: 'ButtonShadow'
                   }}
                   label={`Estoque: ${product.quantity}`}
                   variant='filled'
