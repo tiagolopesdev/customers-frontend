@@ -2,17 +2,17 @@ import { useEffect } from "react"
 import { IPagination } from "../../Types/IPagination"
 
 
-interface ITriggerPagination {
+interface ITriggerPagination<T> {
   elementId: string,
-  setPagination: React.Dispatch<React.SetStateAction<IPagination>>,
+  setPagination: React.Dispatch<React.SetStateAction<IPagination<T>>>,
   rootId?: string
 }
 
-export const TriggerPagination = ({
+export const TriggerPagination = <T,>({
   elementId,
   setPagination,
   rootId
-}: ITriggerPagination) => {
+}: ITriggerPagination<T>) => {
 
   useEffect(() => {
 

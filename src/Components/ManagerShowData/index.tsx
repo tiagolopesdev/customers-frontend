@@ -9,12 +9,12 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import { TriggerPagination } from '../TriggerPagination/TriggerPagination';
 import { IPagination } from '../../Types/IPagination';
 
-interface IManagerShowData {
+interface IManagerShowData<T> {
   state: IStateShowData
   data: JSX.Element,
   scrool?: boolean | undefined,
-  pagination?: IPagination,
-  setPagination?: React.Dispatch<React.SetStateAction<IPagination>>
+  pagination?: IPagination<T>,
+  setPagination?: React.Dispatch<React.SetStateAction<IPagination<T>>>
 }
 
 const style: React.CSSProperties = {
@@ -25,13 +25,13 @@ const style: React.CSSProperties = {
 }
 
 
-export const ManagerShowData = ({
+export const ManagerShowData = <T,>({
   data,
   state,
   scrool,
   pagination,
   setPagination,
-}: IManagerShowData) => {
+}: IManagerShowData<T>) => {
   switch (state.state) {
     case 'ERROR':
       return <div style={{
@@ -75,7 +75,7 @@ export const ManagerShowData = ({
           {data}
           <TriggerPagination
             elementId="trigger-load-data"
-            setPagination={setPagination as React.Dispatch<React.SetStateAction<IPagination>>}
+            setPagination={setPagination as React.Dispatch<React.SetStateAction<IPagination<T>>>}
             rootId="scrool-container"
           />
           <div
