@@ -7,6 +7,9 @@ import { getToken } from "../../Services/Users"
 import { IUser } from "../../Types/IUser"
 import { jwtDecode } from "jwt-decode"
 
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+
 interface ILogin {
   toRedirect?: string
 }
@@ -43,7 +46,6 @@ export const Login = ({ toRedirect }: ILogin) => {
       })
       setOpen(true);
 
-      // await login(email)    
       const token = await getToken(email)
 
       const claims: IUser = jwtDecode(token)
@@ -54,7 +56,6 @@ export const Login = ({ toRedirect }: ILogin) => {
       setLoading(false)
 
       navigate(`${toRedirect === 'home' ? '' : toRedirect}`)
-      // window.location.assign(`${window.location.protocol}//${window.location.host}/${toRedirect === 'home' ? '' : toRedirect}`)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -81,14 +82,40 @@ export const Login = ({ toRedirect }: ILogin) => {
   return <div style={{
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: "column",
     alignItems: 'center',
     width: '100vw',
-    height: '65vh'
+    height: '85vh',
+    gap: "5px"
   }}>
+    <StorefrontIcon
+      style={{
+        backgroundColor: "#0D81F0",
+        borderRadius: "15px",
+        padding: "10px",
+        width: "40px",
+        height: "40px",
+        boxShadow: "1px 1px 5px 0px rgb(126, 135, 144)"
+      }}
+    />
+    <Typography
+      style={{
+        fontSize: "22px",
+        color: "#151316",
+        fontWeight: 700
+      }}
+    >Olá, bem-vindo</Typography>
+    <Typography
+      style={{
+        fontSize: "14px",
+        color: "#7E8790",
+        marginBottom: "20px"
+      }}
+    >Acesse sua conta para gerenciar seus clientes</Typography>
     <Card sx={{
-      minWidth: '90vw',
-      maxWidth: '65vw',
-      minHeight: '10vh'
+      width: { xs: "85%", sm: "60%", md: "35%" },
+      minHeight: '10vh',
+      borderRadius: "12px"
     }}
       key={`login-page`}
     >
@@ -97,30 +124,32 @@ export const Login = ({ toRedirect }: ILogin) => {
           display: 'flex',
           flexDirection: 'column',
           padding: "20px",
-          '&:last-child': {
-            paddingBottom: "8px"
-          },
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
-        <Typography
-          sx={{
-            fontWeight: 550,
-            marginBottom: '10px'
-          }}
-        >
-          Acesse com seu e-mail
-        </Typography>
         <TextField
           id="standard-basic"
           label="Digite seu e-mail"
-          sx={{ width: '80dvw' }}
+          sx={{
+            width: "100%",
+            ".MuiInputBase-root": {
+              borderRadius: "10px",
+            }
+          }}
           defaultValue={email}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(event: any) => { setEmail(event.target.value ?? '') }}
         />
+
         <Button
-          sx={{ marginTop: 2, width: '50dvw' }}
+          sx={{
+            marginTop: "25px",
+            width: '100%',
+            textTransform: "none",
+            fontWeight: 500,
+            borderRadius: "8px",
+            padding: "10px"
+          }}
           variant="contained"
           onClick={async () => {
             handleClick()
@@ -128,7 +157,23 @@ export const Login = ({ toRedirect }: ILogin) => {
         >{
             loading ?
               <CircularProgress size={25} sx={{ color: '#ffffff' }} /> :
-              'Acessar'
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  width: "100%"
+                }}
+              >
+                <span>Acessar</span>
+                <ArrowForwardIcon
+                  style={{
+                    width: "18px",
+                    height: "18px"
+                  }}
+                />
+              </div>
           }
         </Button>
       </CardContent>
