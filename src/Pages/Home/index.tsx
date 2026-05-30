@@ -27,7 +27,7 @@ export const Home = () => {
   const [customers, setCustomers] = useState<ICustomer[]>([])
   const [openQr, setOpenQr] = useState<boolean>(false);
   const [filters, setFilters] = useState<IFilters>({
-    all: true,
+    all: false,
     name: '',
     owing: false,
     usersSales: false,
@@ -72,7 +72,7 @@ export const Home = () => {
         setPagination(result)
 
         setCustomers(prevCustomers => {
-          if (cleanData) { 
+          if (cleanData) {
             return result.data
           } else if (pagination.pageIndex === 1) {
             return result.data
@@ -89,11 +89,35 @@ export const Home = () => {
     }
   }
 
+
+  const updateFilterInsideUrl = (isAll: boolean) =>
+    localStorage.setItem("typeFilterHome", isAll ? "all" : "owing")
+
+  const managerTypeFilter = () => {
+    const foundedType = localStorage.getItem("typeFilterHome")
+
+    if (foundedType) {
+      switch (foundedType) {
+        case "all":
+          setFilters({ ...filters, all: true, owing: false })
+          break;
+        case "owing":
+          setFilters({ ...filters, owing: true, all: false })
+          break;
+      }
+    } else {
+      updateFilterInsideUrl(true)
+    }
+  }
+
   useEffect(() => {
     if (localStorage.getItem('customerId') !== null) {
       localStorage.removeItem('customerId')
       localStorage.removeItem('amountToPay')
     }
+    console.log('inside useEffect')
+    managerTypeFilter()
+
     findCustomers()
   }, [filters.name, pagination.pageIndex])
 
@@ -137,9 +161,9 @@ export const Home = () => {
               ...filters, name: event.target.value ?? ''
             })
             setCleanData(true)
-            setPagination({...defaultPagination, pageIndex: 0})
+            setPagination({ ...defaultPagination, pageIndex: 0 })
           }}
-          />
+        />
       </div>
       <div
         style={{
@@ -147,12 +171,14 @@ export const Home = () => {
           display: 'flex',
           justifyContent: 'flex-start'
         }}
-        >
+      >
         <Chip
           sx={{
             height: 25,
             margin: '0px 5px',
             fontWeight: 550,
+            border: !filters.all ? "1px solid #cdced1" : "none",
+            backgroundColor: !filters.all ? "#E9EBEF" : "#0288D1"
           }}
           label="Todos"
           color={filters.all ? 'info' : 'default'}
@@ -162,28 +188,36 @@ export const Home = () => {
               ...filters, ...{
                 owing: false,
                 usersSales: false,
-                all: !filters.all
+                all: true
               }
             })
             setCleanData(true)
-            setPagination({...defaultPagination, pageIndex: 0})
+            setPagination({ ...defaultPagination, pageIndex: 0 })
+            updateFilterInsideUrl(true)
           }}
         />
         <Chip
-          sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
+          sx={{
+            height: 25,
+            margin: '0px 5px',
+            fontWeight: 550,
+            border: !filters.owing ? "1px solid #cdced1" : "none",
+            backgroundColor: !filters.owing ? "#E9EBEF" : "#0288D1"
+          }}
           label="Veacos"
           color={filters.owing ? 'info' : 'default'}
           variant={filters.owing ? 'filled' : 'outlined'}
           onClick={() => {
             setFilters({
               ...filters, ...{
-                owing: !filters.owing,
+                owing: true,
                 usersSales: false,
                 all: false
               }
             })
             setCleanData(true)
-            setPagination({...defaultPagination, pageIndex: 0})
+            setPagination({ ...defaultPagination, pageIndex: 0 })
+            updateFilterInsideUrl(false)
           }}
         />
       </div>
