@@ -85,7 +85,7 @@ export const Login = ({ toRedirect }: ILogin) => {
     flexDirection: "column",
     alignItems: 'center',
     width: '100vw',
-    height: '85vh',
+    height: '70vh',
     gap: "5px"
   }}>
     <StorefrontIcon
