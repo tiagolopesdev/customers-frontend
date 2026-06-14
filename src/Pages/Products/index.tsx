@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material"
+import { TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { ProductCardList } from "../../Components/Cards/Products/productList"
 import { IProduct } from "../../Types/IProduct"
@@ -8,12 +8,14 @@ import { MinimarketContext } from "../../Context/minimarket"
 import { ProductModal } from "../../Components/Modals/Product"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { ManagerShowData } from "../../Components/ManagerShowData"
-import { ComponentContainer, SearchContainer } from "./style"
+import { ComponentContainer } from "./style"
 import { ElementButton, GroupButtonsActions } from "../../Styles"
 
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { defaultPagination, IPagination } from "../../Types/IPagination"
+
+import SearchIcon from '@mui/icons-material/Search';
 
 
 export const ProductsPage = () => {
@@ -72,20 +74,41 @@ export const ProductsPage = () => {
   }, [productWasManipulated])
 
   return <ComponentContainer>
-    <SearchContainer>
-      <TextField
-        id="standard-basic"
-        label="Pesquise pelo nome do produto"
-        variant="standard"
-        sx={{ width: '80dvw' }}
-        defaultValue={filter}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(event: any) => {
-          setFilter(event.target.value ?? '')
-          setPagination({ ...defaultPagination, pageIndex: 0 })
-        }}
-      />
-    </SearchContainer>
+    <div
+      style={{
+        backgroundColor: '#ffffff',
+        height: '14dvh',
+        display: 'flex',
+        padding: '10px 20px',
+        flexDirection: 'column'
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: "flex-start", flexDirection: 'column' }}>
+        <Typography
+          color="textSecondary"
+          fontSize={18}
+          fontWeight={550}
+        >Produtos</Typography>
+        <Typography
+          color="textSecondary"
+          fontSize={13}
+        >Pesquise abaixo pelo nome dos produtos</Typography>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <SearchIcon color="action" />
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          sx={{ width: '90dvw' }}
+          defaultValue={filter}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(event: any) => {
+            setFilter(event.target.value ?? '')
+            setPagination({ ...defaultPagination, pageIndex: 0 })
+          }}
+        />
+      </div>
+    </div>
     <ManagerShowData
       data={<ProductCardList products={products} />}
       state={state}
