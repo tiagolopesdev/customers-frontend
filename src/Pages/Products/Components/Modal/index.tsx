@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Alert, Box, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, SnackbarCloseReason, SxProps, TextField, Theme, Typography } from "@mui/material"
+import { Alert, Box, Modal, Snackbar, SnackbarCloseReason, SxProps, TextField, Theme, Typography } from "@mui/material"
 import { CurrencyInput } from "react-currency-mask";
 import { useContext, useState } from "react";
 import { IMessageFeedback } from "../../../../Types/IMessageFeedback";
@@ -9,6 +9,7 @@ import { createProductService, updateProductService } from "../../../../Services
 import { MinimarketContext } from "../../../../Context/minimarket";
 import { IUser } from "../../../../Types/IUser";
 import ButtonsModals from "../../../../Components/ButtonsModals";
+import ModalBase from "../../../../Components/Modals";
 
 
 interface IProductModal {
@@ -82,36 +83,38 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
     setOpen(false)
   }
 
-  return <Dialog
-    open={open}
-    aria-labelledby="scroll-dialog-title"
-    aria-describedby="scroll-dialog-description"
-    sx={{
-      backgroundColor: '#6C757D',
-      'MuiPaper-root': {
-        borderRadius: '10px',
-      },
-    }}
-  >
-    <DialogTitle sx={{ backgroundColor: '#F3F4F7' }}>
+  return <ModalBase open={open}>
+    <Box>
       <Typography
         style={{
+          color: '#212121',
           fontWeight: 'bold',
           fontSize: '14pt',
         }}
-      >Adicionar produtos</Typography>
+      >
+        {
+          product.id !== ""
+            ? "Editar produto"
+            : "Adicionar produto"
+        }
+      </Typography>
       <Typography
         style={{
           fontSize: '10pt',
           color: '#6C757D'
         }}
-      >Pesquise e selecione os produtos desejados</Typography>
-    </DialogTitle>
-    <DialogContent sx={{
+      >
+        {
+          product.id !== ""
+            ? "Edite os dados do produto abaixo"
+            : "Adicione os dados do produto abaixo"
+        }
+      </Typography>
+    </Box>
+    <Box sx={{
       display: 'flex',
       height: '100%',
       flexDirection: "column",
-      backgroundColor: '#F3F4F7',
       gap: "20px",
     }}
     >
@@ -198,20 +201,12 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
         }}
         onChange={(event: any) => { setProduct({ ...product, quantity: event.target.value }) }}
       />
-    </DialogContent>
-    <DialogActions
-      sx={{
-        justifyContent: 'center',
-        backgroundColor: '#F3F4F7',
-        padding: "20px 24px"
-      }}
-    >
-      <ButtonsModals
-        onClickBack={() => { handleModalState() }}
-        disableConfirm={product.value === 0}
-        onClickConfirm={handleConfirm}
-      />
-    </DialogActions>
+    </Box>
+    <ButtonsModals
+      onClickBack={() => { handleModalState() }}
+      disableConfirm={product.value === 0}
+      onClickConfirm={handleConfirm}
+    />
     <Snackbar
       open={openFeedback}
       autoHideDuration={2500}
@@ -227,5 +222,30 @@ export const ProductModal = ({ open, setOpen, productProps }: IProductModal) => 
         {message.message}
       </Alert>
     </Snackbar>
-  </Dialog>
+  </ModalBase>
+
+  // <Modal
+  //   open={open}
+  //   aria-labelledby="modal-product-add-edit-labelled"
+  //   aria-describedby="modal-product-add-edit-described"
+  // >
+  //   <Box
+  //     sx={{
+  //       position: 'absolute',
+  //       top: '45%',
+  //       left: '50%',
+  //       transform: 'translate(-50%, -50%)',
+  //       width: { xs: "313px", sm: "400px", md: "470px" },
+  //       bgcolor: 'background.paper',
+  //       boxShadow: 20,
+  //       borderRadius: "12px",
+  //       padding: "15px 15px 25px 15px",
+  //       gap: "30px",
+  //       display: "flex",
+  //       flexDirection: "column"
+  //     }}
+  //   >
+
+  //   </Box>
+  // </Modal>
 }
