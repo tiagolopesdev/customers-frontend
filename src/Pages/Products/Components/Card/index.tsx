@@ -2,7 +2,7 @@ import { Card, CardContent } from "@mui/material"
 import { IProduct } from "../../../../Types/IProduct"
 
 import { useState } from "react"
-import { ProductModal } from "../../../../Components/Modals/Product"
+import { ProductModal } from "../Modal"
 
 import ProductBaseInfo from "./Parts/ProductBaseInfo"
 import ProductSalesAnalysis from "./Parts/ProductSalesAnalysis";
