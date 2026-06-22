@@ -1,6 +1,6 @@
 import { TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
-import { ProductCardList } from "../../Components/Cards/Products/productList"
+import { ProductList } from "./Components/ProductList"
 import { IProduct } from "../../Types/IProduct"
 import { getProductsService } from "../../Services/Products"
 import { useNavigate } from "react-router-dom"
@@ -110,7 +110,7 @@ export const ProductsPage = () => {
       </div>
     </div>
     <ManagerShowData
-      data={<ProductCardList products={products} />}
+      data={<ProductList products={products} />}
       state={state}
       pagination={pagination}
       setPagination={setPagination}
