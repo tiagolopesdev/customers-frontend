@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
-import { Accordion, AccordionDetails, AccordionSummary, Chip, TextField, TextFieldProps, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Link, TextField, TextFieldProps, Typography } from "@mui/material"
 import { MinimarketContext } from "../../Context/minimarket"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import dayjs, { Dayjs } from "dayjs"
@@ -246,14 +246,15 @@ export const Received = () => {
         flex: 1
       }}
     >
-      <GroupButtonsActions>
-        <ElementLink
-          to="/"
+      <Box sx={GroupButtonsActions}>
+        <Link
+          href="/"
+          sx={ElementLink}
         >
           <ArrowBackIcon />
           Voltar
-        </ElementLink>
-      </GroupButtonsActions>
+        </Link>
+      </Box>
     </div>
   </ReceivedContainer>
 }

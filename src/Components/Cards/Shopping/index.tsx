@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, CardContent, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useContext, useState } from "react";
 import { ShoppingModal } from "../../Modals/Shopping";
 import { IBuys } from "../../../Types/IBuys";
@@ -80,26 +80,26 @@ export const ShoppingCard = () => {
           >
             {`R$ ${buysTotalCalculate()}`}
           </Typography>
-          <ElementButton
+          <Button
+            sx={{ ...ElementButton, flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
             variant="contained"
             onClick={() => { handleStateModal() }}
-            style={{ flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
           >
             <AddShoppingCartIcon />
-          </ElementButton>
+          </Button>
         </div>
         <EmptyData
           condition={customer.buys?.length === 0}
           title="Nenhuma compra realizada."
           subtitle="Acesse os produtos disponíveis e registre as compras."
           dataToShow={
-            <ScroolCustom>
+            <Box sx={ScroolCustom}>
               {
                 customer.buys?.map((item: IBuys, index: number) => {
                   return <Buy item={item} key={index} />
                 })
               }
-            </ScroolCustom>
+            </Box>
           }
         />
       </CardContent>

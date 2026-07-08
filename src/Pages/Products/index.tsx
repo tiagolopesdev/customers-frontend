@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@mui/material"
+import { Box, Button, TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { ProductList } from "./Components/ProductList"
 import { IProduct } from "../../Types/IProduct"
@@ -115,20 +115,22 @@ export const ProductsPage = () => {
       pagination={pagination}
       setPagination={setPagination}
     />
-    <GroupButtonsActions>
-      <ElementButton
+    <Box sx={GroupButtonsActions}>
+      <Button
+        sx={ElementButton}
         onClick={() => { navigate("/") }}
       >
         <ArrowBackIcon />
         Voltar
-      </ElementButton>
-      <ElementButton
+      </Button>
+      <Button
+        sx={ElementButton}
         onClick={() => { setOpenModal(true) }}
       >
         <AddIcon />
         Adicionar
-      </ElementButton>
-    </GroupButtonsActions>
+      </Button>
+    </Box>
     {
       openModal ?
         <ProductModal

@@ -1,4 +1,4 @@
-import { Alert, Box, Snackbar, SnackbarCloseReason } from "@mui/material"
+import { Alert, Box, Button, Snackbar, SnackbarCloseReason } from "@mui/material"
 import { ShoppingCard } from "../../Components/Cards/Shopping"
 import { PaymentsCard } from "../../Components/Cards/Payments"
 import { useContext, useEffect, useState } from "react"
@@ -147,8 +147,9 @@ export const Customer = () => {
       />
     </Box>
     {showComponent()}
-    <GroupButtonsActions>
-      <ElementButton
+    <Box sx={GroupButtonsActions}>
+      <Button
+        sx={ElementButton}
         onClick={() => {
           setCustomer(initialStateCustomer)
           navigate("/")
@@ -156,22 +157,24 @@ export const Customer = () => {
       >
         <ArrowBackIosNewIcon />
         Voltar
-      </ElementButton>
-      <ElementButton
+      </Button>
+      <Button
+        sx={ElementButton}
         disabled={ObjectIsEquals(customer, customerOrigin)}
         onClick={async () => { saveChanges() }}
       >
         <SaveIcon />
         Salvar
-      </ElementButton>
-      <ElementButton
+      </Button>
+      <Button
+        sx={ElementButton}
         disabled={ObjectIsEquals(customer, customerOrigin)}
         onClick={() => { findCustomer() }}
       >
         <UndoIcon />
         Reverter
-      </ElementButton>
-    </GroupButtonsActions>
+      </Button>
+    </Box>
     <Snackbar
       open={openFeedback}
       autoHideDuration={2500}

@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { PaymentsModal } from "../../Modals/Payments";
 import { IPayments } from "../../../Types/IPayments";
@@ -111,20 +111,20 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
           >
             {`R$ ${paymentsTotal}`}
           </Typography>
-          <ElementButton
+          <Button
+            sx={{ ...ElementButton, flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
             variant="contained"
             onClick={() => { handleStateModal() }}
-            style={{ flexDirection: 'row', color: "#FFFFFF", borderRadius: '8px' }}
           >
             <PriceCheckIcon />
-          </ElementButton>
+          </Button>
         </div>
         <EmptyData
           condition={customer.payments?.length === 0}
           title="Nenhum pagamento realizado."
           subtitle="Registre novos pagamentos."
           dataToShow={
-            <ScroolCustom>
+            <Box sx={ScroolCustom}>
               {
                 customer.payments?.map((item: IPayments, index: number) => {
                   return <div>
@@ -174,7 +174,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
                   </div>
                 })
               }
-            </ScroolCustom>
+            </Box>
           }
         />
       </CardContent>
