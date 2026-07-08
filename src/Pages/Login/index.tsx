@@ -10,11 +10,11 @@ import { jwtDecode } from "jwt-decode"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 
-interface ILogin {
+interface LoginProps {
   toRedirect?: string
 }
 
-export const Login = ({ toRedirect }: ILogin) => {
+export const Login = ({ toRedirect }: LoginProps) => {
 
   const { setUser } = useContext(MinimarketContext)
 
@@ -113,7 +113,7 @@ export const Login = ({ toRedirect }: ILogin) => {
       }}
     >Acesse sua conta para gerenciar seus clientes</Typography>
     <Card sx={{
-      width: { xs: "85%", sm: "60%", md: "35%" },
+      width: { xs: "90%", sm: "520px", md: "520px" },
       minHeight: '10vh',
       borderRadius: "12px"
     }}
