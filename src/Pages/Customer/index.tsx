@@ -1,6 +1,6 @@
 import { Alert, Box, Button, Snackbar, SnackbarCloseReason } from "@mui/material"
-import { ShoppingCard } from "../../Components/Cards/Shopping"
-import { PaymentsCard } from "../../Components/Cards/Payments"
+import { ShoppingCard } from "./Components/Cards/Shopping"
+import { PaymentsCard } from "./Components/Cards/Payments"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { findByIdCustomersHandler } from "../../Handlers/GetByIdCustomer"
@@ -12,7 +12,6 @@ import { updateCustomerHandler } from "../../Handlers/UpdateCustomer"
 import { IMessageFeedback } from "../../Types/IMessageFeedback"
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
-import { ContainerComponent } from "./style"
 import { ElementButton, GroupButtonsActions } from "../../Styles"
 
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -21,11 +20,11 @@ import UndoIcon from '@mui/icons-material/Undo';
 import { Values } from "./Components/Values"
 import { ManagerShowName } from "./Components/ManagerShowName"
 import { MinimarketContext } from "../../Context/minimarket"
+import { fullSize } from "../../Utils/sizesDevices"
 
 export const Customer = () => {
 
   const navigate = useNavigate()
-  // const [customer, setCustomer] = useState<ICustomer>(initialStateCustomer)
   const [customerOrigin, setCustomerOrigin] = useState<ICustomer>(initialStateCustomer)
   const [openFeedback, setOpenFeedback] = useState(false);
   const [message, setMessage] = useState<IMessageFeedback>({
@@ -70,30 +69,10 @@ export const Customer = () => {
     }
   }
 
-  const showComponent = (): JSX.Element | string => {
+  useEffect(() => {
+    findCustomer()
     localStorage.setItem('amountToPay', (customer.amountToPay ?? 0).toString())
-    return <ManagerShowData
-      data={
-        <Box
-          sx={{            
-            width: { xs: "100%", md: "66%" },
-            display: 'flex',
-            flexDirection: "column",
-            alignItems: 'center',
-            overflowY: "auto",
-            flex: 1,
-          }}
-        >
-          <ShoppingCard />
-          <PaymentsCard customer={customer} setCustomer={setCustomer} />
-        </Box>
-      }
-      state={state}
-      scrool={false}
-    />
-  }
-
-  useEffect(() => { findCustomer() }, [])
+  }, [])
 
   const saveChanges = async () => {
     try {
@@ -127,27 +106,78 @@ export const Customer = () => {
     setOpenFeedback(false);
   };
 
-  return <ContainerComponent>
+  return <Box sx={{
+    display: "flex",
+    flexDirection: "column",
+    height: "100dvh",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }}>
     <Box sx={{
+      backgroundColor: "#E4E4E4",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
       alignItems: 'center',
-      justifyContent: 'center',
-      padding: '10px 5px 10px 5px',
-      width: { xs: "100%", md: "66%" },
-      backgroundColor: "#E4E4E4",
     }}>
-      <ManagerShowName
-        customer={customer}
-        setCustomer={setCustomer}
-      />
-      <Values
-        amountPaid={customer.amountPaid ?? 0}
-        amountToPay={customer.amountToPay ?? 0}
-      />
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          maxWidth: fullSize,
+          boxSizing: 'border-box',
+          px: {
+            xs: "10px",
+            sm: "10px",
+            md: "0px"
+          },
+          py: "10px",
+        }}
+      >
+        <ManagerShowName
+          customer={customer}
+          setCustomer={setCustomer}
+        />
+        <Values
+          amountPaid={customer.amountPaid ?? 0}
+          amountToPay={customer.amountToPay ?? 0}
+        />
+      </Box>
     </Box>
-    {showComponent()}
-    <Box sx={GroupButtonsActions}>
+    <ManagerShowData
+      data={
+        <Box
+          sx={{
+            width: "100%",
+            display: 'flex',
+            flexDirection: "column",
+            alignItems: 'center',
+            overflowY: "auto",
+            maxWidth: fullSize,
+            boxSizing: 'border-box',
+            gap: "10px",
+            padding: "10px 0px",
+            px: {
+              xs: "10px",
+              sm: "10px",
+              md: "8px"
+            },
+            flex: 1,
+          }}
+        >
+          <ShoppingCard />
+          <PaymentsCard customer={customer} setCustomer={setCustomer} />
+        </Box>
+      }
+      state={state}
+      scrool={false}
+    />
+    <Box sx={{
+      ...GroupButtonsActions,
+      maxWidth: fullSize,
+    }}
+    >
       <Button
         sx={ElementButton}
         onClick={() => {
@@ -190,5 +220,5 @@ export const Customer = () => {
         {message.message}
       </Alert>
     </Snackbar>
-  </ContainerComponent>
+  </Box >
 }

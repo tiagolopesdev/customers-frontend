@@ -72,6 +72,7 @@ export const ShoppingModal = (props: IShoppingModal) => {
 
   useEffect(() => { findProducts() }, [filterProduct, pagination.pageIndex])
 
+  // TODO: use global component
   const managerButtons = () => {
     return <div style={{
       width: '90dvw',

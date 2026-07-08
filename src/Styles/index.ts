@@ -37,7 +37,7 @@ export const GroupButtonsActions: SxProps<Theme> = {
   position: "sticky",
   bottom: 0,
   display: "flex",
-  padding: "10px",
+  padding: "10px 0px",
   width: "100%",
   height: "7dvh",
   flexShrink: 0,

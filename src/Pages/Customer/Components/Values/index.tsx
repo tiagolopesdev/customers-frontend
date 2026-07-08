@@ -1,14 +1,21 @@
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { CSSProperties } from "react";
+import { Box, SxProps, Theme, Typography } from "@mui/material";
 
 
-interface IValues {
+interface ValuesProps {
   amountPaid: number
   amountToPay: number
 }
 
-const containerInfoStyle: CSSProperties = {
+const wrapperStyle: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '5px',
+  width: '100%',
+}
+
+const containerInfoStyle: SxProps<Theme> = {
   backgroundColor: '#FFFFFF',
   width: '100%',
   height: '30px',
@@ -21,78 +28,50 @@ const containerInfoStyle: CSSProperties = {
   gap: '7px'
 }
 
-const iconInfoStyle: CSSProperties = {
+const iconInfoStyle: SxProps<Theme> = {
   fontSize: '14pt',
   padding: '5px',
   borderRadius: '15px',
 }
 
-const groupInfoStyle: CSSProperties = {
+const groupInfoStyle: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  width: '100%',
 }
 
-const typeInfoStyle: CSSProperties = {
+const typeInfoStyle: SxProps<Theme> = {
   fontWeight: 500,
   fontSize: 12,
   color: '#4f535f',
   margin: '0px 0px 2px 0px'
 }
 
-const valueInfoStyle: CSSProperties = {
+const valueInfoStyle: SxProps<Theme> = {
   fontWeight: 800,
   fontSize: 15,
   margin: '0px 0px 5px 0px',
   lineHeight: '0.8'
 }
 
-export const Values = ({ amountPaid, amountToPay }: IValues) => {
+export const Values = ({ amountPaid, amountToPay }: ValuesProps) => {
 
-  return <div
-    style={{
-      display: 'flex',
-      flexDirection: "row",
-      gap: '5px',
-      width: '95%',
-    }}
-  >
-    <div style={containerInfoStyle} >
-      <CallReceivedIcon
-        style={{
-          backgroundColor: '#DFF1E8',
-          color: '#2A9C63',
-          ...iconInfoStyle
-        }}
-      />
-      <div style={groupInfoStyle}>
-        <p style={typeInfoStyle}>Recebido</p>
-        <p
-          style={{
-            color: '#2A9C63',
-            ...valueInfoStyle
-          }}
-        >{`R$ ${amountPaid.toFixed(2)}`}</p>
-      </div>
-    </div>
-    <div style={containerInfoStyle} >
-      <AttachMoneyIcon
-        style={{
-          backgroundColor: '#FBEBEB',
-          color: '#DF3A3A',
-          ...iconInfoStyle
-        }}
-      />
-      <div style={groupInfoStyle}>
-        <p style={typeInfoStyle}>Pendente</p>
-        <p
-          style={{
-            color: '#DF3A3A',
-            ...valueInfoStyle
-          }}
-        >{`R$ ${amountToPay.toFixed(2)}`}</p>
-      </div>
-    </div>
-  </div>
+  return <Box sx={wrapperStyle}>
+    <Box sx={containerInfoStyle}>
+      <CallReceivedIcon sx={{ ...iconInfoStyle, backgroundColor: '#DFF1E8', color: '#2A9C63' }} />
+      <Box sx={groupInfoStyle}>
+        <Typography sx={typeInfoStyle}>Recebido</Typography>
+        <Typography sx={{ ...valueInfoStyle, color: '#2A9C63' }}>{`R$ ${amountPaid.toFixed(2)}`}</Typography>
+      </Box>
+    </Box>
+    <Box sx={containerInfoStyle}>
+      <AttachMoneyIcon sx={{ ...iconInfoStyle, backgroundColor: '#FBEBEB', color: '#DF3A3A' }} />
+      <Box sx={groupInfoStyle}>
+        <Typography sx={typeInfoStyle}>Pendente</Typography>
+        <Typography sx={{ ...valueInfoStyle, color: '#DF3A3A' }}>{`R$ ${amountToPay.toFixed(2)}`}</Typography>
+      </Box>
+    </Box>
+  </Box>
 }

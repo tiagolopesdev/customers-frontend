@@ -1,18 +1,18 @@
 import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
-import { PaymentsModal } from "../../Modals/Payments";
-import { IPayments } from "../../../Types/IPayments";
-import { initialStatePayments } from "../../../Types/InitialStatePayments";
-import { ICustomer } from "../../../Types/ICustomer";
-import { ObjectIsEquals } from "../../../Utils/objectIsEqual";
-import { IBuys } from "../../../Types/IBuys";
-import { showPercentage } from "../../../Utils/percentage/showPercentage";
-import formatDate from "../../../Utils/formatDate";
-import { ElementButton, ScroolCustom } from "../../../Styles";
+import { PaymentsModal } from "../../../../../Components/Modals/Payments";
+import { IPayments } from "../../../../../Types/IPayments";
+import { initialStatePayments } from "../../../../../Types/InitialStatePayments";
+import { ICustomer } from "../../../../../Types/ICustomer";
+import { ObjectIsEquals } from "../../../../../Utils/objectIsEqual";
+import { IBuys } from "../../../../../Types/IBuys";
+import { showPercentage } from "../../../../../Utils/percentage/showPercentage";
+import formatDate from "../../../../../Utils/formatDate";
+import { ElementButton, ScroolCustom } from "../../../../../Styles";
 
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { EmptyData } from "../../ManagerEmptyData";
+import { EmptyData } from "../../../../../Components/ManagerEmptyData";
 
 interface IPaymentsCard {
   customer: ICustomer
@@ -60,12 +60,11 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
 
   return <>
     <Card sx={{
-      width: '95%',
+      width: '100%',
       minHeight: '40vh',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: "#ffffff",
-      marginTop: '10px',
       borderRadius: '8px',
       borderTopColor: '#0D6EFD',
       borderTopStyle: 'solid',

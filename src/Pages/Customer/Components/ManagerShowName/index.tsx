@@ -1,13 +1,13 @@
-import { CSSProperties, useState } from "react"
+import { useState } from "react"
 import { ICustomer } from "../../../../Types/ICustomer"
-import { TextField, Typography } from "@mui/material"
+import { Box, SxProps, TextField, Theme, Typography } from "@mui/material"
 
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
 import CheckIcon from '@mui/icons-material/Check';
 
-const containerStyle: CSSProperties = {
+const containerStyle: SxProps<Theme> = {
   display: 'flex',
   justifyContent: 'flex-start',
   alignItems: 'center',
@@ -17,7 +17,7 @@ const containerStyle: CSSProperties = {
   borderRadius: '8px',
 }
 
-const iconActionStyle: CSSProperties = {
+const iconActionStyle: SxProps<Theme> = {
   fontSize: '14pt',
   marginLeft: '10px',
   borderRadius: '15px',
@@ -34,17 +34,17 @@ export const ManagerShowName = ({ customer, setCustomer }: {
     currentName: ''
   })
 
-  return <div
-    style={{
+  return <Box
+    sx={{
       display: 'flex',
       alignItems: 'center',
-      width: '95%',
+      width: '100%',
     }}
   >
     {
       !editName.isEdit ?
-        <div
-          style={containerStyle}
+        <Box
+          sx={containerStyle}
         >
           <PersonIcon
             style={{
@@ -70,9 +70,9 @@ export const ManagerShowName = ({ customer, setCustomer }: {
             }}
             onClick={() => { setEditName({ isEdit: !editName.isEdit, currentName: customer.name }) }}
           />
-        </div> :
-        <div
-          style={containerStyle}
+        </Box> :
+        <Box
+          sx={containerStyle}
         >
           <PersonIcon
             style={{
@@ -91,7 +91,7 @@ export const ManagerShowName = ({ customer, setCustomer }: {
             onChange={(event) => { setEditName({ ...editName, currentName: event.target.value }) }}
           />
           <CheckIcon
-            style={{
+            sx={{
               color: '#ffffff',
               backgroundColor: '#29A366',
               ...iconActionStyle
@@ -102,14 +102,14 @@ export const ManagerShowName = ({ customer, setCustomer }: {
             }}
           />
           <CloseIcon
-            style={{
+            sx={{
               color: '#E35151',
               backgroundColor: '#FBEBEB',
               ...iconActionStyle
             }}
             onClick={() => { setEditName({ isEdit: false, currentName: '' }) }}
           />
-        </div>
+        </Box>
     }
-  </div>
+  </Box>
 }

@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useContext, useState } from "react";
-import { ShoppingModal } from "../../Modals/Shopping";
-import { IBuys } from "../../../Types/IBuys";
+import { ShoppingModal } from "../../../../../Components/Modals/Shopping";
+import { IBuys } from "../../../../../Types/IBuys";
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { ElementButton, ScroolCustom } from "../../../Styles";
-import { Buy } from "../../../Pages/Customer/Components/Buy";
-import { MinimarketContext } from "../../../Context/minimarket";
-import { EmptyData } from "../../ManagerEmptyData";
+import { ElementButton, ScroolCustom } from "../../../../../Styles";
+import { Buy } from "../../Buy";
+import { MinimarketContext } from "../../../../../Context/minimarket";
+import { EmptyData } from "../../../../../Components/ManagerEmptyData";
 
 
 export const ShoppingCard = () => {
@@ -29,12 +29,11 @@ export const ShoppingCard = () => {
 
   return <>
     <Card sx={{
-      width: '95%',
+      width: '100%',
       minHeight: '40vh',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: "#ffffff",
-      marginTop: '10px',
       borderRadius: '8px',
       borderTopColor: '#0D6EFD',
       borderTopStyle: 'solid',
