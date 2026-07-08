@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { MinimarketContext } from "../../Context/minimarket"
-import { GroupButtonsActions, ElementLink } from "../../Styles";
+import { MinimarketContext } from "../../../../Context/minimarket"
+import { GroupButtonsActions, ElementLink } from "../../../../Styles";
 
 import PersonIcon from '@mui/icons-material/Person';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';

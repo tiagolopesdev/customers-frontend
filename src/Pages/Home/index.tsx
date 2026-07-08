@@ -7,7 +7,7 @@ import { Box, Chip, TextField, Typography } from "@mui/material"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
 
-import { ButtonsActions } from "./buttonsActions"
+import { ButtonsActions } from "./Components/ButtonsActions"
 
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
