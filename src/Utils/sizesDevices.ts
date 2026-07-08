@@ -18,3 +18,5 @@ export const devices = {
   laptopL: `(max-width: ${sizes.laptopL})`,
   desktop: `(max-width: ${sizes.desktop})`,
 };
+
+export const fullSize = sizes.tablet;

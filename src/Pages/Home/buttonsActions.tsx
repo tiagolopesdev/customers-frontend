@@ -7,52 +7,58 @@ import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DiscountIcon from '@mui/icons-material/Discount';
+import { Box, Link } from "@mui/material";
 
-interface IButtonsActions {
+interface ButtonsActionsProps {
   openScanner: boolean,
   setOpenScanner: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ButtonsActions = ({ openScanner, setOpenScanner }: IButtonsActions) => {
+export const ButtonsActions = ({ openScanner, setOpenScanner }: ButtonsActionsProps) => {
 
   const { logout, user } = useContext(MinimarketContext)
 
-  return <GroupButtonsActions>
-    <ElementLink
-      to="/customer"     
+  return <Box sx={GroupButtonsActions}>
+    <Link
+      href="/customer" 
+      sx={ElementLink}
     >
       <PersonIcon />
       Cadastro
-    </ElementLink>
-    <ElementLink
-      to=""
+    </Link>
+    <Link
+      href=""
       onClick={() => setOpenScanner(!openScanner)}
+      sx={ElementLink}
     >
       <CenterFocusWeakIcon />
       Scanner
-      </ElementLink>
+    </Link>
     {
       user.role.includes('Admin') ?
-        <ElementLink
-          to="/products"
+        <Link
+          href="/products"
+          sx={ElementLink}
         >
           <DiscountIcon />
           Produtos
-        </ElementLink>
+        </Link>
         : ''
     }
-    <ElementLink
-      to="/received"
+    <Link
+      href="/received"
+      sx={ElementLink}
     >
       <AttachMoneyIcon />
       Prestação
-    </ElementLink>
-    <ElementLink
-      to=""
+    </Link>
+    <Link
+      href=""
       onClick={() => { logout() }}
+      sx={ElementLink}
     >
       <LogoutIcon />
       Sair
-    </ElementLink>
-  </GroupButtonsActions>
+    </Link>
+  </Box>
 }

@@ -5,6 +5,7 @@ import { ICustomer } from "../../../Types/ICustomer"
 
 import PersonIcon from '@mui/icons-material/Person';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { fullSize } from "../../../Utils/sizesDevices";
 
 interface ICustomerCard {
   customer: ICustomer
@@ -15,8 +16,8 @@ export const CustomerCard = ({ customer }: ICustomerCard) => {
   const navigate = useNavigate();
 
   return <Card sx={{
-    minWidth: '90vw',
-    maxWidth: '65vw',
+    width: '100%',
+    maxWidth: fullSize,
     borderRadius: '8px'
   }}
     onClick={() => {

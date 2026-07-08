@@ -1,84 +1,66 @@
-import styled from "styled-components";
-import { devices } from "../Utils/sizesDevices";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { SxProps, Theme } from "@mui/material";
+import { fullSize } from "../Utils/sizesDevices";
 
-export const ElementLink = styled(Link)`
-  color: #6C757D;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
-  font-size: small;
+export const ElementLink: SxProps<Theme> = {
+  color: "#6C757D",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 400,
+  fontSize: "small",
+  textDecoration: "none",
 
-  &:hover {
-    font-weight: 700;
-    color: #0D6EFD;
+  "&:hover": {
+    fontWeight: 700,
+    color: "#0D6EFD"
   }
-`
-
-interface ElementButtonProps {
-  color?: string
-  backgroundColor?: string
 }
 
-export const ElementButton = styled(Button)<ElementButtonProps>`
-  color: #6C757D;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
-  font-size: small;
-  text-transform: none;
-  
-  &:hover {
-    font-weight: 700;
-    text-transform: none;
-  }
-`
+export const ElementButton: SxProps<Theme> = {
+  color: "#6C757D",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 400,
+  fontSize: "small",
+  textTransform: "none",
 
-export const GroupButtonsActions = styled.div`
-  position: sticky;
-  bottom: 0;
-  background-color: #FFFFFF;
-  display: flex;
-  padding: 10px;
-  width: 100dvw;
-  height: 7dvh;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: space-evenly;
+  "&:hover": {
+    fontWeight: 700,
+    textTransform: "none"
+  }
+}
 
-  @media ${devices.tablet} {
-    max-width: 100dvw;
-  }
+export const GroupButtonsActions: SxProps<Theme> = {
+  position: "sticky",
+  bottom: 0,
+  display: "flex",
+  padding: "10px",
+  width: "100%",
+  height: "7dvh",
+  flexShrink: 0,
+  alignItems: "center",
+  justifyContent: "space-evenly",
+  maxWidth: fullSize,
+}
 
-  @media ${devices.laptop} {
-    max-width: 100dvw;
-  }
+export const ScroolCustom: SxProps<Theme> = {
+  flex: "1",
+  height: "100%",
+  width: "100%",
+  overflowY: "auto",
+  scrollBehavior: "auto",
 
-  @media ${devices.mobileL} {
-    max-width: 96dvw;
+  "::-webkit-scrollbar": {
+    width: "5px"
+  },
+  "::-webkit-scrollbar-track": {
+    background: "#f1f1f1"
+  },
+  "::-webkit-scrollbar-thumb": {
+    background: "rgb(159 159 159)",
+    borderRadius: "10px"
   }
-`
-
-export const ScroolCustom = styled.div`
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-  overflow-y: auto;
-  scroll-behavior: auto;
-
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgb(159 159 159);
-    border-radius: 10px;
-  }
-`;
+}

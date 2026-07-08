@@ -1,7 +1,7 @@
+import { Box } from "@mui/material"
 import { CustomerCard } from "."
 import { ICustomer } from "../../../Types/ICustomer"
 import { renderList } from "../../../Utils/cardsList"
-import { CardListGroup } from "./style"
 
 interface ICustomerCardList {
   customers: ICustomer[]
@@ -13,7 +13,15 @@ export const CustomerCardList = ({ customers }: ICustomerCardList) => {
     return <CustomerCard customer={item} />
   }
 
-  return <CardListGroup>
+  return <Box
+    sx={{
+      padding: "10px",
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "column",
+      gap: "5px"
+    }}
+  >
     {renderList(customers, CustomerComponent)}
-  </CardListGroup>
+  </Box>
 }

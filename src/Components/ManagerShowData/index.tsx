@@ -1,6 +1,6 @@
 
 
-import { Alert, CircularProgress, Skeleton, Typography } from '@mui/material';
+import { Alert, Box, CircularProgress, Skeleton, Typography } from '@mui/material';
 import { ScroolCustom } from '../../Styles';
 import { IStateShowData } from '../../Types/IStateShowData';
 
@@ -8,6 +8,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import { TriggerPagination } from '../TriggerPagination/TriggerPagination';
 import { IPagination } from '../../Types/IPagination';
+import { fullSize } from '../../Utils/sizesDevices';
 
 interface IManagerShowData<T> {
   state: IStateShowData
@@ -71,7 +72,10 @@ export const ManagerShowData = <T,>({
       </div>
     case 'SUCCESS':
       return scrool === undefined || scrool
-        ? <ScroolCustom id="scrool-container">
+        ? <Box
+          id="scrool-container"
+          sx={ScroolCustom}
+        >
           {data}
           <TriggerPagination
             elementId="trigger-load-data"
@@ -91,7 +95,11 @@ export const ManagerShowData = <T,>({
               style={{
                 padding: "10px",
                 margin: "5px",
-                width: "87dvw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                maxWidth: fullSize,
+                width: "100%",
               }}
             >
               {
@@ -103,13 +111,14 @@ export const ManagerShowData = <T,>({
                       borderRadius: "8px",
                       display: "flex",
                       justifyContent: "center",
-                      fontWeight: "600"
+                      fontWeight: "600",
+                      width: "100%",
                     }}
                   >Não há mais dados para carregar</Alert>
               }
             </div>
           </div>
-        </ScroolCustom>
+        </Box >
         : data
   }
 }
