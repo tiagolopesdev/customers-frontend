@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AddCircle from "@mui/icons-material/AddCircle"
 import RemoveCircle from "@mui/icons-material/RemoveCircle"
-import { Alert, Card, CardContent, Chip, IconButton, Typography } from "@mui/material"
+import { Alert, Box, Card, CardContent, Chip, IconButton, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import { IProduct } from "../../../../../Types/IProduct"
 import { hasStockService } from "../../../../../Services/Products"
 import { MinimarketContext } from "../../../../../Context/minimarket"
+import { fullSize } from "../../../../../Utils/sizesDevices"
 
 
-interface IProductCard {
+interface ProductCardProps {
   product: IProduct
 }
 
-export const ProductCard = ({ product }: IProductCard) => {
+export default function ProductCard({ product }: ProductCardProps) {
 
   const { selectedProducts, setSelectProducts } = useContext(MinimarketContext)
 
@@ -36,14 +37,18 @@ export const ProductCard = ({ product }: IProductCard) => {
         setIsLoading(false)
         return false
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {
       setIsLoading(false)
-      console.log('Error: ', error.message)
     }
   }
 
   return <Card
-    sx={{ minWidth: 270, width: 320, margin: '2px 0px', backgroundColor: '#ffffff', borderRadius: '8px' }}
+    sx={{ 
+      width: "100%", 
+      maxWidth: fullSize,
+      borderRadius: '8px' 
+    }}
     key={`product-card-${product.id}`}
   >
     <CardContent
@@ -58,18 +63,18 @@ export const ProductCard = ({ product }: IProductCard) => {
           paddingBottom: "0px"
         }
       }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {
           isLoading ?
             <Alert sx={{ height: 40, fontWeight: 550 }} severity='info'>Verificando estoque do produto</Alert> :
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Box style={{ display: 'flex', flexDirection: 'column' }}>
               <Typography gutterBottom sx={{ fontSize: 16, fontWeight: 550, margin: 0 }}>
                 {product.name}
               </Typography>
               <Typography gutterBottom sx={{ fontSize: 12, color: 'ButtonShadow', fontStyle: 'italic' }}>
                 {product.description ?? "Produto sem descrição cadastrada"}
               </Typography>
-              <div style={{
+              <Box style={{
                 display: 'flex',
                 alignItems: 'center'
               }}>
@@ -88,12 +93,12 @@ export const ProductCard = ({ product }: IProductCard) => {
                   label={`Estoque: ${product.quantity}`}
                   variant='filled'
                 />
-              </div>
-            </div>
+              </Box>
+            </Box>
         }
 
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <IconButton sx={{ padding: 0 }} onClick={async () => {
 
           const stockResult = await hasStock()
@@ -162,7 +167,7 @@ export const ProductCard = ({ product }: IProductCard) => {
         >
           <RemoveCircle color={quantity === 0 ? "disabled" : "info"} />
         </IconButton>
-      </div>
+      </Box>
     </CardContent>
   </Card>
 }
