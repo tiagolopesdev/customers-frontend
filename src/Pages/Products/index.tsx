@@ -1,6 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
-import { ProductList } from "./Components/ProductList"
 import { IProduct } from "../../Types/IProduct"
 import { getProductsService } from "../../Services/Products"
 import { useNavigate } from "react-router-dom"
@@ -11,10 +10,12 @@ import { ManagerShowData } from "../../Components/ManagerShowData"
 import { ComponentContainer } from "./style"
 import { ElementButton, GroupButtonsActions } from "../../Styles"
 
-import AddIcon from '@mui/icons-material/Add';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { defaultPagination, IPagination } from "../../Types/IPagination"
+import ListContainer from "../../Components/ListContainer"
+import { ProductCard } from "./Components/Card"
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 
 
@@ -110,7 +111,15 @@ export const ProductsPage = () => {
       </div>
     </div>
     <ManagerShowData
-      data={<ProductList products={products} />}
+      data={
+        <ListContainer
+          componentToShow={
+            ({ item }: { item: IProduct }) =>
+              <ProductCard product={item} />
+          }
+          elements={products}
+        />
+      }
       state={state}
       pagination={pagination}
       setPagination={setPagination}
