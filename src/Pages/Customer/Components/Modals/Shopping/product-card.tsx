@@ -3,9 +3,9 @@ import AddCircle from "@mui/icons-material/AddCircle"
 import RemoveCircle from "@mui/icons-material/RemoveCircle"
 import { Alert, Card, CardContent, Chip, IconButton, Typography } from "@mui/material"
 import { useContext, useState } from "react"
-import { IProduct } from "../../../Types/IProduct"
-import { hasStockService } from "../../../Services/Products"
-import { MinimarketContext } from "../../../Context/minimarket"
+import { IProduct } from "../../../../../Types/IProduct"
+import { hasStockService } from "../../../../../Services/Products"
+import { MinimarketContext } from "../../../../../Context/minimarket"
 
 
 interface IProductCard {

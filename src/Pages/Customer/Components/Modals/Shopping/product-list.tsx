@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { IProduct } from "../../../Types/IProduct"
+import { IProduct } from "../../../../../Types/IProduct"
 import { ProductCard } from "./product-card"
-import { renderList } from "../../../Utils/cardsList"
+import { renderList } from "../../../../../Utils/cardsList"
 
 interface IProductCardList {
   products: IProduct[]

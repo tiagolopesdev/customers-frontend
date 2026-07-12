@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useContext, useState } from "react";
-import { ShoppingModal } from "../../../../../Components/Modals/Shopping";
+import { ShoppingModal } from "../../Modals/Shopping";
 import { IBuys } from "../../../../../Types/IBuys";
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';

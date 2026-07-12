@@ -2,16 +2,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
-import { IBuys } from "../../../Types/IBuys";
-import { getProductsHandler } from "../../../Handlers/GetProducts";
-import { IProduct } from "../../../Types/IProduct";
+import { IBuys } from "../../../../../Types/IBuys";
+import { getProductsHandler } from "../../../../../Handlers/GetProducts";
+import { IProduct } from "../../../../../Types/IProduct";
 import { ProductCardList } from "./product-list";
-import { MinimarketContext } from "../../../Context/minimarket";
-import { IStateShowData } from "../../../Types/IStateShowData";
-import { ManagerShowData } from "../../ManagerShowData";
+import { MinimarketContext } from "../../../../../Context/minimarket";
+import { IStateShowData } from "../../../../../Types/IStateShowData";
+import { ManagerShowData } from "../../../../../Components/ManagerShowData";
 
 import SearchIcon from '@mui/icons-material/Search';
-import { defaultPagination, IPagination } from "../../../Types/IPagination";
+import { defaultPagination, IPagination } from "../../../../../Types/IPagination";
 
 interface IShoppingModal {
   open: boolean,
