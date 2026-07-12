@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
-import { PaymentsModal } from "../../../../../Components/Modals/Payments";
+import { PaymentsModal } from "../../Modals/Payments";
 import { IPayments } from "../../../../../Types/IPayments";
 import { initialStatePayments } from "../../../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../../../Types/ICustomer";
