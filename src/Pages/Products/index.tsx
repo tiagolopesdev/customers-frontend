@@ -7,12 +7,12 @@ import { MinimarketContext } from "../../Context/minimarket"
 import { ProductModal } from "./Components/Modal"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { ManagerShowData } from "../../Components/ManagerShowData"
-import { ComponentContainer } from "./style"
 import { ElementButton, GroupButtonsActions } from "../../Styles"
 
 import { defaultPagination, IPagination } from "../../Types/IPagination"
 import ListContainer from "../../Components/ListContainer"
 import { ProductCard } from "./Components/Card"
+import { fullSize } from "../../Utils/sizesDevices"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
@@ -74,42 +74,62 @@ export const ProductsPage = () => {
     if (productWasManipulated) findCustomers()
   }, [productWasManipulated])
 
-  return <ComponentContainer>
-    <div
-      style={{
+  return <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      height: "100dvh"
+    }}
+  >
+    <Box
+      sx={{
         backgroundColor: '#ffffff',
         height: '14dvh',
+        width: '100%',
         display: 'flex',
-        padding: '10px 20px',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
-      <div style={{ display: 'flex', alignItems: "flex-start", flexDirection: 'column' }}>
-        <Typography
-          color="textSecondary"
-          fontSize={18}
-          fontWeight={550}
-        >Produtos</Typography>
-        <Typography
-          color="textSecondary"
-          fontSize={13}
-        >Pesquise abaixo pelo nome dos produtos</Typography>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <SearchIcon color="action" />
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          sx={{ width: '90dvw' }}
-          defaultValue={filter}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(event: any) => {
-            setFilter(event.target.value ?? '')
-            setPagination({ ...defaultPagination, pageIndex: 0 })
-          }}
-        />
-      </div>
-    </div>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: {
+            xs: "10px 20px",
+            sm: "10px 20px",
+            md: "10px 60px"
+          },
+          maxWidth: fullSize,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: "flex-start", flexDirection: 'column' }}>
+          <Typography
+            color="textSecondary"
+            fontSize={18}
+            fontWeight={550}
+          >Produtos</Typography>
+          <Typography
+            color="textSecondary"
+            fontSize={13}
+          >Pesquise abaixo pelo nome dos produtos</Typography>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <SearchIcon color="action" />
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            sx={{ width: '90dvw' }}
+            defaultValue={filter}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(event: any) => {
+              setFilter(event.target.value ?? '')
+              setPagination({ ...defaultPagination, pageIndex: 0 })
+            }}
+          />
+        </div>
+      </Box>
+    </Box>
     <ManagerShowData
       data={
         <ListContainer
@@ -124,21 +144,31 @@ export const ProductsPage = () => {
       pagination={pagination}
       setPagination={setPagination}
     />
-    <Box sx={GroupButtonsActions}>
-      <Button
-        sx={ElementButton}
-        onClick={() => { navigate("/") }}
-      >
-        <ArrowBackIcon />
-        Voltar
-      </Button>
-      <Button
-        sx={ElementButton}
-        onClick={() => { setOpenModal(true) }}
-      >
-        <AddIcon />
-        Adicionar
-      </Button>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        backgroundColor: "#FFFFFF",
+      }}
+    >
+      <Box sx={GroupButtonsActions}>
+        <Button
+          sx={ElementButton}
+          onClick={() => { navigate("/") }}
+        >
+          <ArrowBackIcon />
+          Voltar
+        </Button>
+        <Button
+          sx={ElementButton}
+          onClick={() => { setOpenModal(true) }}
+        >
+          <AddIcon />
+          Adicionar
+        </Button>
+      </Box>
     </Box>
     {
       openModal ?
@@ -148,5 +178,5 @@ export const ProductsPage = () => {
         /> :
         ''
     }
-  </ComponentContainer>
+  </Box>
 }

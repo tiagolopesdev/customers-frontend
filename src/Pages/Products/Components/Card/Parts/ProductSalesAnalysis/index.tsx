@@ -34,7 +34,8 @@ export default function ProductSalesAnalysis({
         display: 'flex',
         flexDirection: 'row',
         width: "100%",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        gap: "10px"
       }}
     >
       <Box

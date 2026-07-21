@@ -116,7 +116,6 @@ export const Home = () => {
       localStorage.removeItem('customerId')
       localStorage.removeItem('amountToPay')
     }
-    console.log('inside useEffect')
     managerTypeFilter()
 
     findCustomers()

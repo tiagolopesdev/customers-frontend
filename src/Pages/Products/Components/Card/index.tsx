@@ -6,6 +6,7 @@ import { ProductModal } from "../Modal"
 
 import ProductBaseInfo from "./Parts/ProductBaseInfo"
 import ProductSalesAnalysis from "./Parts/ProductSalesAnalysis";
+import { fullSize } from "../../../../Utils/sizesDevices"
 
 
 interface IProductCard {
@@ -18,9 +19,8 @@ export const ProductCard = ({ product }: IProductCard) => {
   const [openModal, setOpenModal] = useState(false)
 
   return <Card sx={{
-    minWidth: '90vw',
-    maxWidth: '65vw',
-    minHeight: '10vh',
+    width: '100%',
+    maxWidth: fullSize,
     borderRadius: "12px"
   }}
     key={`product-${product.name}-${product.id}`}
