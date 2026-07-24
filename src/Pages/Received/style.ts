@@ -1,49 +1,53 @@
-import styled from "styled-components";
+import { SxProps, Theme } from "@mui/material";
+import { fullSize } from "../../Utils/sizesDevices";
 
+export const SelectDateContainer: SxProps<Theme> = {
+  width: '95vw',
+  height: '75vh',
+  borderRadius: '10px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
 
-export const SelectDateContainer = styled.div`
-  width: 95vw;
-  height: 75vh;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+export const PaymentMethodsType: SxProps<Theme> = {
+  backgroundColor: '#FFFFFF',
+  width: '100%',
+  height: '10vh',
+  borderRadius: '5px',
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  alignItems: 'center',
+}
 
-export const PaymentMethodsType = styled.div`
-  background-color: #eeeeee;
-  margin: 18px;
-  width: 20vw;
-  height: 10vh;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-`
+export const PaymentMethodsContainer: SxProps<Theme> = {
+  borderRadius: '5px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px',
+  maxWidth: fullSize,
+  padding: {
+    xs: "10px 10px",
+    sm: "10px 10px",
+    md: "10px 10px"
+  },
+  boxSizing: 'border-box',
+  width: '100%'
+}
 
-export const PaymentMethodsContainer = styled.div`
-  background-Color: #FFFFFF;
-  margin: 10px;
-  border-radius: 5px;
-  height: 15vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
+export const FiltersContainer: SxProps<Theme> = {
+  backgroundColor: '#ffffff',
+  height: '14dvh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: "100%"
+}
 
-export const FiltersContainer = styled.div`
-  background-color: #ffffff;
-  height: 15dvh;
-  display: flex;
-  padding: 10px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-around;
-`
-
-export const ReceivedContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
-`
+export const ReceivedContainer: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100dvh',
+}
