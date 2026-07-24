@@ -14,11 +14,13 @@ export const PaymentMethodsType: SxProps<Theme> = {
   backgroundColor: '#FFFFFF',
   width: '100%',
   height: '10vh',
-  borderRadius: '5px',
+  borderRadius: '10px',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
   alignItems: 'center',
+  padding: "0px 10px",
+  gap: "10px"
 }
 
 export const PaymentMethodsContainer: SxProps<Theme> = {
