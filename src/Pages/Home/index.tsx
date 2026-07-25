@@ -1,21 +1,20 @@
 import { useContext, useEffect, useState } from "react"
-import { CustomerCardList } from "../../Components/Cards/Customer/customerList"
 import { ICustomer } from "../../Types/ICustomer"
 import { findCustomersHandler } from "../../Handlers/GetAllCustomers"
 import { findByNameCustomersHandler } from "../../Handlers/GetByNameCustomers"
 import { Box, Chip, TextField, Typography } from "@mui/material"
 import { QrCodeScannerModal } from "../../Components/Modals/QrCodeScanner"
 import { MinimarketContext } from "../../Context/minimarket"
-
 import { ButtonsActions } from "./Components/ButtonsActions"
-
 import { ManagerShowData } from "../../Components/ManagerShowData"
 import { IStateShowData } from "../../Types/IStateShowData"
 import { IBaseFilters } from "../../Types/IFilters"
-
-import SearchIcon from '@mui/icons-material/Search';
 import { defaultPagination, IPagination } from "../../Types/IPagination"
 import { fullSize } from "../../Utils/sizesDevices"
+import ListContainer from "../../Components/ListContainer"
+import { CustomerCard } from "./Components/Card"
+
+import SearchIcon from '@mui/icons-material/Search';
 
 interface IFilters extends IBaseFilters {
   owing: boolean,
@@ -236,7 +235,13 @@ export const Home = () => {
       </Box>
     </Box>
     <ManagerShowData
-      data={<CustomerCardList customers={customers} />}
+      data={<ListContainer
+        componentToShow={
+          ({ item }: { item: ICustomer }) =>
+            <CustomerCard customer={item} />
+        }
+        elements={customers}
+      />}
       state={state}
       pagination={pagination}
       setPagination={setPagination}

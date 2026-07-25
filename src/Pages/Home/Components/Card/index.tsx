@@ -1,11 +1,11 @@
 import { Card, CardContent, Typography } from "@mui/material"
-import { Values } from "../../Values"
+import { Values } from "../../../../Components/Values"
 import { useNavigate } from "react-router-dom"
-import { ICustomer } from "../../../Types/ICustomer"
+import { ICustomer } from "../../../../Types/ICustomer"
 
 import PersonIcon from '@mui/icons-material/Person';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { fullSize } from "../../../Utils/sizesDevices";
+import { fullSize } from "../../../../Utils/sizesDevices";
 
 interface ICustomerCard {
   customer: ICustomer
