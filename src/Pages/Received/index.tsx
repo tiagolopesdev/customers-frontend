@@ -20,6 +20,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListContainer from "../../Components/ListContainer"
 import CustomerReceivedDetails from "./Components/CustomerReceivedDetails"
 import PaymentMethods from "./Components/PaymentMethods"
+import { Values } from "../../Components/Values"
 
 interface IFilters extends IBaseFilters {
   usersSales: string,
@@ -116,6 +117,11 @@ export const Received = () => {
       />
   }
 
+  const amount = {
+    amountPaid: customers.reduce((accumulator, item) => { return accumulator + (item.amountPaid || 0) }, 0),
+    amountToPay: customers.reduce((accumulator, item) => { return accumulator + (item.amountToPay || 0) }, 0)
+  }
+
   return <Box sx={ReceivedContainer}>
     <Box sx={FiltersContainer}>
       <Box
@@ -184,6 +190,21 @@ export const Received = () => {
       }}
     >
       <PaymentMethods customers={customers} />
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          maxWidth: fullSize,
+          boxSizing: 'border-box',
+          px: {
+            xs: "10px",
+            sm: "10px",
+            md: "0px"
+          },
+        }}
+      >
+        <Values amountPaid={amount.amountPaid} amountToPay={amount.amountToPay} />
+      </Box>
     </Box>
     {managerShowData()}
     <Box

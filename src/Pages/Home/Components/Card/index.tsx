@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material"
-import { Values } from "../../../../Components/Values"
+import { Values } from "../Values"
 import { useNavigate } from "react-router-dom"
 import { ICustomer } from "../../../../Types/ICustomer"
 

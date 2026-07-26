@@ -1,44 +1,77 @@
-import { Typography } from "@mui/material"
-
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { Box, SxProps, Theme, Typography } from "@mui/material";
 
 
-interface IValues {
+interface ValuesProps {
   amountPaid: number
   amountToPay: number
 }
 
-export const Values = ({ amountPaid, amountToPay }: IValues) => {
+const wrapperStyle: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '5px',
+  width: '100%',
+}
 
-  return <div
-    style={{
-      display: 'flex',
-      flexDirection: "row",
-      gap: '5px'
-    }}
-  >
-    <Typography
-      style={{
-        marginRight: '10px',
-        color: '#64BC6D',
-        display: 'flex',
-        alignItems: 'center'
-      }}
-      >
-      <CallReceivedIcon sx={{ fontSize: '12pt' }} />
-      <Typography style={{ fontWeight: 500 }} fontSize={14}>{amountPaid.toFixed(2)}</Typography>
-    </Typography>
-    <Typography
-      style={{
-        color: '#B03333',
-        fontWeight: 550,
-        display: 'flex',
-        alignItems: 'center'
-      }}
-    >
-      <AttachMoneyIcon sx={{ fontSize: '12pt'}} />
-      <Typography style={{ fontWeight: 500 }} fontSize={14}>{amountToPay.toFixed(2)}</Typography>
-    </Typography>
-  </div>
+const containerInfoStyle: SxProps<Theme> = {
+  backgroundColor: '#FFFFFF',
+  width: '100%',
+  height: '30px',
+  borderRadius: '5px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  padding: '10px',
+  marginTop: '5px',
+  gap: '7px'
+}
+
+const iconInfoStyle: SxProps<Theme> = {
+  fontSize: '14pt',
+  padding: '5px',
+  borderRadius: '15px',
+}
+
+const groupInfoStyle: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  width: '100%',
+}
+
+const typeInfoStyle: SxProps<Theme> = {
+  fontWeight: 500,
+  fontSize: 12,
+  color: '#4f535f',
+  margin: '0px 0px 2px 0px'
+}
+
+const valueInfoStyle: SxProps<Theme> = {
+  fontWeight: 800,
+  fontSize: 15,
+  margin: '0px 0px 5px 0px',
+  lineHeight: '0.8'
+}
+
+export const Values = ({ amountPaid, amountToPay }: ValuesProps) => {
+
+  return <Box sx={wrapperStyle}>
+    <Box sx={containerInfoStyle}>
+      <CallReceivedIcon sx={{ ...iconInfoStyle, backgroundColor: '#DFF1E8', color: '#2A9C63' }} />
+      <Box sx={groupInfoStyle}>
+        <Typography sx={typeInfoStyle}>Recebido</Typography>
+        <Typography sx={{ ...valueInfoStyle, color: '#2A9C63' }}>{`R$ ${amountPaid.toFixed(2)}`}</Typography>
+      </Box>
+    </Box>
+    <Box sx={containerInfoStyle}>
+      <AttachMoneyIcon sx={{ ...iconInfoStyle, backgroundColor: '#FBEBEB', color: '#DF3A3A' }} />
+      <Box sx={groupInfoStyle}>
+        <Typography sx={typeInfoStyle}>Pendente</Typography>
+        <Typography sx={{ ...valueInfoStyle, color: '#DF3A3A' }}>{`R$ ${amountToPay.toFixed(2)}`}</Typography>
+      </Box>
+    </Box>
+  </Box>
 }
