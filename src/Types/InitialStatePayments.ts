@@ -5,5 +5,5 @@ export const initialStatePayments: IPayments = {
   value: 0,
   dateCreated: '',
   updatedBy: '',
-  paymentMethod: ''
+  paymentMethod: undefined
 }

@@ -106,7 +106,7 @@ export const PaymentsModal = ({ open, setOpen, paymentProps, setPaymentProps }: 
       disableConfirm={payment.value === 0}
       onClickConfirm={async () => {
 
-        if (payment.paymentMethod === undefined || payment.paymentMethod === '') {
+        if (payment.paymentMethod === undefined) {
           setMessage({
             message: "Selecione o método de pagamento",
             type: "warning"

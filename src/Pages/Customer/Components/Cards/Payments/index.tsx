@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { PaymentsModal } from "../../Modals/Payments";
-import { IPayments } from "../../../../../Types/IPayments";
+import { IPayments, PaymentMethodType } from "../../../../../Types/IPayments";
 import { initialStatePayments } from "../../../../../Types/InitialStatePayments";
 import { ICustomer } from "../../../../../Types/ICustomer";
 import { ObjectIsEquals } from "../../../../../Utils/objectIsEqual";
@@ -165,7 +165,7 @@ export const PaymentsCard = ({ customer, setCustomer }: IPaymentsCard) => {
                               fontSize: '9pt'
                             }}
                           >{item.dateCreated !== undefined ? formatDate(item.dateCreated) : ''}</Typography>
-                          {showPercentage(false, item.paymentMethod, item.value)}
+                          {showPercentage(false, item.paymentMethod as PaymentMethodType , item.value)}
                         </div>
                       </div>
                       <DeleteOutlineIcon color="error" />
