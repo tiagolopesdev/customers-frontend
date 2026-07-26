@@ -14,7 +14,7 @@ export default function PaymentMethods({
   return <Box sx={PaymentMethodsContainer}>
     <Box
       sx={{
-        padding: "10px 0px",
+        paddingTop: "10px",
         display: 'flex',
         alignItems: 'center',
         gap: '10px',

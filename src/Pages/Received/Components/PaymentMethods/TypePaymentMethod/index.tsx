@@ -1,14 +1,12 @@
 import { Box, Typography } from "@mui/material"
 
-import PixIcon from '@mui/icons-material/Pix';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import { ICustomer } from "../../../../../Types/ICustomer";
 import { useContext } from "react";
 import { PaymentMethodType } from "../../../../../Types/IPayments";
 import { MinimarketContext } from "../../../../../Context/minimarket";
 import { showPrice } from "../../../../../Utils/showPrice";
 import { PaymentMethodsType } from "../../../style";
+import IconTypePayment from "../../IconTypePayment";
 
 type InfoPaymentType = {
   value: number,
@@ -50,24 +48,12 @@ export default function TypePaymentMethod({
   const infoPayment = sumPaymentMethod()
 
   const showPaymentMethodIcon = {
-    CARD: {
-      element: <CreditCardIcon sx={{ color: "#218AF3" }}/>,
-      backgroundColor: "#E6F2FD",
-      label: "Cartão"
-    },
-    PIX: {
-      element: <PixIcon sx={{ color: "#57B786" }} />,
-      backgroundColor: "#E9F5EF",
-      label: "Pix"
-    },
-    CASH: {
-      element: <PaymentsIcon sx={{ color: "#E29337" }}/>,
-      backgroundColor: "#FEF5E6",
-      label: "Espécie"
-    }
+    CARD: "Cartão",
+    PIX: "Pix",
+    CASH: "Espécie"
   }
 
-  return paymentMethod !== '' && <Box sx={PaymentMethodsType}>
+  return <Box sx={PaymentMethodsType}>
     <Box
       sx={{
         width: "100%",
@@ -77,19 +63,7 @@ export default function TypePaymentMethod({
         alignItems: "center"
       }}
     >
-      <Box
-        sx={{
-          width: "28px",
-          height: "28px",
-          borderRadius: "10px",
-          backgroundColor: showPaymentMethodIcon[paymentMethod].backgroundColor,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        {showPaymentMethodIcon[paymentMethod].element}
-      </Box>
+      <IconTypePayment paymentMethod={paymentMethod} />
       <Typography
         sx={{
           fontWeight: 600
@@ -113,7 +87,7 @@ export default function TypePaymentMethod({
         }}
         color="textSecondary"
         fontSize={13}
-      >{showPaymentMethodIcon[paymentMethod].label}</Typography>
+      >{showPaymentMethodIcon[paymentMethod]}</Typography>
       <Typography
         fontWeight={600}
         color="textPrimary"

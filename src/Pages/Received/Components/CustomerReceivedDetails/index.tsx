@@ -1,8 +1,10 @@
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Typography } from "@mui/material"
-import formatDate from "../../../../Utils/formatDate"
-import { showPercentage } from "../../../../Utils/percentage/showPercentage"
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Typography } from "@mui/material"
 import { ICustomer } from "../../../../Types/ICustomer"
 import { fullSize } from "../../../../Utils/sizesDevices"
+
+import PersonIcon from '@mui/icons-material/Person';
+import { showPrice } from "../../../../Utils/showPrice"
+import CustomerReceivedDetailsCard from "./Components/Card"
 
 
 export default function CustomerReceivedDetails({
@@ -15,13 +17,17 @@ export default function CustomerReceivedDetails({
   onChange: (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => void
 }) {
 
+  const isNotPendent = (item.amountToPay || 0) <= 0
 
   return <Accordion
     expanded={expanded === `${item.id}`}
     onChange={onChange(`${item.id}`)}
+    square
+    key={`${item.id}-${item.dateCreated}`}
     sx={{
       width: "100%",
-      maxWidth: fullSize
+      maxWidth: fullSize,
+      borderRadius: "8px",
     }}
   >
     <AccordionSummary
@@ -33,60 +39,106 @@ export default function CustomerReceivedDetails({
         }
       }}
     >
-      <Typography sx={{
-        flexShrink: 0,
-        fontWeight: 550,
-        fontSize: 19,
-      }}
-        color="textPrimary"
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%"
+        }}
       >
-        {item.name}
-      </Typography>
-      <Typography color="error">{`Valor à pagar R$${item.amountToPay !== undefined ? item.amountToPay.toFixed(2) : 0}`}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <PersonIcon
+            style={{
+              backgroundColor: '#E6F2FD',
+              color: '#3896f3',
+              borderRadius: '15px',
+              padding: '6px',
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start"
+            }}
+          >
+            <Typography sx={{
+              flexShrink: 0,
+              fontWeight: 550,
+              fontSize: "18px",
+            }}
+              color="textPrimary"
+            >
+              {item.name}
+            </Typography>
+            <Typography sx={{
+              flexShrink: 0,
+              fontWeight: 400,
+              fontSize: "12px",
+            }}
+              color="textSecondary"
+            >
+              {`${item.payments?.length} pagamento(s)`}
+            </Typography>
+          </Box>
+          <Chip
+            label={isNotPendent ? "Quitado" : "Pendente"}
+            sx={{
+              height: 25,
+              margin: 0,
+              fontWeight: 550,
+              color: isNotPendent ? "#3BA366" : "#df3a3a",
+              border: isNotPendent ? "1px solid #3BA366" : "1px solid #df3a3a",
+              backgroundColor: isNotPendent ? "#E9F5EF" : "#fbebeb"
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end"
+          }}
+        >
+          <Typography sx={{
+            flexShrink: 0,
+            fontWeight: 400,
+            fontSize: "12px",
+          }}
+            color="textSecondary"
+          >
+            {isNotPendent ? "RECEBIDO" : "A PAGAR"}
+          </Typography>
+          <Typography sx={{
+            flexShrink: 0,
+            fontWeight: 550,
+            fontSize: "18px",
+            color: isNotPendent ? "#3BA366" : "#df3a3a"
+          }}
+          >
+            {showPrice(
+              item.amountToPay !== undefined && item.amountToPay > 0
+                ? item.amountToPay
+                : item.payments?.reduce((accumulator, item) => {
+                  return accumulator += item.value
+                }, 0) || 0
+            )}
+          </Typography>
+        </Box>
+      </Box>
     </AccordionSummary>
     <AccordionDetails>
       {
         item.payments?.map((buy) => {
-          return <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            margin: 5,
-            backgroundColor: '#eeeeee',
-            padding: '5px',
-            borderRadius: '5px'
-          }}>
-            <div style={{ display: 'flex' }}>
-              <Typography sx={{
-                fontSize: 18,
-                fontWeight: 550
-              }}
-                color="success"
-              >
-                {`R$ ${showPercentage(true, buy.paymentMethod, buy.value)}`}
-              </Typography>
-              <Chip
-                sx={{ height: 25, margin: '0px 5px', fontWeight: 550 }}
-                label={buy.updatedBy}
-                color='default'
-                variant='filled'
-              />
-            </div>
-            <div style={{ display: 'flex', marginLeft: '15px' }}>
-              <Chip
-                sx={{ height: 18, fontWeight: 550, marginTop: '5px', marginRight: '10px' }}
-                label={showPercentage(false, buy.paymentMethod, buy.value)}
-                color='success'
-                variant='filled'
-              />
-              <Chip
-                sx={{ height: 18, fontWeight: 550, marginTop: '5px' }}
-                label={formatDate(buy.dateCreated as string)}
-                color='info'
-                variant='outlined'
-              />
-            </div>
-          </div>
+          return <CustomerReceivedDetailsCard buy={buy}/>
         })
       }
     </AccordionDetails>

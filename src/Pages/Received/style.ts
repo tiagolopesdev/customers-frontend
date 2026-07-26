@@ -13,7 +13,7 @@ export const SelectDateContainer: SxProps<Theme> = {
 export const PaymentMethodsType: SxProps<Theme> = {
   backgroundColor: '#FFFFFF',
   width: '100%',
-  height: '10vh',
+  height: '100px',
   borderRadius: '10px',
   display: 'flex',
   justifyContent: 'center',
@@ -31,9 +31,9 @@ export const PaymentMethodsContainer: SxProps<Theme> = {
   gap: '10px',
   maxWidth: fullSize,
   padding: {
-    xs: "10px 10px",
-    sm: "10px 10px",
-    md: "10px 10px"
+    xs: "0px 10px",
+    sm: "0px 10px",
+    md: "0px"
   },
   boxSizing: 'border-box',
   width: '100%'
